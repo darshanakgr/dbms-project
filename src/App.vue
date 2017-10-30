@@ -1,60 +1,38 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+  <div :class="{'nav-open': $sidebar.showSidebar}">
+    <router-view></router-view>
+    <!--This sidebar appears only for screens smaller than 992px-->
+    <side-bar type="navbar" :sidebar-links="$sidebar.sidebarLinks">
+      <ul class="nav navbar-nav">
+        <li>
+          <a class="dropdown-toggle" data-toggle="dropdown">
+            <i class="ti-panel"></i>
+            <p>Stats</p>
+          </a>
+        </li>
+        <drop-down title="5 Notifications" icon="ti-bell">
+
+          <li><a>Notification 1</a></li>
+          <li><a>Notification 2</a></li>
+          <li><a>Notification 3</a></li>
+          <li><a>Notification 4</a></li>
+          <li><a>Another notification</a></li>
+
+        </drop-down>
+        <li>
+          <a>
+            <i class="ti-settings"></i>
+            <p>Settings</p>
+          </a>
+        </li>
+        <li class="divider"></li>
+      </ul>
+    </side-bar>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  }
-}
+  export default {}
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-</style>
+<style lang="scss"></style>
