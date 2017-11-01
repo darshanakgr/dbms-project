@@ -14,19 +14,19 @@ const SidebarStore = {
       path: '/admin/stats'
     },
     {
-      name: 'Table List',
+      name: 'Instruments',
       icon: 'ti-view-list-alt',
-      path: '/admin/table-list'
+      path: '/admin/instrument-list'
     },
     {
-      name: 'Typography',
-      icon: 'ti-text',
-      path: '/admin/typography'
+      name: 'Classrooms',
+      icon: 'ti-view-list-alt',
+      path: '/admin/classrooms'
     },
     {
-      name: 'Icons',
+      name: 'Lessons',
       icon: 'ti-pencil-alt2',
-      path: '/admin/icons'
+      path: '/admin/lessons'
     },
     {
       name: 'Maps',

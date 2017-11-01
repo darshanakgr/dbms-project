@@ -7,9 +7,9 @@ import Overview from 'src/components/Dashboard/Views/Overview.vue'
 import UserProfile from 'src/components/Dashboard/Views/UserProfile.vue'
 import Notifications from 'src/components/Dashboard/Views/Notifications.vue'
 import Icons from 'src/components/Dashboard/Views/Icons.vue'
-import Maps from 'src/components/Dashboard/Views/Maps.vue'
-import Typography from 'src/components/Dashboard/Views/Typography.vue'
-import TableList from 'src/components/Dashboard/Views/TableList.vue'
+import LessonsList from 'src/components/Dashboard/Views/LessonList.vue'
+import ClassroomList from 'src/components/Dashboard/Views/ClassroomList.vue'
+import InstrumentList from 'src/components/Dashboard/Views/InstrumentList.vue'
 
 const routes = [
   {
@@ -43,19 +43,19 @@ const routes = [
         component: Icons
       },
       {
-        path: 'maps',
-        name: 'maps',
-        component: Maps
+        path: 'lessons',
+        name: 'Lessons',
+        component: LessonsList
       },
       {
-        path: 'typography',
-        name: 'typography',
-        component: Typography
+        path: 'classrooms',
+        name: 'Classrooms',
+        component: ClassroomList
       },
       {
-        path: 'table-list',
-        name: 'table-list',
-        component: TableList
+        path: 'instrument-list',
+        name: 'Instruments',
+        component: InstrumentList
       }
     ]
   },

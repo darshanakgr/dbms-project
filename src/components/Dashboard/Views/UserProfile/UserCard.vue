@@ -68,5 +68,7 @@
 
 </script>
 <style>
-  
+template{
+  max-width: 100px;
+}
 </style>
