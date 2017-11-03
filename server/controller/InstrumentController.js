@@ -1,8 +1,8 @@
 const {connection} = require('../db/db-connection');        //importing db connection and instantiating it
 
-var getAllStudents = () => {
+var getAllInstruments = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM student", (err, result) => {        //individual function for different commands
+    connection.query("SELECT * FROM instrument", (err, result) => {        //individual function for different commands
       if(err){
         reject(err);                              //on error, reject the error
       }
@@ -12,5 +12,5 @@ var getAllStudents = () => {
 };
 
 module.exports = {
-  getAllStudents                              //exporting module so it can be imported to other modules
+  getAllInstruments                              //exporting module so it can be imported to other modules
 };

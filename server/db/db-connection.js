@@ -4,7 +4,7 @@ var connection = mysql.createConnection({
   host: "localhost",
   user: "root",                                             //credentials for our mysql database
   password: "",
-  database: "testdb"
+  database: "schoolmanagementsystem"
 });
 
 connection.connect((err) => {
@@ -14,4 +14,4 @@ connection.connect((err) => {
   console.log("Connected to mysql server");            // otherwise return 'connected to mysql server'
 });
 
-module.exports = {connection};                          //exporting module so other modules can import 
+module.exports = {connection};                          //exporting module so other modules can import
