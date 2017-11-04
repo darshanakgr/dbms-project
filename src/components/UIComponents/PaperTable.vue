@@ -5,14 +5,14 @@
         <h4 class="title">{{title}}</h4>
         <p class="category">{{subTitle}}</p>
         <div align="right">
-          <button @click="addNewRecord(title)">Add record</button>
+          <PopupInput :attributes="columnNames" :databaseTable="title"></PopupInput>
         </div>
       </slot>
     </div>
     <div class="content table-responsive table-full-width">
       <table class="table" :class="tableClass">
         <thead>
-          <th  v-for="column in columnNames">
+          <th v-for="column in columnNames">
             <div class="" align="center">
              {{column}}
             </div>
@@ -24,17 +24,9 @@
               <div align="center" v-if="column!='options'">
                 {{itemValue(item, column)}}
               </div>
-              <div align="center" v-if="column=='options' && title=='Instruments'">
-                <button @click="remove(itemValue(item, 'instrument_id'))" :id="itemValue(item, 'instrument_id')">Delete</button>
-                <button @click="edit(itemValue(item, 'instrument_id'))" :id="itemValue(item, 'instrument_id')">Edit</button>
-              </div>
-              <div align="center" v-if="column=='options' && title=='Classrooms'">
-                <button @click="remove(itemValue(item, 'class_room_id'))" :id="itemValue(item, 'class_room_id')">Delete</button>
-                <button @click="edit(itemValue(item, 'class_room_id'))" :id="itemValue(item, 'class_room_id')">Edit</button>
-              </div>
-              <div align="center" v-if="column=='options' && title=='Lessons'">
-                <button @click="remove(itemValue(item, 'lesson_id'))" :id="itemValue(item, 'lesson_id')">Delete</button>
-                <button @click="edit(itemValue(item, 'lesson_id'))" :id="itemValue(item, 'lesson_id')">Edit</button>
+              <div align="center" v-if="column=='options'">
+                <button @click="remove(itemValue(item, columns[0]))" :id="itemValue(item, columns[0])">Delete</button>
+                <PopupEditInput :attributes="columnNames" :dbRows="columns" :databaseTable="title" :editData="item"></PopupEditInput>
               </div>
             </td>
           </tr>
@@ -44,7 +36,14 @@
   </div>
 </template>
 <script>
+  import PopupInput from 'components/UIComponents/PopupInput/PopupInput.vue'
+  import PopupEditInput from 'components/UIComponents/PopupInput/PopupEditInput.vue'
+
   export default {
+    components: {
+      'PopupInput': PopupInput,
+      'PopupEditInput': PopupEditInput
+    },
     props: {
       columns: Array,
       columnNames: Array,
@@ -60,7 +59,6 @@
       subTitle: {
         type: String,
         default: ''
-
       }
     },
     computed: {
@@ -77,20 +75,11 @@
       },
       remove (id) {
         alert(id + ' delete from database query')
-      },
-      edit (id) {
-        alert(id + ' redirect to edit page')
-      },
-      addNewRecord (title) {
-        alert(title)
-        /* have some if statements, depending on title, redirect to correct add record page
-          make sure button is only visible for administrators
-        */
       }
     }
   }
-
 </script>
+
 <style>
 
 </style>
