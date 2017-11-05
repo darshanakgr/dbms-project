@@ -25,7 +25,6 @@
                 {{itemValue(item, column)}}
               </div>
               <div align="center" v-if="column=='options'">
-                <button @click="remove(itemValue(item, columns[0]))" :id="itemValue(item, columns[0])">Delete</button>
                 <PopupEditInput :editData="item"></PopupEditInput>
               </div>
             </td>
