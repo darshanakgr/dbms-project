@@ -7,6 +7,7 @@ var ParentController = require("./controller/ParentController");
 var InstrumentController = require('./controller/InstrumentController');      //different controllers for different entities
 var ClassroomController = require('./controller/ClassroomController');
 var LessonController = require('./controller/LessonController');
+var CategoryController = require('./controller/CategoryController');
 
 var app = express();
 
@@ -83,6 +84,38 @@ app.get("/getAllLessons", (req, res) => {                  //when the server rec
   }).catch((err) => {
     res.status(400).send(err);                                    // else return the error
   })
+});
+
+app.post("/addNewCategory", (req, res) => {
+  CategoryController.addNewCategory(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get("/getAllCategories", (req, res) => {
+  CategoryController.getAllCategories().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.patch("/updateCategory", (req, res) => {
+  CategoryController.updateCategory(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.delete("/removeCategory", (req, res) => {
+  CategoryController.removeCategory(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
 });
 
 app.get("/", (req, res) => {                //just a dummy function to add a new student

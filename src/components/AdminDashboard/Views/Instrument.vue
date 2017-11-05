@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <p>Text</p>
+    <p>Instrument</p>
   </div>
 </template>
 <script>
