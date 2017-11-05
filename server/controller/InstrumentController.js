@@ -15,7 +15,7 @@ const addNewInstrument = (instrument) => {
   return new Promise((resolve, reject) => {
     getNextId().then((nextId) => {
       connection.query("INSERT INTO instrument VALUE(?,?,?,?)", [
-        instrument.instrumentId,
+        nextId,
         instrument.instrumentName,
         instrument.purchasedDate,
         instrument.categoryId
@@ -31,14 +31,13 @@ const addNewInstrument = (instrument) => {
   });
 };
 
-const updateStudent = (student) => {
+const updateInstrument = (instrument) => {
   return new Promise((resolve, reject) => {
-    connection.query("UPDATE student SET name=?, gender=?, register_date=?, mobile_no=? WHERE student_id=?", [
-      student.name,
-      student.gender,
-      student.registerDate,
-      student.mobileNo,
-      student.studentId
+    connection.query("UPDATE instrument SET instrument_name=?, purchased_date=?, category_id=? WHERE instrument_id=?", [
+      instrument.instrumentName,
+      instrument.purchasedDate,
+      instrument.categoryId,
+      instrument.instrumentId
     ], (err, result) => {
       if (err) {
         reject(err);
@@ -48,10 +47,10 @@ const updateStudent = (student) => {
   });
 };
 
-const removeStudent = (student) => {
+const removeInstrument = (instrument) => {
   return new Promise((resolve, reject) => {
-    connection.query("DELETE FROM student WHERE student_id=?", [
-      student.studentId
+    connection.query("DELETE FROM instrument WHERE instrument_id=?", [
+      instrument.instrumentId
     ], (err, result) => {
       if (err) {
         reject(err);
@@ -63,15 +62,15 @@ const removeStudent = (student) => {
 
 const getNextId = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT student_id FROM student ORDER BY 1 DESC LIMIT 1", (err, result) => {
+    connection.query("SELECT instrument_id FROM instrument ORDER BY 1 DESC LIMIT 1", (err, result) => {
       if (err) {
         reject(err);
       }
 
       if (result.length) {
-        resolve("S" + ("000" + (parseInt(result[0].student_id.split("S")[1]) + 1)).slice(-3));
+        resolve("I" + ("000" + (parseInt(result[0].instrument_id.split("I")[1]) + 1)).slice(-3));
       } else {
-        resolve("S001");
+        resolve("I001");
       }
     });
   });
@@ -79,5 +78,7 @@ const getNextId = () => {
 
 module.exports = {
   getAllInstruments,
-  addNewInstrument
+  addNewInstrument,
+  updateInstrument,
+  removeInstrument
 };
