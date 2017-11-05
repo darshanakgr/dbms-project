@@ -9,15 +9,15 @@
           <div class="modal-body">
             <label class="form-label">
               Instrument Name
-              <input :value="editData.instrument_name" v-model="dataObject.instrumentName" class="form-control">
+              <input v-model="dataObject.instrumentName" class="form-control">
             </label>
             <label class="form-label">
               Purchase Date
-              <input :value="editData.purchased_date" type="date" v-model="dataObject.purchasedDate" class="form-control">
+              <input type="date" v-model="dataObject.purchasedDate" class="form-control">
             </label>
             <label class="form-label">
               Category ID
-              <input :value="editData.category_id" v-model="dataObject.categoryId" class="form-control">
+              <input v-model="dataObject.categoryId" class="form-control">
             </label>
           </div>
           <div class="modal-footer text-right">
@@ -76,7 +76,6 @@
     },
     methods: {
       saveRecord: function () {
-        this.dataObject.instrumentId = this.editData.instrument_id
         this.$http.patch('http://localhost:3000/updateInstrument', this.dataObject).then(function (res) {
           if (res.ok && res.status === 200) {
             return alert('Instrument updated successfully')
@@ -86,10 +85,10 @@
           console.log(err)
           alert('Unable to update this intrument')
         })
+        this.close()
       },
       deleteRecord: function () {
-        this.dataObject.instrumentId = this.editData.instrument_id
-        this.$http.delete('http://localhost:3000/removeInstrument', this.dataObject).then(function (res) {
+        this.$http.post('http://localhost:3000/removeInstrument', this.dataObject).then(function (res) {
           if (res.ok && res.status === 200) {
             return alert('Instrument deleted successfully')
           }
@@ -98,6 +97,7 @@
           console.log(err)
           alert('Unable to delete this intrument')
         })
+        this.close()
       },
       close: function () {
         this.showEditModal = false
@@ -107,6 +107,10 @@
       }
     },
     mounted: function () {
+      this.dataObject.instrumentId = this.editData.instrument_id
+      this.dataObject.instrumentName = this.editData.instrument_name
+      this.dataObject.categoryId = this.editData.category_id
+      this.dataObject.purchasedDate = this.editData.purchased_date
       document.addEventListener('keydown', (e) => {
         if (e.keyCode === 27) {
           this.close()

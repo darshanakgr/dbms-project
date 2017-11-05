@@ -25,7 +25,6 @@
                 {{itemValue(item, column)}}
               </div>
               <div align="center" v-if="column=='options'">
-                <button @click="remove(itemValue(item, columns[0]))" :id="itemValue(item, columns[0])">Delete</button>
                 <PopupEditInput :attributes="columnNames" :dbRows="columns" :databaseTable="title" :editData="item"></PopupEditInput>
               </div>
             </td>
@@ -72,9 +71,6 @@
       },
       itemValue (item, column) {
         return item[column]
-      },
-      remove (id) {
-        alert(id + ' delete from database query')
       }
     }
   }

@@ -10,6 +10,8 @@ import AdminPayement from 'src/components/AdminDashboard/Views/Payment.vue'
 import AdminUser from 'src/components/AdminDashboard/Views/User.vue'
 import AdminInstrument from 'src/components/AdminDashboard/Views/Instrument.vue'
 import AdminClassroom from 'src/components/AdminDashboard/Views/ClassRoom.vue'
+import AdminLesson from 'src/components/AdminDashboard/Views/Lesson.vue'
+import AdminParent from 'src/components/AdminDashboard/Views/Parent.vue'
 
 /* import TeacherStudent from 'src/components/TeacherDashboard/Views/Student.vue'
 import TeacherClass from 'src/components/TeacherDashboard/Views/Class.vue'
@@ -57,6 +59,16 @@ const routes = [
         path: 'classroom',
         name: 'classroom',
         component: AdminClassroom
+      },
+      {
+        path: 'lesson',
+        name: 'lesson',
+        component: AdminLesson
+      },
+      {
+        path: 'parent',
+        name: 'parent',
+        component: AdminParent
       }
     ]
   },
