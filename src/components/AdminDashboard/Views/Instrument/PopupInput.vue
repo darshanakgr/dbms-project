@@ -51,6 +51,9 @@ export default {
     }
   },
   methods: {
+    open: function () {
+
+    },
     saveRecord: function () {
       this.$http.post('http://localhost:3000/addNewInstrument', this.dataObject).then(function (res) {
         if (res.ok && res.status === 200) {
@@ -61,6 +64,7 @@ export default {
         console.log(err)
         alert('Unable to register this intrument')
       })
+      this.close()
     },
     close: function () {
       this.showModal = false
