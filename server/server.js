@@ -1,16 +1,49 @@
-const express = require('express');             //these modules are needed to connect to mysql
-const bodyParser = require('body-parser');      //body parser is used to filter only the data we need from the response
+var express = require('express');
+var bodyParser = require('body-parser');
 var cors = require('cors');
 
-const {connection} = require('./db/db-connection');   //we are using the db-connection.js module to connect to the database.
-const InstrumentController = require('./controller/InstrumentController');      //different controllers for different entities
-const ClassroomController = require('./controller/ClassroomController');
-const LessonController = require('./controller/LessonController');
+var StudentController = require("./controller/StudentController");
+var ParentController = require("./controller/ParentController");
+var InstrumentController = require('./controller/InstrumentController');      //different controllers for different entities
+var ClassroomController = require('./controller/ClassroomController');
+var LessonController = require('./controller/LessonController');
 
-var app = express();        //instantiate the imported express module
+var app = express();
 
 app.use(bodyParser.json());
-app.use(cors());    //setting up the body parser to output jsons
+app.use(cors());
+
+app.get("/getAllStudents", (req,res) => {
+  StudentController.getAllStudent().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get("/getAllParents", (req,res) => {
+  ParentController.getAllParents().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewStudent", (req, res)=>{
+  StudentController.addNewStudent(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewParent", (req, res)=>{
+  ParentController.addNewParent(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
 
 app.get("/getAllInstruments", (req, res)=>{                  //when the server receives a post request of 'getAllStudents'
   InstrumentController.getAllInstruments().then((result) => {       // it will connect to student controller
@@ -41,7 +74,6 @@ app.get("/", (req, res) => {                //just a dummy function to add a new
   res.status(200).send("ok");
 });
 
-
 app.listen(3000, () => {
-  console.log("Server is up on 3000");                        //echoing that server is up and running on port 3000
+  console.log("Server is up on 3000");
 });
