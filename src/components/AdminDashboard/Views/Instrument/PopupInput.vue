@@ -4,17 +4,25 @@
         <div class="modal-mask" @click="close" v-show="showModal">
             <div class="modal-container" @click.stop>
                 <div class="modal-header">
-                    <h3>New Record</h3>
+                    <h3>New Instrument</h3>
                 </div>
-                <div class="modal-body" v-for="attr in attributes">
-                    <label class="form-label" v-if="attr!='Options' && attr.indexOf('ID') == -1">
-                        {{attr}}
-                        <input :id="attr" class="form-control">
+                <div class="modal-body">
+                    <label class="form-label">
+                        Instrument Name
+                        <input v-model="dataObject.instrumentName" class="form-control">
+                    </label>
+                    <label class="form-label">
+                      Purchase Date
+                      <input v-model="dataObject.purchasedDate" type="date" class="form-control">
+                    </label>
+                    <label class="form-label">
+                      Category ID
+                      <input v-model="dataObject.categoryId" class="form-control">
                     </label>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
-                        Add new record
+                        Add new instrument
                     </button>
                     <button class="modal-default-button" @click="close()">
                         Cancel
@@ -32,8 +40,7 @@
 <script>
 export default {
   props: {
-    attributes: Array,
-    databaseTable: ''
+
   },
   data () {
     return {
@@ -45,51 +52,15 @@ export default {
   },
   methods: {
     saveRecord: function () {
-      for (var i in this.attributes) {
-        var key = this.attributes[i]
-        var value = ''
-        if (key !== 'Options') { // || key.includes('ID') === false) {
-          alert(key + ' ' + key.includes('ID'))
-          // value = document.getElementById(key).value
-          this.dataObject.key = value
+      this.$http.post('http://localhost:3000/addNewInstrument', this.dataObject).then(function (res) {
+        if (res.ok && res.status === 200) {
+          return alert('Instrument added successfully')
         }
-      }
-      console.log(this.dataObject)
-      /* switch (this.databaseTable) {
-        case 'Instruments':
-          this.$http.post('http://localhost:3000/addNewInstrument', this.dataObject).then(function (res) {
-            if (res.ok && res.status === 200) {
-              return alert('Intrument added successfully')
-            }
-            alert('Unable to register this intrument')
-          }).catch(function (err) {
-            console.log(err)
-            alert('Unable to register this intrument')
-          })
-          break
-        case 'Classrooms':
-          this.$http.post('http://localhost:3000/addNewClassroom', this.dataObject).then(function (res) {
-            if (res.ok && res.status === 200) {
-              return alert('CLassroom added successfully')
-            }
-            alert('Unable to register this classroom')
-          }).catch(function (err) {
-            console.log(err)
-            alert('Unable to register this classroom')
-          })
-          break
-        case 'Lessons':
-          this.$http.post('http://localhost:3000/addNewLesson', this.dataObject).then(function (res) {
-            if (res.ok && res.status === 200) {
-              return alert('Lesson added successfully')
-            }
-            alert('Unable to register this lesson')
-          }).catch(function (err) {
-            console.log(err)
-            alert('Unable to register this lesson')
-          })
-          break
-      } */
+        alert('Unable to register this intrument')
+      }).catch(function (err) {
+        console.log(err)
+        alert('Unable to register this intrument')
+      })
     },
     close: function () {
       this.showModal = false

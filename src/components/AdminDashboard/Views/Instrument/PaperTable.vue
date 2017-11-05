@@ -5,7 +5,7 @@
         <h4 class="title">{{title}}</h4>
         <p class="category">{{subTitle}}</p>
         <div align="right">
-          <PopupInput :attributes="columnNames" :databaseTable="title"></PopupInput>
+          <PopupInput :databaseTable="title"></PopupInput>
         </div>
       </slot>
     </div>
@@ -26,7 +26,7 @@
               </div>
               <div align="center" v-if="column=='options'">
                 <button @click="remove(itemValue(item, columns[0]))" :id="itemValue(item, columns[0])">Delete</button>
-                <PopupEditInput :attributes="columnNames" :dbRows="columns" :databaseTable="title" :editData="item"></PopupEditInput>
+                <PopupEditInput :editData="item"></PopupEditInput>
               </div>
             </td>
           </tr>

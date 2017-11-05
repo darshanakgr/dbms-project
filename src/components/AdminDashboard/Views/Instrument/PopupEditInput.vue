@@ -6,11 +6,18 @@
                 <div class="modal-header">
                     <h3>Edit Record</h3>
                 </div>
-                <div class="modal-body" v-for="(attr,index) in attributes">
-                    <label class="form-label" v-if="attr!='Options'">
-                        {{attr}}
-                        <input :id="attr + 'Edit'" class="form-control" :value="editData[dbRows[index]]" readonly="true" v-if="index==0">
-                        <input :id="attr + 'Edit'" class="form-control" :placeholder="editData[dbRows[index]]" v-if="index!=0">
+                <div class="modal-body">
+                    <label class="form-label">
+                      Instrument Name
+                      <input v-model="editData.instrument_name" class="form-control">
+                    </label>
+                    <label class="form-label">
+                      Purchase Date
+                      <input v-model="editData.purchased_date" type="date" class="form-control">
+                    </label>
+                    <label class="form-label">
+                      Category ID
+                      <input v-model="editData.category_id" class="form-control">
                     </label>
                 </div>
                 <div class="modal-footer text-right">
@@ -33,9 +40,6 @@
 <script>
 export default {
   props: {
-    attributes: Array,
-    dbRows: Array,
-    databaseTable: '',
     editData: Object
   },
   data () {
@@ -48,18 +52,15 @@ export default {
   },
   methods: {
     saveRecord: function () {
-      this.dataObject.databaseTable = this.databaseTable
-      for (var i in this.attributes) {
-        var key = this.attributes[i] + 'Edit'
-        var value = document.getElementById(key).value
-        var placeholder = document.getElementById(key).placeholder
-        if (value !== '') {
-          // alert(value)
-        } else {
-          // alert(placeholder)
+      this.$http.post('http://localhost:3000/addNewInstrument', this.editData).then(function (res) {
+        if (res.ok && res.status === 200) {
+          return alert('Instrument added successfully')
         }
-      }
-      this.showEditModal = false
+        alert('Unable to register this intrument')
+      }).catch(function (err) {
+        console.log(err)
+        alert('Unable to register this intrument')
+      })
     },
     close: function () {
       this.showEditModal = false
