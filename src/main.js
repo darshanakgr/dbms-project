@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import VueResource from 'vue-resource'
 import vClickOutside from 'v-click-outside'
 
 // Plugins
 import GlobalComponents from './gloablComponents'
 import Notifications from './components/UIComponents/NotificationPlugin'
-import SideBar from './components/UIComponents/SidebarPlugin'
+import SideBar from './components/UIComponents/AdminSidebarPlugin'
 import App from './App'
 
 // router setup
@@ -24,7 +23,6 @@ Vue.use(GlobalComponents)
 Vue.use(vClickOutside)
 Vue.use(Notifications)
 Vue.use(SideBar)
-Vue.use(VueResource)
 
 // configure router
 const router = new VueRouter({
@@ -45,7 +43,6 @@ new Vue({
   render: h => h(App),
   router,
   data: {
-    Chartist: Chartist,
-    showModal: false
+    Chartist: Chartist
   }
 })

@@ -4,39 +4,34 @@ const SidebarStore = {
   showSidebar: false,
   sidebarLinks: [
     {
-      name: 'Dashboard',
+      name: 'Student',
       icon: 'ti-panel',
-      path: '/admin/overview'
+      path: '/admin/student'
     },
     {
-      name: 'User Profile',
+      name: 'Teacher',
       icon: 'ti-user',
-      path: '/admin/stats'
+      path: '/admin/teacher'
     },
     {
-      name: 'Instruments',
+      name: 'Instrument',
       icon: 'ti-view-list-alt',
-      path: '/admin/instrument-list'
+      path: '/admin/instrument'
     },
     {
-      name: 'Classrooms',
-      icon: 'ti-view-list-alt',
-      path: '/admin/classrooms'
+      name: 'Classroom',
+      icon: 'ti-text',
+      path: '/admin/classroom'
     },
     {
-      name: 'Lessons',
+      name: 'Payment',
       icon: 'ti-pencil-alt2',
-      path: '/admin/lessons'
+      path: '/admin/payment'
     },
     {
-      name: 'Maps',
+      name: 'User',
       icon: 'ti-map',
-      path: '/admin/maps'
-    },
-    {
-      name: 'Notifications',
-      icon: 'ti-bell',
-      path: '/admin/notifications'
+      path: '/admin/user'
     }
   ],
   displaySidebar (value) {

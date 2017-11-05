@@ -8,6 +8,9 @@
           </li>
         </ul>
       </nav>
+      <div class="copyright pull-right">
+        <p>Designed By RUBIX Solution</p>
+      </div>
     </div>
   </footer>
 </template>

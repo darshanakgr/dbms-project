@@ -1,61 +1,99 @@
-import DashboardLayout from '../components/Dashboard/Layout/DashboardLayout.vue'
+import AdminDashboardLayout from '../components/AdminDashboard/Layout/DashboardLayout.vue'
+import TeacherDashboardLayout from '../components/TeacherDashboard/Layout/DashboardLayout.vue'
 // GeneralViews
 import NotFound from '../components/GeneralViews/NotFoundPage.vue'
 
 // Admin pages
-import Overview from 'src/components/Dashboard/Views/Overview.vue'
-import UserProfile from 'src/components/Dashboard/Views/UserProfile.vue'
-import Notifications from 'src/components/Dashboard/Views/Notifications.vue'
-import Icons from 'src/components/Dashboard/Views/Icons.vue'
-import LessonsList from 'src/components/Dashboard/Views/LessonList.vue'
-import ClassroomList from 'src/components/Dashboard/Views/ClassroomList.vue'
-import InstrumentList from 'src/components/Dashboard/Views/InstrumentList.vue'
+import AdminStudent from 'src/components/AdminDashboard/Views/Student.vue'
+import AdminTeacher from 'src/components/AdminDashboard/Views/Teacher.vue'
+import AdminPayement from 'src/components/AdminDashboard/Views/Payment.vue'
+import AdminUser from 'src/components/AdminDashboard/Views/User.vue'
+import AdminInstrument from 'src/components/AdminDashboard/Views/Instrument.vue'
+import AdminClassroom from 'src/components/AdminDashboard/Views/ClassRoom.vue'
+
+import TeacherStudent from 'src/components/TeacherDashboard/Views/Student.vue'
+import TeacherClass from 'src/components/TeacherDashboard/Views/Class.vue'
+import TeacherLesson from 'src/components/TeacherDashboard/Views/Lesson.vue'
+import TeacherInstrument from 'src/components/TeacherDashboard/Views/Instrument.vue'
+import TeacherUser from 'src/components/TeacherDashboard/Views/User.vue'
+import TeacherPayment from 'src/components/TeacherDashboard/Views/Payment.vue'
 
 const routes = [
   {
     path: '/',
-    component: DashboardLayout,
-    redirect: '/admin/overview'
+    redirect: '/admin'
   },
   {
     path: '/admin',
-    component: DashboardLayout,
-    redirect: '/admin/stats',
+    component: AdminDashboardLayout,
+    redirect: '/admin/student',
     children: [
       {
-        path: 'overview',
-        name: 'overview',
-        component: Overview
+        path: 'student',
+        name: 'student',
+        component: AdminStudent
       },
       {
-        path: 'stats',
-        name: 'stats',
-        component: UserProfile
+        path: 'teacher',
+        name: 'teacher',
+        component: AdminTeacher
       },
       {
-        path: 'notifications',
-        name: 'notifications',
-        component: Notifications
+        path: 'user',
+        name: 'user',
+        component: AdminUser
       },
       {
-        path: 'icons',
-        name: 'icons',
-        component: Icons
+        path: 'payment',
+        name: 'payment',
+        component: AdminPayement
       },
       {
-        path: 'lessons',
-        name: 'Lessons',
-        component: LessonsList
+        path: 'instrument',
+        name: 'instrument',
+        component: AdminInstrument
       },
       {
-        path: 'classrooms',
-        name: 'Classrooms',
-        component: ClassroomList
+        path: 'classroom',
+        name: 'classroom',
+        component: AdminClassroom
+      }
+    ]
+  },
+  {
+    path: '/teacher',
+    component: TeacherDashboardLayout,
+    redirect: '/teacher/student',
+    children: [
+      {
+        path: 'student',
+        name: 'student',
+        component: TeacherStudent
       },
       {
-        path: 'instrument-list',
-        name: 'Instruments',
-        component: InstrumentList
+        path: 'class',
+        name: 'class',
+        component: TeacherClass
+      },
+      {
+        path: 'user',
+        name: 'user',
+        component: TeacherUser
+      },
+      {
+        path: 'payment',
+        name: 'payment',
+        component: TeacherPayment
+      },
+      {
+        path: 'instrument',
+        name: 'instrument',
+        component: TeacherInstrument
+      },
+      {
+        path: 'lesson',
+        name: 'lesson',
+        component: TeacherLesson
       }
     ]
   },

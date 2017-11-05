@@ -8,10 +8,10 @@
     <div class="sidebar-wrapper" id="style-3">
       <div class="logo">
         <a href="#" class="simple-text">
-            <div class="logo-img">
-                <img src="static/img/vue-logo.png" alt="">
-            </div>
-          Musica
+          <div class="logo-img">
+            <img src="static/img/vue-logo.png" alt="">
+          </div>
+          Teacher
         </a>
       </div>
       <slot>
@@ -36,6 +36,7 @@
 </template>
 <script>
   import MovingArrow from './MovingArrow.vue'
+
   export default {
     props: {
       type: {
