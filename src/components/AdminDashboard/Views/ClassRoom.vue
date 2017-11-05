@@ -15,7 +15,7 @@
     </div>
 </template>
 <script>
-  import PaperTable from 'components/UIComponents/PaperTable.vue'
+  import PaperTable from './ClassRoom/PaperTable.vue'
 
   const tableColumnNames = ['Classroom ID', 'Building Name', 'Options'] /* Give here the names of the attributes */
   const tableColumns = ['class_room_id', 'building', 'options']  /* Give here the column names as they are in the table */
