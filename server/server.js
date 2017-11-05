@@ -13,16 +13,16 @@ var app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get("/getAllStudents", (req, res) => {
-  StudentController.getAllStudent().then((result) => {
+app.get("/getAllParents", (req, res) => {
+  ParentController.getAllParents().then((result) => {
     res.status(200).send(result);
   }).catch((err) => {
     res.status(400).send(err);
   });
 });
 
-app.get("/getAllParents", (req, res) => {
-  ParentController.getAllParents().then((result) => {
+app.get("/getAllStudents", (req, res) => {
+  StudentController.getAllStudent().then((result) => {
     res.status(200).send(result);
   }).catch((err) => {
     res.status(400).send(err);
