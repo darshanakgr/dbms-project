@@ -8,6 +8,7 @@ var InstrumentController = require('./controller/InstrumentController');      //
 var ClassroomController = require('./controller/ClassroomController');
 var LessonController = require('./controller/LessonController');
 var CategoryController = require('./controller/CategoryController');
+var InstrumentController = require('./controller/InstrumentController');
 
 var app = express();
 
@@ -118,9 +119,36 @@ app.delete("/removeCategory", (req, res) => {
   });
 });
 
-app.get("/", (req, res) => {                //just a dummy function to add a new student
-  console.log(req.body);
-  res.status(200).send("ok");
+app.get("/getAllInstruments", (req, res) => {
+  InstrumentController.getAllInstruments().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.patch("/updateInstrument", (req, res) => {
+  InstrumentController.updateInstrument(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.delete("/removeInstrument", (req, res) => {
+  InstrumentController.removeInstrument(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewInstrument", (req, res) => {
+  InstrumentController.addNewInstrument(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
 });
 
 app.listen(3000, () => {
