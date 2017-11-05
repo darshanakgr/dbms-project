@@ -36,8 +36,8 @@
   </div>
 </template>
 <script>
-  import PopupInput from 'components/UIComponents/PopupInput/PopupInput.vue'
-  import PopupEditInput from 'components/UIComponents/PopupInput/PopupEditInput.vue'
+  import PopupInput from './PopupInput.vue'
+  import PopupEditInput from './PopupEditInput.vue'
 
   export default {
     components: {

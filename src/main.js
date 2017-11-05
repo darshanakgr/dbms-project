@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import vClickOutside from 'v-click-outside'
+import VueResource from 'vue-resource'
 
 // Plugins
 import GlobalComponents from './gloablComponents'
@@ -23,6 +24,7 @@ Vue.use(GlobalComponents)
 Vue.use(vClickOutside)
 Vue.use(Notifications)
 Vue.use(SideBar)
+Vue.use(VueResource)
 
 // configure router
 const router = new VueRouter({

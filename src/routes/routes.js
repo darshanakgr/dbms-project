@@ -11,12 +11,12 @@ import AdminUser from 'src/components/AdminDashboard/Views/User.vue'
 import AdminInstrument from 'src/components/AdminDashboard/Views/Instrument.vue'
 import AdminClassroom from 'src/components/AdminDashboard/Views/ClassRoom.vue'
 
-import TeacherStudent from 'src/components/TeacherDashboard/Views/Student.vue'
+/* import TeacherStudent from 'src/components/TeacherDashboard/Views/Student.vue'
 import TeacherClass from 'src/components/TeacherDashboard/Views/Class.vue'
 import TeacherLesson from 'src/components/TeacherDashboard/Views/Lesson.vue'
 import TeacherInstrument from 'src/components/TeacherDashboard/Views/Instrument.vue'
 import TeacherUser from 'src/components/TeacherDashboard/Views/User.vue'
-import TeacherPayment from 'src/components/TeacherDashboard/Views/Payment.vue'
+import TeacherPayment from 'src/components/TeacherDashboard/Views/Payment.vue' */
 
 const routes = [
   {
@@ -60,51 +60,14 @@ const routes = [
       }
     ]
   },
-  {
-    path: '/teacher',
-    component: TeacherDashboardLayout,
-    redirect: '/teacher/student',
-    children: [
-      {
-        path: 'student',
-        name: 'student',
-        component: TeacherStudent
-      },
-      {
-        path: 'class',
-        name: 'class',
-        component: TeacherClass
-      },
-      {
-        path: 'user',
-        name: 'user',
-        component: TeacherUser
-      },
-      {
-        path: 'payment',
-        name: 'payment',
-        component: TeacherPayment
-      },
-      {
-        path: 'instrument',
-        name: 'instrument',
-        component: TeacherInstrument
-      },
-      {
-        path: 'lesson',
-        name: 'lesson',
-        component: TeacherLesson
-      }
-    ]
-  },
-  { path: '*', component: NotFound }
+  {path: '*', component: NotFound}
 ]
 
 /**
  * Asynchronously load view (Webpack Lazy loading compatible)
  * The specified component must be inside the Views folder
  * @param  {string} name  the filename (basename) of the view to load.
-function view(name) {
+ function view(name) {
    var res= require('../components/Dashboard/Views/' + name + '.vue');
    return res;
 };**/
