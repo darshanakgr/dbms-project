@@ -7,6 +7,7 @@ import GlobalComponents from './gloablComponents'
 import Notifications from './components/UIComponents/NotificationPlugin'
 import SideBar from './components/UIComponents/AdminSidebarPlugin'
 import App from './App'
+import Login from './Login'
 
 // router setup
 import routes from './routes/routes'
@@ -40,7 +41,7 @@ Object.defineProperty(Vue.prototype, '$Chartist', {
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  render: h => h(App),
+  render: h => h(Login),
   router,
   data: {
     Chartist: Chartist
