@@ -57,6 +57,9 @@ export default {
       this.close()
     },
     close: function () {
+      for (var key in this.dataObject) {
+        delete this.dataObject[key]
+      }
       this.showModal = false
       this.title = ''
       this.body = ''

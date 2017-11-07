@@ -5,43 +5,58 @@ const SidebarStore = {
   sidebarLinks: [
     {
       name: 'Student',
-      icon: 'ti-panel',
+      icon: 'ti-reddit',
       path: '/admin/student'
     },
     {
       name: 'Teacher',
-      icon: 'ti-user',
+      icon: 'ti-tumblr-alt',
       path: '/admin/teacher'
     },
     {
       name: 'Instrument',
-      icon: 'ti-view-list-alt',
+      icon: 'ti-headphone',
       path: '/admin/instrument'
     },
     {
+      name: 'Category',
+      icon: 'ti-headphone',
+      path: '/admin/category'
+    },
+    {
       name: 'Classroom',
-      icon: 'ti-text',
+      icon: 'ti-home',
       path: '/admin/classroom'
     },
     {
       name: 'Payment',
-      icon: 'ti-pencil-alt2',
+      icon: 'ti-money',
       path: '/admin/payment'
     },
     {
       name: 'User',
-      icon: 'ti-map',
+      icon: 'ti-user',
       path: '/admin/user'
     },
     {
       name: 'Lesson',
-      icon: 'ti-map',
+      icon: 'ti-book',
       path: '/admin/lesson'
     },
     {
       name: 'Parent',
-      icon: 'ti-map',
+      icon: 'ti-paragraph',
       path: '/admin/parent'
+    },
+    {
+      name: 'Play',
+      icon: 'ti-control-play',
+      path: '/admin/play'
+    },
+    {
+      name: 'Sibling',
+      icon: 'ti-smallcap',
+      path: '/admin/sibling'
     }
   ],
   displaySidebar (value) {

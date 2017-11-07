@@ -30,11 +30,12 @@ const addNewStudent = (student) => {
 
 const updateStudent = (student) => {
   return new Promise((resolve, reject) => {
-    connection.query("UPDATE student SET name=?, gender=?, register_date=?, mobile_no=? WHERE student_id=?",[
+    connection.query("UPDATE student SET name=?, gender=?, register_date=?, mobile_no=?, parent_id=? WHERE student_id=?",[
       student.name,
       student.gender,
       student.registerDate,
       student.mobileNo,
+      student.parentId,
       student.studentId
     ],(err, result) => {
       if(err){

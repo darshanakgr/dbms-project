@@ -17,7 +17,9 @@
             </label>
             <label class="form-label">
               Category ID
-              <input v-model="dataObject.categoryId" class="form-control">
+              <select v-model="dataObject.categoryId" class="form-control">
+                <option v-for="choice in instrumentCategories" :value ="choice.category_id">{{ choice.instrument_type }}</option>
+              </select>
             </label>
           </div>
           <div class="modal-footer text-right">
@@ -67,6 +69,7 @@
     },
     data () {
       return {
+        instrumentCategories: {},
         showEditModal: false,
         showDeleteModal: false,
         dataObject: {},
@@ -105,6 +108,11 @@
         this.title = ''
         this.body = ''
       }
+    },
+    created: function () {
+      this.$http.get('http://localhost:3000/getAllCategories').then(function (data) {   /* get address here */
+        this.instrumentCategories = [...data.body]
+      })
     },
     mounted: function () {
       this.dataObject.instrumentId = this.editData.instrument_id

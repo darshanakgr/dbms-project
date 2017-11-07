@@ -10,6 +10,10 @@ var LessonController = require('./controller/LessonController');
 var CategoryController = require('./controller/CategoryController');
 var TeacherController = require('./controller/TeacherController');
 var PaymentController = require('./controller/PaymentController');
+var PlayController = require('./controller/PlayController');
+var SiblingController = require('./controller/SiblingController');
+var UserController = require('./controller/UserController');
+var CategoryController = require('./controller/CategoryController');
 
 var app = express();
 
@@ -58,38 +62,6 @@ app.post("/addNewStudent", (req, res) => {
 
 app.post("/addNewParent", (req, res) => {
   ParentController.addNewParent(req.body).then((result) => {
-    res.status(200).send(result);
-  }).catch((err) => {
-    res.status(400).send(err);
-  });
-});
-
-app.post("/addNewCategory", (req, res) => {
-  CategoryController.addNewCategory(req.body).then((result) => {
-    res.status(200).send(result);
-  }).catch((err) => {
-    res.status(400).send(err);
-  });
-});
-
-app.get("/getAllCategories", (req, res) => {
-  CategoryController.getAllCategories().then((result) => {
-    res.status(200).send(result);
-  }).catch((err) => {
-    res.status(400).send(err);
-  });
-});
-
-app.patch("/updateCategory", (req, res) => {
-  CategoryController.updateCategory(req.body).then((result) => {
-    res.status(200).send(result);
-  }).catch((err) => {
-    res.status(400).send(err);
-  });
-});
-
-app.post("/removeCategory", (req, res) => {
-  CategoryController.removeCategory(req.body).then((result) => {
     res.status(200).send(result);
   }).catch((err) => {
     res.status(400).send(err);
@@ -287,6 +259,127 @@ app.post("/addNewParent", (req, res) => {
     res.status(400).send(err);
   });
 });
+
+app.get("/getAllPlays", (req, res) => {
+  PlayController.getAllPlays().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.patch("/updatePlay", (req, res) => {
+  PlayController.updatePlay(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/removePlay", (req, res) => {
+  PlayController.removePlay(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewPlay", (req, res) => {
+  PlayController.addNewPlay(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get("/getAllSiblings", (req, res) => {
+  SiblingController.getAllSiblings().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/removeSibling", (req, res) => {
+  SiblingController.removeSibling(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewSibling", (req, res) => {
+  SiblingController.addNewSibling(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get("/getAllUsers", (req, res) => {
+  UserController.getAllUsers().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.patch("/updateUser", (req, res) => {
+  UserController.updateUser(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/removeUser", (req, res) => {
+  UserController.removeUser(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewUser", (req, res) => {
+  UserController.addNewUser(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get("/getAllCategories", (req, res) => {
+  CategoryController.getAllCategories().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.patch("/updateCategory", (req, res) => {
+  CategoryController.updateCategory(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/removeCategory", (req, res) => {
+  CategoryController.removeCategory(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewCategory", (req, res) => {
+  CategoryController.addNewCategory(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
 app.listen(3000, () => {
   console.log("Server is up on 3000");
 });

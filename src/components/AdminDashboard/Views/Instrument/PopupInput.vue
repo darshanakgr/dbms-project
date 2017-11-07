@@ -16,8 +16,10 @@
                       <input v-model="dataObject.purchasedDate" type="date" class="form-control">
                     </label>
                     <label class="form-label">
-                      Category ID
-                      <input v-model="dataObject.categoryId" class="form-control">
+                      Category ID <br>
+                      <select v-model="dataObject.categoryId" class="form-control">
+                        <option v-for="choice in instrumentCategories" :value ="choice.category_id">{{ choice.instrument_type }}</option>
+                      </select>
                     </label>
                 </div>
                 <div class="modal-footer text-right">
@@ -44,7 +46,7 @@ export default {
   },
   data () {
     return {
-      instrumentCategories: [],
+      instrumentCategories: {},
       dataObject: {},
       title: '',
       body: '',
@@ -52,10 +54,11 @@ export default {
     }
   },
   methods: {
-    open: function () {
-
-    },
     saveRecord: function () {
+      if (Object.keys(this.dataObject).length < 3) {
+        alert('Fill all the fields')
+        return
+      }
       this.$http.post('http://localhost:3000/addNewInstrument', this.dataObject).then(function (res) {
         if (res.ok && res.status === 200) {
           return alert('Instrument added successfully')
@@ -68,14 +71,17 @@ export default {
       this.close()
     },
     close: function () {
+      for (var key in this.dataObject) {
+        delete this.dataObject[key]
+      }
       this.showModal = false
       this.title = ''
       this.body = ''
     }
   },
   created () {
-    this.$http.get('http://localhost:3000/getAllInstruments').then(function (data) {   /* get address here */
-      this.instrumentCategories = data.body // need to be changed to categories
+    this.$http.get('http://localhost:3000/getAllCategories').then(function (data) {   /* get address here */
+      this.instrumentCategories = [...data.body]
     })
   },
   mounted: function () {
