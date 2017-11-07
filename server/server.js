@@ -14,6 +14,9 @@ var PlayController = require('./controller/PlayController');
 var SiblingController = require('./controller/SiblingController');
 var UserController = require('./controller/UserController');
 var CategoryController = require('./controller/CategoryController');
+var EnrollmentController = require('./controller/EnrollmentController');
+var ClassController = require('./controller/ClassController');
+var AttendanceController = require('./controller/AttendanceController');
 
 var app = express();
 
@@ -374,6 +377,102 @@ app.post("/removeCategory", (req, res) => {
 
 app.post("/addNewCategory", (req, res) => {
   CategoryController.addNewCategory(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewEnrollment", (req, res) => {
+  EnrollmentController.addNewEnrollment(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get("/getAllEnrollments", (req, res) => {
+  EnrollmentController.getAllEnrollments().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.patch("/updateEnrollment", (req, res) => {
+  EnrollmentController.updateEnrollment(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/removeEnrollment", (req, res) => {
+  EnrollmentController.removeEnrollment(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get("/getAllClasses", (req, res) => {
+  ClassController.getAllClasses().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.patch("/updateClass", (req, res) => {
+  ClassController.updateClass(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/removeClass", (req, res) => {
+  ClassController.removeClass(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewClass", (req, res) => {
+  ClassController.addNewClass(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewAttendance", (req, res) => {
+  AttendanceController.addNewAttendance(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get("/getAllAttendanceRecords", (req, res) => {
+  AttendanceController.getAllAttendanceRecords().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.patch("/updateAttendance", (req, res) => {
+  AttendanceController.updateAttendance(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/removeAttendance", (req, res) => {
+  AttendanceController.removeAttendance(req.body).then((result) => {
     res.status(200).send(result);
   }).catch((err) => {
     res.status(400).send(err);

@@ -15,6 +15,9 @@ import AdminParent from 'src/components/AdminDashboard/Views/Parent.vue'
 import AdminPlay from 'src/components/AdminDashboard/Views/Play.vue'
 import AdminSibling from 'src/components/AdminDashboard/Views/Sibling.vue'
 import AdminCategory from 'src/components/AdminDashboard/Views/Category.vue'
+import AdminEnrollment from 'src/components/AdminDashboard/Views/Enrollment.vue'
+import AdminClass from 'src/components/AdminDashboard/Views/Class.vue'
+import AdminAttendance from 'src/components/AdminDashboard/Views/Attendance.vue'
 
 /* import TeacherStudent from 'src/components/TeacherDashboard/Views/Student.vue'
 import TeacherClass from 'src/components/TeacherDashboard/Views/Class.vue'
@@ -87,6 +90,21 @@ const routes = [
         path: 'sibling',
         name: 'sibling',
         component: AdminSibling
+      },
+      {
+        path: 'enrollment',
+        name: 'enrollment',
+        component: AdminEnrollment
+      },
+      {
+        path: 'class',
+        name: 'class',
+        component: AdminClass
+      },
+      {
+        path: 'attendance',
+        name: 'attendance',
+        component: AdminAttendance
       }
     ]
   },

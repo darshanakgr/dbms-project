@@ -20,7 +20,7 @@ const SidebarStore = {
     },
     {
       name: 'Category',
-      icon: 'ti-headphone',
+      icon: 'ti-check-box',
       path: '/admin/category'
     },
     {
@@ -57,6 +57,21 @@ const SidebarStore = {
       name: 'Sibling',
       icon: 'ti-smallcap',
       path: '/admin/sibling'
+    },
+    {
+      name: 'Enrollment',
+      icon: 'ti-notepad',
+      path: '/admin/enrollment'
+    },
+    {
+      name: 'Class',
+      icon: 'ti-smallcap',
+      path: '/admin/class'
+    },
+    {
+      name: 'Attendance',
+      icon: 'ti-calendar',
+      path: '/admin/attendance'
     }
   ],
   displaySidebar (value) {
