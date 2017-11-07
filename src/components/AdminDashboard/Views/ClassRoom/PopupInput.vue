@@ -4,20 +4,12 @@
         <div class="modal-mask" @click="close" v-show="showModal">
             <div class="modal-container" @click.stop>
                 <div class="modal-header">
-                    <h3>New Record</h3>
+                    <h3>New Classroom</h3>
                 </div>
-                <div class="modal-body" v-for="attr in attributes">
+                <div class="modal-body">
                     <label class="form-label">
-                        Instrument Name
-                        <input v-model="dataObject.name" class="form-control">
-                    </label>
-                    <label class="form-label">
-                      Purchase Date
-                      <input v-model="dataObject.date" type="date" class="form-control">
-                    </label>
-                    <label class="form-label">
-                      Instrument Category
-                      <input v-model="dataObject.category" class="form-control">
+                        Building name
+                        <input v-model="dataObject.building" class="form-control">
                     </label>
                 </div>
                 <div class="modal-footer text-right">
@@ -53,15 +45,16 @@ export default {
   },
   methods: {
     saveRecord: function () {
-      this.$http.post('http://localhost:3000/addNewInstrument', this.dataObject).then(function (res) {
+      this.$http.post('http://localhost:3000/addNewClassroom', this.dataObject).then(function (res) {
         if (res.ok && res.status === 200) {
-          return alert('Intrument added successfully')
+          return alert('Classroom added successfully')
         }
-        alert('Unable to register this intrument')
+        alert('Unable to register this classroom')
       }).catch(function (err) {
         console.log(err)
-        alert('Unable to register this intrument')
+        alert('Unable to register this classroom')
       })
+      this.close()
     },
     close: function () {
       this.showModal = false

@@ -44,6 +44,7 @@ export default {
   },
   data () {
     return {
+      instrumentCategories: [],
       dataObject: {},
       title: '',
       body: '',
@@ -71,6 +72,11 @@ export default {
       this.title = ''
       this.body = ''
     }
+  },
+  created () {
+    this.$http.get('http://localhost:3000/getAllInstruments').then(function (data) {   /* get address here */
+      this.instrumentCategories = data.body // need to be changed to categories
+    })
   },
   mounted: function () {
     document.addEventListener('keydown', (e) => {

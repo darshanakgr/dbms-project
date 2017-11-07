@@ -32,6 +32,16 @@ const SidebarStore = {
       name: 'User',
       icon: 'ti-map',
       path: '/admin/user'
+    },
+    {
+      name: 'Lesson',
+      icon: 'ti-map',
+      path: '/admin/lesson'
+    },
+    {
+      name: 'Parent',
+      icon: 'ti-map',
+      path: '/admin/parent'
     }
   ],
   displaySidebar (value) {

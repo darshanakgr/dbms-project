@@ -8,7 +8,8 @@ var InstrumentController = require('./controller/InstrumentController');      //
 var ClassroomController = require('./controller/ClassroomController');
 var LessonController = require('./controller/LessonController');
 var CategoryController = require('./controller/CategoryController');
-var InstrumentController = require('./controller/InstrumentController');
+var TeacherController = require('./controller/TeacherController');
+var PaymentController = require('./controller/PaymentController');
 
 var app = express();
 
@@ -39,7 +40,7 @@ app.patch("/updateStudent", (req, res) => {
   });
 });
 
-app.delete("/removeStudent", (req, res) => {
+app.post("/removeStudent", (req, res) => {
   StudentController.removeStudent(req.body).then((result) => {
     res.status(200).send(result);
   }).catch((err) => {
@@ -61,30 +62,6 @@ app.post("/addNewParent", (req, res) => {
   }).catch((err) => {
     res.status(400).send(err);
   });
-});
-
-app.get("/getAllInstruments", (req, res) => {                       //when the server receives a post request of 'getAllStudents'
-  InstrumentController.getAllInstruments().then((result) => {       // it will connect to student controller
-    res.status(200).send(result);                                   //if the result is success, then return the result
-  }).catch((err) => {
-    res.status(400).send(err);                                       // else return the error
-  })
-});
-
-app.get("/getAllClassrooms", (req, res) => {                  //when the server receives a post request of 'getAllStudents'
-  ClassroomController.getAllClassrooms().then((result) => {       // it will connect to student controller
-    res.status(200).send(result);                             //if the result is success, then return the result
-  }).catch((err) => {
-    res.status(400).send(err);                                    // else return the error
-  })
-});
-
-app.get("/getAllLessons", (req, res) => {                  //when the server receives a post request of 'getAllStudents'
-  LessonController.getAllLessons().then((result) => {       // it will connect to student controller
-    res.status(200).send(result);                             //if the result is success, then return the result
-  }).catch((err) => {
-    res.status(400).send(err);                                    // else return the error
-  })
 });
 
 app.post("/addNewCategory", (req, res) => {
@@ -111,7 +88,7 @@ app.patch("/updateCategory", (req, res) => {
   });
 });
 
-app.delete("/removeCategory", (req, res) => {
+app.post("/removeCategory", (req, res) => {
   CategoryController.removeCategory(req.body).then((result) => {
     res.status(200).send(result);
   }).catch((err) => {
@@ -135,7 +112,7 @@ app.patch("/updateInstrument", (req, res) => {
   });
 });
 
-app.delete("/removeInstrument", (req, res) => {
+app.post("/removeInstrument", (req, res) => {
   InstrumentController.removeInstrument(req.body).then((result) => {
     res.status(200).send(result);
   }).catch((err) => {
@@ -151,6 +128,165 @@ app.post("/addNewInstrument", (req, res) => {
   });
 });
 
+app.get("/getAllTeachers", (req, res) => {
+  TeacherController.getAllTeachers().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.patch("/updateTeacher", (req, res) => {
+  TeacherController.updateTeacher(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/removeTeacher", (req, res) => {
+  TeacherController.removeTeacher(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewTeacher", (req, res) => {
+  TeacherController.addNewTeacher(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get("/getAllPayments", (req, res) => {
+  PaymentController.getAllPayments().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.patch("/updatePayment", (req, res) => {
+  PaymentController.updatePayment(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/removePayment", (req, res) => {
+  PaymentController.removePayment(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewPayment", (req, res) => {
+  PaymentController.addNewPayment(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get("/getAllClassrooms", (req, res) => {
+  ClassroomController.getAllClassrooms().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.patch("/updateClassroom", (req, res) => {
+  ClassroomController.updateClassroom(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/removeClassroom", (req, res) => {
+  ClassroomController.removeClassroom(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewClassroom", (req, res) => {
+  ClassroomController.addNewClassroom(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get("/getAllLessons", (req, res) => {
+  LessonController.getAllLessons().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.patch("/updateLesson", (req, res) => {
+  LessonController.updateLesson(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/removeLesson", (req, res) => {
+  LessonController.removeLesson(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewLesson", (req, res) => {
+  LessonController.addNewLesson(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get("/getAllParents", (req, res) => {
+  ParentController.getAllParents().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.patch("/updateParent", (req, res) => {
+  ParentController.updateParent(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/removeParent", (req, res) => {
+  ParentController.removeParent(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewParent", (req, res) => {
+  ParentController.addNewParent(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
 app.listen(3000, () => {
   console.log("Server is up on 3000");
 });
