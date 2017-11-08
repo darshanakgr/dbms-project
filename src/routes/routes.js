@@ -2,7 +2,7 @@ import AdminDashboardLayout from '../components/AdminDashboard/Layout/DashboardL
 import TeacherDashboardLayout from '../components/TeacherDashboard/Layout/DashboardLayout.vue'
 // GeneralViews
 import NotFound from '../components/GeneralViews/NotFoundPage.vue'
-
+import Login from 'src/Login.vue'
 // Admin pages
 import AdminStudent from 'src/components/AdminDashboard/Views/Student.vue'
 import AdminTeacher from 'src/components/AdminDashboard/Views/Teacher.vue'
@@ -18,18 +18,12 @@ import AdminCategory from 'src/components/AdminDashboard/Views/Category.vue'
 import AdminEnrollment from 'src/components/AdminDashboard/Views/Enrollment.vue'
 import AdminClass from 'src/components/AdminDashboard/Views/Class.vue'
 import AdminAttendance from 'src/components/AdminDashboard/Views/Attendance.vue'
-
-/* import TeacherStudent from 'src/components/TeacherDashboard/Views/Student.vue'
-import TeacherClass from 'src/components/TeacherDashboard/Views/Class.vue'
-import TeacherLesson from 'src/components/TeacherDashboard/Views/Lesson.vue'
-import TeacherInstrument from 'src/components/TeacherDashboard/Views/Instrument.vue'
-import TeacherUser from 'src/components/TeacherDashboard/Views/User.vue'
-import TeacherPayment from 'src/components/TeacherDashboard/Views/Payment.vue' */
+import TeacherStudent from 'src/components/TeacherDashboard/Views/Student.vue'
 
 const routes = [
   {
     path: '/',
-    redirect: '/admin'
+    component: Login
   },
   {
     path: '/admin',
@@ -37,74 +31,86 @@ const routes = [
     redirect: '/admin/student',
     children: [
       {
-        path: 'student',
+        path: '/admin/student',
         name: 'student',
         component: AdminStudent
       },
       {
-        path: 'teacher',
+        path: '/admin/teacher',
         name: 'teacher',
         component: AdminTeacher
       },
       {
-        path: 'user',
+        path: '/admin/user',
         name: 'user',
         component: AdminUser
       },
       {
-        path: 'payment',
+        path: '/admin/payment',
         name: 'payment',
         component: AdminPayement
       },
       {
-        path: 'instrument',
+        path: '/admin/instrument',
         name: 'instrument',
         component: AdminInstrument
       },
       {
-        path: 'category',
+        path: '/admin/category',
         name: 'category',
         component: AdminCategory
       },
       {
-        path: 'classroom',
+        path: '/admin/classroom',
         name: 'classroom',
         component: AdminClassroom
       },
       {
-        path: 'lesson',
+        path: '/admin/lesson',
         name: 'lesson',
         component: AdminLesson
       },
       {
-        path: 'parent',
+        path: '/admin/parent',
         name: 'parent',
         component: AdminParent
       },
       {
-        path: 'play',
+        path: '/admin/play',
         name: 'play',
         component: AdminPlay
       },
       {
-        path: 'sibling',
+        path: '/admin/sibling',
         name: 'sibling',
         component: AdminSibling
       },
       {
-        path: 'enrollment',
+        path: '/admin/enrollment',
         name: 'enrollment',
         component: AdminEnrollment
       },
       {
-        path: 'class',
+        path: '/admin/class',
         name: 'class',
         component: AdminClass
       },
       {
-        path: 'attendance',
+        path: '/admin/attendance',
         name: 'attendance',
         component: AdminAttendance
+      }
+    ]
+  },
+  {
+    path: '/teacher',
+    component: TeacherDashboardLayout,
+    redirect: '/teacher/student',
+    children: [
+      {
+        path: '/teacher/student',
+        name: 'student',
+        component: TeacherStudent
       }
     ]
   },

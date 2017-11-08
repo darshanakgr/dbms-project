@@ -2,14 +2,13 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import vClickOutside from 'v-click-outside'
 import VueResource from 'vue-resource'
-import VeeValidate from 'vee-validate'
+import VueValidate from 'vee-validate'
 
 // Plugins
 import GlobalComponents from './gloablComponents'
 import Notifications from './components/UIComponents/NotificationPlugin'
-import SideBar from './components/UIComponents/AdminSidebarPlugin'
+// import SideBar from './components/UIComponents/AdminSidebarPlugin'
 import App from './App'
-import Login from './Login'
 
 // router setup
 import routes from './routes/routes'
@@ -25,14 +24,14 @@ Vue.use(VueRouter)
 Vue.use(GlobalComponents)
 Vue.use(vClickOutside)
 Vue.use(Notifications)
-Vue.use(SideBar)
+// Vue.use(SideBar)
 Vue.use(VueResource)
-Vue.use(VeeValidate)
+Vue.use(VueValidate)
 
 // configure router
 const router = new VueRouter({
   routes, // short for routes: routes
-  linkActiveClass: 'active'
+  mode: 'history'
 })
 
 // global library setup
@@ -45,7 +44,7 @@ Object.defineProperty(Vue.prototype, '$Chartist', {
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  render: h => h(Login),
+  render: h => h(App),
   router,
   data: {
     Chartist: Chartist
