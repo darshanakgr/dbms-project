@@ -9,14 +9,14 @@
         </div>
 
         <div class="content">
-          <input name="username" type="text" class="input username" placeholder="Username"/>
+          <input v-model="user.username" name="username" type="text" class="input username" placeholder="Username"/>
           <div class="user-icon"></div>
-          <input name="password" type="password" class="input password" placeholder="Password"/>
+          <input v-model="user.password" name="password" type="password" class="input password" placeholder="Password"/>
           <div class="pass-icon"></div>
         </div>
 
         <div class="footer">
-          <button type="submit" class="button">Sign In</button>
+          <button type="submit" class="button" @click.prevent="login()">Sign In</button>
         </div>
 
       </form>
@@ -26,7 +26,30 @@
 
 <script>
   export default {
-    components: {}
+    components: {},
+    data () {
+      return {
+        user: {
+          username: '',
+          password: ''
+        }
+      }
+    },
+    methods: {
+      login () {
+        this.$http.post('http://localhost:3000/login', this.user).then((res) => {
+          var user = res.body
+          this.$cookie.set('x-auth', user.token)
+          if (user.accessLevel === 0) {
+            window.location = '/admin'
+          } else {
+            window.location = '/teacher'
+          }
+        }).catch((e) => {
+          alert(e.body.message)
+        })
+      }
+    }
   }
 </script>
 
