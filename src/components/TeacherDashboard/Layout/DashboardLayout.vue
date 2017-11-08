@@ -54,12 +54,14 @@
   import ContentFooter from './ContentFooter.vue'
   import DashboardContent from './Content.vue'
   import SideBar from './SideBar.vue'
+  import Notifications from '../../UIComponents/NotificationPlugin/Notifications.vue'
   export default {
     components: {
       TopNavbar,
       ContentFooter,
       DashboardContent,
-      SideBar
+      SideBar,
+      Notifications
     },
     data () {
       return {

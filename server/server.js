@@ -492,7 +492,6 @@ app.post("/createUser", (req, res) => {
 app.post("/login", (req, res) => {
   var user = req.body;
   UserController.findByCredentials(user.username, user.password).then((authenticatedUser) => {
-    console.log(authenticatedUser.access_level);
     return UserController.generateAuthToken(authenticatedUser).then((token) => {
       res.status(200).header("x-auth", token).send({
         username:user.username,
