@@ -54,12 +54,14 @@
   import ContentFooter from './ContentFooter.vue'
   import DashboardContent from './Content.vue'
   import SideBar from './SideBar.vue'
+  import Notifications from '../../UIComponents/NotificationPlugin/Notifications.vue'
   export default {
     components: {
       TopNavbar,
       ContentFooter,
       DashboardContent,
-      SideBar
+      SideBar,
+      Notifications
     },
     data () {
       return {
@@ -86,14 +88,29 @@
             path: '/teacher/instrument'
           },
           {
-            name: 'Payment',
-            icon: 'ti-pencil-alt2',
-            path: '/teacher/payment'
+            name: 'Attendance',
+            icon: 'ti-panel',
+            path: '/teacher/attendance'
           },
           {
-            name: 'User',
-            icon: 'ti-map',
-            path: '/teacher/user'
+            name: 'Enrollment',
+            icon: 'ti-user',
+            path: '/teacher/enrollment'
+          },
+          {
+            name: 'Play',
+            icon: 'ti-text',
+            path: '/teacher/play'
+          },
+          {
+            name: 'Classroom',
+            icon: 'ti-view-list-alt',
+            path: '/teacher/classroom'
+          },
+          {
+            name: 'Category',
+            icon: 'ti-view-list-alt',
+            path: '/teacher/category'
           }
         ]
       }

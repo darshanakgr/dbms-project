@@ -11,7 +11,7 @@
           <div class="logo-img">
             <img src="/static/img/vue-logo.png" alt="">
           </div>
-          Admin
+          Admin | <a href="">Logout</a>
         </a>
       </div>
       <slot>

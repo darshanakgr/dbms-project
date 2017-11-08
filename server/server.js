@@ -13,7 +13,6 @@ var PaymentController = require('./controller/PaymentController');
 var PlayController = require('./controller/PlayController');
 var SiblingController = require('./controller/SiblingController');
 var UserController = require('./controller/UserController');
-var CategoryController = require('./controller/CategoryController');
 var EnrollmentController = require('./controller/EnrollmentController');
 var ClassController = require('./controller/ClassController');
 var AttendanceController = require('./controller/AttendanceController');
@@ -473,6 +472,39 @@ app.patch("/updateAttendance", (req, res) => {
 
 app.post("/removeAttendance", (req, res) => {
   AttendanceController.removeAttendance(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+//login
+app.post("/createUser", (req, res) => {
+  var user = req.body;
+  UserController.createNewUser(user).then((username) => {
+    res.status(200).send({username});
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/login", (req, res) => {
+  var user = req.body;
+  UserController.findByCredentials(user.username, user.password).then((authenticatedUser) => {
+    return UserController.generateAuthToken(authenticatedUser).then((token) => {
+      res.status(200).header("x-auth", token).send({
+        username:user.username,
+        token:token,
+        accessLevel:authenticatedUser.access_level
+      });
+    });
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get('/logout', UserController.authenticate, (req, res) => {
+  UserController.removeToken(req.token).then((result) => {
     res.status(200).send(result);
   }).catch((err) => {
     res.status(400).send(err);
