@@ -1,14 +1,68 @@
 <template>
   <div class="row">
-    <p>Text</p>
+    <div class="col-md-12">
+      <div class="card">
+        <paper-table :title="table1.title" :sub-title="table1.subTitle" :data="table1.data" :columns="table1.columns"
+                     :columnNames="table1.columnNames">
+
+        </paper-table>
+      </div>
+    </div>
+    <div align="center">
+      <button @click="pageNo-=10">Previous page</button>
+      Page {{this.pageNo / 10 + 1}}
+      <button @click="pageNo+=10">Next page</button>
+    </div>
   </div>
 </template>
+
 <script>
+  import PaperTable from './Student/PaperTable.vue'
+
+  const tableColumnNames = ['Student ID', 'Student Name', 'Gender', 'Registration Date', 'Mobile No', 'Parent ID', 'Options']
+  /* Give here the names of the attributes */
+  const tableColumns = ['student_id', 'name', 'gender', 'register_date', 'mobile_no', 'parent_id', 'options']
+  /* Give here the column names as they are in the table */
+  const tableData = []
+  /* table data will be loaded upon created(), code is below */
+
   export default {
-    data () {
-      return {}
+    components: {
+      PaperTable
     },
-    methods: {}
+    data () {
+      return {
+        table1: {
+          title: 'Students',
+          subTitle: 'All the students that study in this school are listed below.',
+          columns: [...tableColumns],
+          columnNames: [...tableColumnNames],
+          data: [...tableData]
+        },
+        pageNo: 0,
+        tableSize: 0
+      }
+    },
+    created () {
+      this.$http.get('http://localhost:3000/getAllStudents').then(function (data) {   /* get address here */
+        this.tableData = data.body.slice(0, 10)
+        /* retrive rows, 10 by 10 */
+        this.table1.data = [...this.tableData]
+      })
+    },
+    updated () {
+      if (this.pageNo < 0) {
+        this.pageNo = 0
+      }
+      this.$http.get('http://localhost:3000/getAllStudents').then(function (data) {   /* get address here */
+        this.tableData = data.body.slice(this.pageNo, this.pageNo + 10)
+        /* update the row range when buttons are clicked */
+        if (this.tableData.length === 0) {
+          this.pageNo -= 10
+        }
+        this.table1.data = [...this.tableData]
+      })
+    }
   }
 </script>
 <style>

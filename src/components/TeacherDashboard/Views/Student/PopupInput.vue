@@ -4,17 +4,43 @@
         <div class="modal-mask" @click="close" v-show="showModal">
             <div class="modal-container" @click.stop>
                 <div class="modal-header">
-                    <h3>New Record</h3>
+                    <h3>New Student</h3>
                 </div>
-                <div class="modal-body" v-for="attr in attributes">
-                    <label class="form-label" v-if="attr!='Options' && attr.indexOf('ID') == -1">
-                        {{attr}}
-                        <input :id="attr" class="form-control">
+                <div class="modal-body">
+                    <label class="form-label">
+                      Student Name
+                      <input v-model="dataObject.name" class="form-control" name="name" v-validate="'required|alpha'">
                     </label>
+                    <span v-show="errors.has('name')" style="color:red">Invalid name</span>
+                    <label class="form-label">
+                      Gender
+                      <select v-model="dataObject.gender" class="form-control" name="gender" v-validate="'required'">
+                        <option value ="male">Male</option>
+                        <option value ="female">Female</option>
+                      </select>
+                    </label>
+                    <span v-show="errors.has('gender')" style="color:red">Invalid gender</span>
+                    <label class="form-label">
+                      Registration date
+                      <input v-model="dataObject.registerDate" type="date" class="form-control" name="registerDate" v-validate="'required'">
+                    </label>
+                    <span v-show="errors.has('registerDate')" style="color:red">Invalid date</span>
+                    <label class="form-label">
+                      Mobile No
+                      <input v-model="dataObject.mobileNo" class="form-control" name="mobileNo" v-validate="'required|digits:10'">
+                    </label>
+                    <span v-show="errors.has('mobileNo')" style="color:red">Invalid mobile no</span>
+                    <label class="form-label">
+                      Parent ID
+                      <select v-model="dataObject.parentId" class="form-control" name="parentId" v-validate="'required'">
+                        <option v-for="choice in studentParents" :value ="choice.parent_id">{{ choice.name }}</option>
+                      </select>
+                    </label>
+                    <span v-show="errors.has('parentId')" style="color:red">Invalid parent ID</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
-                        Add new record
+                        Add new student
                     </button>
                     <button class="modal-default-button" @click="close()">
                         Cancel
@@ -32,11 +58,11 @@
 <script>
 export default {
   props: {
-    attributes: Array,
-    databaseTable: ''
+
   },
   data () {
     return {
+      studentParents: {},
       dataObject: {},
       title: '',
       body: '',
@@ -44,58 +70,38 @@ export default {
     }
   },
   methods: {
+    open: function () {
+
+    },
     saveRecord: function () {
-      for (var i in this.attributes) {
-        var key = this.attributes[i]
-        var value = ''
-        if (key !== 'Options') { // || key.includes('ID') === false) {
-          alert(key + ' ' + key.includes('ID'))
-          // value = document.getElementById(key).value
-          this.dataObject.key = value
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.$http.post('http://localhost:3000/addNewStudent', this.dataObject).then(function (res) {
+            if (res.ok && res.status === 200) {
+              return alert('Student added successfully')
+            }
+            alert('Unable to register this student')
+          }).catch(function (err) {
+            console.log(err)
+            alert('Unable to register this Student')
+          })
+          this.close()
         }
-      }
-      console.log(this.dataObject)
-      /* switch (this.databaseTable) {
-        case 'Instruments':
-          this.$http.post('http://localhost:3000/addNewInstrument', this.dataObject).then(function (res) {
-            if (res.ok && res.status === 200) {
-              return alert('Intrument added successfully')
-            }
-            alert('Unable to register this intrument')
-          }).catch(function (err) {
-            console.log(err)
-            alert('Unable to register this intrument')
-          })
-          break
-        case 'Classrooms':
-          this.$http.post('http://localhost:3000/addNewClassroom', this.dataObject).then(function (res) {
-            if (res.ok && res.status === 200) {
-              return alert('CLassroom added successfully')
-            }
-            alert('Unable to register this classroom')
-          }).catch(function (err) {
-            console.log(err)
-            alert('Unable to register this classroom')
-          })
-          break
-        case 'Lessons':
-          this.$http.post('http://localhost:3000/addNewLesson', this.dataObject).then(function (res) {
-            if (res.ok && res.status === 200) {
-              return alert('Lesson added successfully')
-            }
-            alert('Unable to register this lesson')
-          }).catch(function (err) {
-            console.log(err)
-            alert('Unable to register this lesson')
-          })
-          break
-      } */
+      })
     },
     close: function () {
+      for (var key in this.dataObject) {
+        delete this.dataObject[key]
+      }
       this.showModal = false
       this.title = ''
       this.body = ''
     }
+  },
+  created () {
+    this.$http.get('http://localhost:3000/getAllParents').then(function (data) {   /* get address here */
+      this.studentParents = [...data.body]
+    })
   },
   mounted: function () {
     document.addEventListener('keydown', (e) => {
