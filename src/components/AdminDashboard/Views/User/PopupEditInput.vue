@@ -87,7 +87,6 @@
         this.close() */
       },
       deleteRecord: function () {
-        alert(this.dataObject.username)
         this.$http.post('http://localhost:3000/removeUser', this.dataObject).then(function (res) {
           if (res.ok && res.status === 200) {
             return alert('User deleted successfully')
@@ -107,10 +106,7 @@
       }
     },
     mounted: function () {
-//      this.dataObject.instrumentId = this.editData.instrument_id
-//      this.dataObject.instrumentName = this.editData.instrument_name
-//      this.dataObject.categoryId = this.editData.category_id
-//      this.dataObject.purchasedDate = this.editData.purchased_date
+      this.dataObject.username = this.editData.username
       document.addEventListener('keydown', (e) => {
         if (e.keyCode === 27) {
           this.close()
