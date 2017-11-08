@@ -10,16 +10,16 @@
                     <label class="form-label">
                       Teacher Name
                       <input v-model="dataObject.teacherName" class="form-control" name="teacherName" v-validate="'required|alpha'">
-                      <span v-show="errors.has('teacherName')" style="color:red">Invalid name</span>
                     </label>
+                    <span v-show="errors.has('teacherName')" style="color:red">Invalid name</span>
                     <label class="form-label">
                       Contact No
                       <input v-model="dataObject.contactNo" class="form-control" name="teacherPhone" v-validate="{digits: 10, required:true}" placeholder="0xxxxxxxxx">
-                      <span v-show="errors.has('teacherPhone')" style="color:red">Invalid contact number</span>
                     </label>
+                    <span v-show="errors.has('teacherPhone')" style="color:red">Invalid contact number</span>
                 </div>
                 <div class="modal-footer text-right">
-                    <button class="modal-default-button" :disabled="errors.has('teacherName') | errors.has('teacherPhone')" @click="saveRecord()">
+                    <button class="modal-default-button" @click="saveRecord()">
                         Add new teacher
                     </button>
                     <button class="modal-default-button" @click="close()">
@@ -53,20 +53,20 @@ export default {
 
     },
     saveRecord: function () {
-      if (Object.keys(this.dataObject).length < 2) {
-        alert('Fill all the fields')
-        return
-      }
-      this.$http.post('http://localhost:3000/addNewTeacher', this.dataObject).then(function (res) {
-        if (res.ok && res.status === 200) {
-          return alert('Teacher added successfully')
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.$http.post('http://localhost:3000/addNewTeacher', this.dataObject).then(function (res) {
+            if (res.ok && res.status === 200) {
+              return alert('Teacher added successfully')
+            }
+            alert('Unable to register this teacher')
+          }).catch(function (err) {
+            console.log(err)
+            alert('Unable to register this teacher')
+          })
+          this.close()
         }
-        alert('Unable to register this teacher')
-      }).catch(function (err) {
-        console.log(err)
-        alert('Unable to register this teacher')
       })
-      this.close()
     },
     close: function () {
       for (var key in this.dataObject) {

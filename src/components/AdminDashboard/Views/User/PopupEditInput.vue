@@ -87,6 +87,7 @@
         this.close() */
       },
       deleteRecord: function () {
+        alert(this.dataObject.username)
         this.$http.post('http://localhost:3000/removeUser', this.dataObject).then(function (res) {
           if (res.ok && res.status === 200) {
             return alert('User deleted successfully')

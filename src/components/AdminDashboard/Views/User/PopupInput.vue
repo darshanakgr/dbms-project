@@ -9,16 +9,22 @@
                 <div class="modal-body">
                     <label class="form-label">
                         Username
-                        <input v-model="dataObject.username" class="form-control">
+                        <input v-model="dataObject.username" class="form-control" name="username" v-validate="'required|alpha'">
                     </label>
+                    <span v-show="errors.has('username')" style="color:red">Invalid username</span>
                     <label class="form-label">
                       ID
-                      <input v-model="dataObject.Id" class="form-control">
+                      <input v-model="dataObject.Id" class="form-control" name="userId" v-validate="'required'">
                     </label>
+                    <span v-show="errors.has('userId')" style="color:red">Invalid user ID</span>
                     <label class="form-label">
                       Access Level
-                      <input v-model="dataObject.accessLevel" class="form-control">
+                      <select v-model="dataObject.accessLevel" name="accessLevel" v-validate="'required'" class="form-control">
+                        <option value ="2">Administrator</option>
+                        <option value ="1">Teacher</option>
+                      </select>
                     </label>
+                    <span v-show="errors.has('accessLevel')" style="color:red">Invalid access level</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
@@ -52,25 +58,22 @@ export default {
     }
   },
   methods: {
-    open: function () {
-
-    },
     saveRecord: function () {
-      if (Object.keys(this.dataObject).length < 3) {
-        alert('Fill all the fields')
-        return
-      }
-      this.dataObject.password = 'defaultpass'
-      this.$http.post('http://localhost:3000/addNewUser', this.dataObject).then(function (res) {
-        if (res.ok && res.status === 200) {
-          return alert('User added successfully')
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.dataObject.password = 'defaultpass'
+          this.$http.post('http://localhost:3000/addNewUser', this.dataObject).then(function (res) {
+            if (res.ok && res.status === 200) {
+              return alert('User added successfully')
+            }
+            alert('Unable to register this user')
+          }).catch(function (err) {
+            console.log(err)
+            alert('Unable to register this user')
+          })
+          this.close()
         }
-        alert('Unable to register this user')
-      }).catch(function (err) {
-        console.log(err)
-        alert('Unable to register this user')
       })
-      this.close()
     },
     close: function () {
       for (var key in this.dataObject) {

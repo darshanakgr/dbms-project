@@ -9,12 +9,18 @@
                 <div class="modal-body">
                     <label class="form-label">
                         Student ID
-                        <input v-model="dataObject.studentId" class="form-control">
+                        <select v-model="dataObject.studentId" class="form-control" name="studentId" v-validate="'required'">
+                          <option v-for="choice in students" :value ="choice.student_id">{{  choice.student_id+" - "+choice.name}}</option>
+                        </select>
                     </label>
+                    <span v-show="errors.has('studentId')" style="color:red">Student ID is required</span>
                     <label class="form-label">
                       Sibling ID
-                      <input v-model="dataObject.siblingId" class="form-control">
+                      <select v-model="dataObject.siblingId" class="form-control" name="siblingId" v-validate="'required'">
+                        <option v-for="choice in students" :value ="choice.student_id">{{  choice.student_id+" - "+choice.name}}</option>
+                      </select>
                     </label>
+                    <span v-show="errors.has('siblingId')" style="color:red">Sibling ID is required</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
@@ -52,20 +58,20 @@ export default {
 
     },
     saveRecord: function () {
-      if (Object.keys(this.dataObject).length < 3) {
-        alert('Fill all the fields')
-        return
-      }
-      this.$http.post('http://localhost:3000/addNewSibling', this.dataObject).then(function (res) {
-        if (res.ok && res.status === 200) {
-          return alert('Sibling added successfully')
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.$http.post('http://localhost:3000/addNewSibling', this.dataObject).then(function (res) {
+            if (res.ok && res.status === 200) {
+              return alert('Sibling added successfully')
+            }
+            alert('Unable to register this sibling')
+          }).catch(function (err) {
+            console.log(err)
+            alert('Unable to register this sibling')
+          })
+          this.close()
         }
-        alert('Unable to register this sibling')
-      }).catch(function (err) {
-        console.log(err)
-        alert('Unable to register this sibling')
       })
-      this.close()
     },
     close: function () {
       for (var key in this.dataObject) {
@@ -79,6 +85,9 @@ export default {
   created () {
     this.$http.get('http://localhost:3000/getAllSiblings').then(function (data) {   /* get address here */
       this.instrumentCategories = data.body // need to be changed to categories
+    })
+    this.$http.get('http://localhost:3000/getAllStudents').then(function (data) {   /* get address here */
+      this.students = [...data.body]
     })
   },
   mounted: function () {

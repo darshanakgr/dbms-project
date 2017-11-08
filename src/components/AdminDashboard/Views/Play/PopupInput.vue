@@ -8,17 +8,19 @@
                 </div>
                 <div class="modal-body">
                     <label class="form-label">
-                      Student <ID></ID>
-                      <select v-model="dataObject.studentId" class="form-control">
-                        <option v-for="choice in studentNames" :value ="choice.student_id">{{ choice.name }}</option>
+                      Student ID
+                      <select v-model="dataObject.studentId" class="form-control" name="studentId" v-validate="'required'">
+                        <option v-for="choice in studentNames" :value ="choice.student_id">{{  choice.student_id+" - "+choice.name}}</option>
                       </select>
                     </label>
+                    <span v-show="errors.has('studentId')" style="color:red">Student ID is required</span>
                     <label class="form-label">
                         Instrument ID
-                      <select v-model="dataObject.instrumentId" class="form-control">
-                        <option v-for="choice in instrumentNames" :value ="choice.instrument_id">{{ choice.instrument_name }}</option>
+                      <select v-model="dataObject.instrumentId" class="form-control" name="instrumentId" v-validate="'required'">
+                        <option v-for="choice in instrumentNames" :value ="choice.instrument_id">{{ choice.instrument_id+" - "+choice.instrument_name }}</option>
                       </select>
                     </label>
+                    <span v-show="errors.has('instrumentId')" style="color:red">Instrument ID is required</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
@@ -57,16 +59,20 @@ export default {
 
     },
     saveRecord: function () {
-      this.$http.post('http://localhost:3000/addNewPlay', this.dataObject).then(function (res) {
-        if (res.ok && res.status === 200) {
-          return alert('Play added successfully')
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.$http.post('http://localhost:3000/addNewPlay', this.dataObject).then(function (res) {
+            if (res.ok && res.status === 200) {
+              return alert('Play added successfully')
+            }
+            alert('Unable to register this play')
+          }).catch(function (err) {
+            console.log(err)
+            alert('Unable to register this play')
+          })
+          this.close()
         }
-        alert('Unable to register this play')
-      }).catch(function (err) {
-        console.log(err)
-        alert('Unable to register this play')
       })
-      this.close()
     },
     close: function () {
       for (var key in this.dataObject) {

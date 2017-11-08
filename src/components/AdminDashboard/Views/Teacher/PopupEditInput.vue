@@ -10,16 +10,16 @@
             <label class="form-label">
               Teacher Name
               <input v-model="dataObject.teacherName" class="form-control" name="teacherName" v-validate="'required|alpha'">
-              <span v-show="errors.has('teacherName')" style="color:red">Invalid name</span>
             </label>
+            <span v-show="errors.has('teacherName')" style="color:red">Invalid name</span>
             <label class="form-label">
               Contact No
               <input v-model="dataObject.contactNo" class="form-control" name="teacherPhone" v-validate="{digits: 10, required:true}" placeholder="0xxxxxxxxx">
-              <span v-show="errors.has('teacherPhone')" style="color:red">Invalid contact number</span>
             </label>
+            <span v-show="errors.has('teacherPhone')" style="color:red">Invalid contact number</span>
           </div>
           <div class="modal-footer text-right">
-            <button class="modal-default-button" :disabled="errors.has('teacherName') | errors.has('teacherPhone')" @click="saveRecord()">
+            <button class="modal-default-button" @click="saveRecord()">
               Update record
             </button>
             <button class="modal-default-button" @click="close()">
@@ -74,16 +74,20 @@
     },
     methods: {
       saveRecord: function () {
-        this.$http.patch('http://localhost:3000/updateTeacher', this.dataObject).then(function (res) {
-          if (res.ok && res.status === 200) {
-            return alert('Teacher updated successfully')
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.$http.patch('http://localhost:3000/updateTeacher', this.dataObject).then(function (res) {
+              if (res.ok && res.status === 200) {
+                return alert('Teacher updated successfully')
+              }
+              alert('Unable to update this teacher')
+            }).catch(function (err) {
+              console.log(err)
+              alert('Unable to update this teacher')
+            })
+            this.close()
           }
-          alert('Unable to update this teacher')
-        }).catch(function (err) {
-          console.log(err)
-          alert('Unable to update this teacher')
         })
-        this.close()
       },
       deleteRecord: function () {
         this.$http.post('http://localhost:3000/removeTeacher', this.dataObject).then(function (res) {

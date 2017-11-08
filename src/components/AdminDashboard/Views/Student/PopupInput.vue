@@ -9,29 +9,34 @@
                 <div class="modal-body">
                     <label class="form-label">
                       Student Name
-                      <input v-model="dataObject.name" class="form-control">
+                      <input v-model="dataObject.name" class="form-control" name="name" v-validate="'required|alpha'">
                     </label>
+                    <span v-show="errors.has('name')" style="color:red">Invalid name</span>
                     <label class="form-label">
                       Gender
-                      <select v-model="dataObject.gender" class="form-control">
+                      <select v-model="dataObject.gender" class="form-control" name="gender" v-validate="'required'">
                         <option value ="male">Male</option>
                         <option value ="female">Female</option>
                       </select>
                     </label>
+                    <span v-show="errors.has('gender')" style="color:red">Invalid gender</span>
                     <label class="form-label">
                       Registration date
-                      <input v-model="dataObject.registerDate" type="date" class="form-control">
+                      <input v-model="dataObject.registerDate" type="date" class="form-control" name="registerDate" v-validate="'required'">
                     </label>
+                    <span v-show="errors.has('registerDate')" style="color:red">Invalid date</span>
                     <label class="form-label">
                       Mobile No
-                      <input v-model="dataObject.mobileNo" class="form-control">
+                      <input v-model="dataObject.mobileNo" class="form-control" name="mobileNo" v-validate="'required|digits:10'">
                     </label>
+                    <span v-show="errors.has('mobileNo')" style="color:red">Invalid mobile no</span>
                     <label class="form-label">
                       Parent ID
-                      <select v-model="dataObject.parentId" class="form-control">
+                      <select v-model="dataObject.parentId" class="form-control" name="parentId" v-validate="'required'">
                         <option v-for="choice in studentParents" :value ="choice.parent_id">{{ choice.name }}</option>
                       </select>
                     </label>
+                    <span v-show="errors.has('parentId')" style="color:red">Invalid parent ID</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
@@ -69,20 +74,20 @@ export default {
 
     },
     saveRecord: function () {
-      if (Object.keys(this.dataObject).length < 5) {
-        alert('Fill all the fields')
-        return
-      }
-      this.$http.post('http://localhost:3000/addNewStudent', this.dataObject).then(function (res) {
-        if (res.ok && res.status === 200) {
-          return alert('Student added successfully')
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.$http.post('http://localhost:3000/addNewStudent', this.dataObject).then(function (res) {
+            if (res.ok && res.status === 200) {
+              return alert('Student added successfully')
+            }
+            alert('Unable to register this student')
+          }).catch(function (err) {
+            console.log(err)
+            alert('Unable to register this Student')
+          })
+          this.close()
         }
-        alert('Unable to register this student')
-      }).catch(function (err) {
-        console.log(err)
-        alert('Unable to register this Student')
       })
-      this.close()
     },
     close: function () {
       for (var key in this.dataObject) {

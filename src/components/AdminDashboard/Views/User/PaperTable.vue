@@ -25,7 +25,7 @@
                 {{itemValue(item, column)}}
               </div>
               <div align="center" v-if="column=='options'">
-
+                <PopupEditInput :editData="item"></PopupEditInput>
               </div>
             </td>
           </tr>

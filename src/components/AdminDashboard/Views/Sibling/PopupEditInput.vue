@@ -72,16 +72,20 @@
     },
     methods: {
       saveRecord: function () {
-        this.$http.patch('http://localhost:3000/updateSibling', this.dataObject).then(function (res) {
-          if (res.ok && res.status === 200) {
-            return alert('Instrument updated successfully')
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.$http.patch('http://localhost:3000/updateSibling', this.dataObject).then(function (res) {
+              if (res.ok && res.status === 200) {
+                return alert('Instrument updated successfully')
+              }
+              alert('Unable to update this intrument')
+            }).catch(function (err) {
+              console.log(err)
+              alert('Unable to update this intrument')
+            })
+            this.close()
           }
-          alert('Unable to update this intrument')
-        }).catch(function (err) {
-          console.log(err)
-          alert('Unable to update this intrument')
         })
-        this.close()
       },
       deleteRecord: function () {
         this.$http.post('http://localhost:3000/removeSibling', this.dataObject).then(function (res) {
