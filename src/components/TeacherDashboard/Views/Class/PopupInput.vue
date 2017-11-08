@@ -4,17 +4,65 @@
         <div class="modal-mask" @click="close" v-show="showModal">
             <div class="modal-container" @click.stop>
                 <div class="modal-header">
-                    <h3>New Record</h3>
+                    <h3>New class</h3>
                 </div>
-                <div class="modal-body" v-for="attr in attributes">
-                    <label class="form-label" v-if="attr!='Options' && attr.indexOf('ID') == -1">
-                        {{attr}}
-                        <input :id="attr" class="form-control">
+                <div class="modal-body">
+                    <label class="form-label">
+                        Class Year
+                        <input v-model="dataObject.classYear" name="classYear" v-validate="'required|digits:4'" class="form-control">
                     </label>
+                    <span v-show="errors.has('classYear')" style="color:red">Invalid year</span>
+                    <label class="form-label">
+                      Class Time
+                      <input v-model="dataObject.classTime" type="time" name="classTime" v-validate="'required'" class="form-control">
+                    </label>
+                    <span v-show="errors.has('classTime')" style="color:red">Invalid time</span>
+                    <label class="form-label">
+                      Class Type
+                      <select v-model="dataObject.classType" name="classType" v-validate="'required'" class="form-control">
+                        <option value ="0">Individual</option>
+                        <option value ="1">Group</option>
+                      </select>
+                    </label>
+                    <span v-show="errors.has('classType')" style="color:red">Invalid class type</span>
+                    <label class="form-label">
+                      Class Day
+                      <select v-model="dataObject.classDay" class="form-control" name="classDay" v-validate="'required'">
+                        <option value ="monday">Monday</option>
+                        <option value ="tuesday">Tuesday</option>
+                        <option value ="wednesday">Wednesday</option>
+                        <option value ="thursday">Thursday</option>
+                        <option value ="friday">Friday</option>
+                        <option value ="saturday">Saturday</option>
+                        <option value ="sunday">Sunday</option>
+                      </select>
+                    </label>
+                    <span v-show="errors.has('classDay')" style="color:red">Invalid class day</span>
+                    <label class="form-label">
+                      Classroom ID <br>
+                      <select v-model="dataObject.classroomId" class="form-control" name="classroomId" v-validate="'required'">
+                        <option v-for="choice in classroomIds" :value ="choice.class_room_id">{{ choice.building }}</option>
+                      </select>
+                    </label>
+                    <span v-show="errors.has('classroomId')" style="color:red">Invalid classroom ID</span>
+                    <label class="form-label">
+                      Lesson ID <br>
+                      <select v-model="dataObject.lessonId" class="form-control" name="lessonId" v-validate="'required'">
+                        <option v-for="choice in lessonIds" :value ="choice.lesson_id">{{ choice.lesson_name }}</option>
+                      </select>
+                    </label>
+                    <span v-show="errors.has('lessonId')" style="color:red">Invalid lesson ID</span>
+                    <label class="form-label">
+                      Teacher ID <br>
+                      <select v-model="dataObject.teacherId" class="form-control" name="teacherId" v-validate="'required'">
+                        <option v-for="choice in teacherIds" :value ="choice.teacher_id">{{ choice.name }}</option>
+                      </select>
+                    </label>
+                    <span v-show="errors.has('teacherId')" style="color:red">Invalid teacher ID</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
-                        Add new record
+                        Add new class
                     </button>
                     <button class="modal-default-button" @click="close()">
                         Cancel
@@ -32,11 +80,13 @@
 <script>
 export default {
   props: {
-    attributes: Array,
-    databaseTable: ''
+
   },
   data () {
     return {
+      classroomIds: {},
+      lessonIds: {},
+      teacherIds: {},
       dataObject: {},
       title: '',
       body: '',
@@ -45,57 +95,40 @@ export default {
   },
   methods: {
     saveRecord: function () {
-      for (var i in this.attributes) {
-        var key = this.attributes[i]
-        var value = ''
-        if (key !== 'Options') { // || key.includes('ID') === false) {
-          alert(key + ' ' + key.includes('ID'))
-          // value = document.getElementById(key).value
-          this.dataObject.key = value
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.$http.post('http://localhost:3000/addNewClass', this.dataObject).then(function (res) {
+            if (res.ok && res.status === 200) {
+              return alert('Class added successfully')
+            }
+            alert('Unable to register this class')
+          }).catch(function (err) {
+            console.log(err)
+            alert('Unable to register this class')
+          })
+          this.close()
         }
-      }
-      console.log(this.dataObject)
-      /* switch (this.databaseTable) {
-        case 'Instruments':
-          this.$http.post('http://localhost:3000/addNewInstrument', this.dataObject).then(function (res) {
-            if (res.ok && res.status === 200) {
-              return alert('Intrument added successfully')
-            }
-            alert('Unable to register this intrument')
-          }).catch(function (err) {
-            console.log(err)
-            alert('Unable to register this intrument')
-          })
-          break
-        case 'Classrooms':
-          this.$http.post('http://localhost:3000/addNewClassroom', this.dataObject).then(function (res) {
-            if (res.ok && res.status === 200) {
-              return alert('CLassroom added successfully')
-            }
-            alert('Unable to register this classroom')
-          }).catch(function (err) {
-            console.log(err)
-            alert('Unable to register this classroom')
-          })
-          break
-        case 'Lessons':
-          this.$http.post('http://localhost:3000/addNewLesson', this.dataObject).then(function (res) {
-            if (res.ok && res.status === 200) {
-              return alert('Lesson added successfully')
-            }
-            alert('Unable to register this lesson')
-          }).catch(function (err) {
-            console.log(err)
-            alert('Unable to register this lesson')
-          })
-          break
-      } */
+      })
     },
     close: function () {
+      for (var key in this.dataObject) {
+        delete this.dataObject[key]
+      }
       this.showModal = false
       this.title = ''
       this.body = ''
     }
+  },
+  created () {
+    this.$http.get('http://localhost:3000/getAllClassrooms').then(function (data) {   /* get address here */
+      this.classroomIds = [...data.body]
+    })
+    this.$http.get('http://localhost:3000/getAllLessons').then(function (data) {   /* get address here */
+      this.lessonIds = [...data.body]
+    })
+    this.$http.get('http://localhost:3000/getAllTeachers').then(function (data) {   /* get address here */
+      this.teacherIds = [...data.body]
+    })
   },
   mounted: function () {
     document.addEventListener('keydown', (e) => {

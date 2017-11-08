@@ -1,25 +1,30 @@
 <template>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <paper-table :title="table1.title" :sub-title="table1.subTitle" :data="table1.data" :columns="table1.columns" :columnNames="table1.columnNames">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <paper-table :title="table1.title" :sub-title="table1.subTitle" :data="table1.data" :columns="table1.columns"
+                     :columnNames="table1.columnNames">
 
-          </paper-table>
-        </div>
-      </div>
-      <div align="center">
-        <button @click="pageNo-=10">Previous page</button>
-        Page {{this.pageNo/10 + 1}}
-        <button @click="pageNo+=10">Next page</button>
+        </paper-table>
       </div>
     </div>
+    <div align="center">
+      <button @click="pageNo-=10">Previous page</button>
+      Page {{this.pageNo / 10 + 1}}
+      <button @click="pageNo+=10">Next page</button>
+    </div>
+  </div>
 </template>
-<script>
-  import PaperTable from 'components/UIComponents/PaperTable.vue'
 
-  const tableColumnNames = ['Classroom ID', 'Building Name', 'Options'] /* Give here the names of the attributes */
-  const tableColumns = ['class_room_id', 'building', 'options']  /* Give here the column names as they are in the table */
-  const tableData = []    /* table data will be loaded upon created(), code is below */
+<script>
+  import PaperTable from './Class/PaperTable.vue'
+
+  const tableColumnNames = ['Class ID', 'Class Year', 'Class Time', 'Class Type', 'Class Day', 'Classroom ID', 'Lesson ID', 'Teacher ID', 'Options']
+  /* Give here the names of the attributes */
+  const tableColumns = ['class_id', 'class_year', 'class_time', 'class_type', 'class_day', 'class_room_id', 'lesson_id', 'teacher_id', 'options']
+  /* Give here the column names as they are in the table */
+  const tableData = []
+  /* table data will be loaded upon created(), code is below */
 
   export default {
     components: {
@@ -28,8 +33,8 @@
     data () {
       return {
         table1: {
-          title: 'Classrooms',
-          subTitle: 'All the classrooms in this school are listed below.',
+          title: 'Class',
+          subTitle: 'All the classes available in this school are listed below.',
           columns: [...tableColumns],
           columnNames: [...tableColumnNames],
           data: [...tableData]
@@ -39,8 +44,9 @@
       }
     },
     created () {
-      this.$http.get('http://localhost:3000/getAllClassrooms').then(function (data) {   /* get address here */
-        this.tableData = data.body.slice(0, 10)       /* retrive rows, 10 by 10 */
+      this.$http.get('http://localhost:3000/getAllClasses').then(function (data) {   /* get address here */
+        this.tableData = data.body.slice(0, 10)
+        /* retrive rows, 10 by 10 */
         this.table1.data = [...this.tableData]
       })
     },
@@ -48,8 +54,9 @@
       if (this.pageNo < 0) {
         this.pageNo = 0
       }
-      this.$http.get('http://localhost:3000/getAllClassrooms').then(function (data) {   /* get address here */
-        this.tableData = data.body.slice(this.pageNo, this.pageNo + 10)       /* update the row range when buttons are clicked */
+      this.$http.get('http://localhost:3000/getAllClasses').then(function (data) {   /* get address here */
+        this.tableData = data.body.slice(this.pageNo, this.pageNo + 10)
+        /* update the row range when buttons are clicked */
         if (this.tableData.length === 0) {
           this.pageNo -= 10
         }
