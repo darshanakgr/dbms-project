@@ -9,16 +9,21 @@
                 <div class="modal-body">
                     <label class="form-label">
                         Instrument Name
-                        <input v-model="dataObject.instrumentName" class="form-control">
+                        <input v-model="dataObject.instrumentName" class="form-control" name="instrumentName" v-validate="'required|alpha'">
                     </label>
+                    <span v-show="errors.has('instrumentName')" style="color:red">Invalid instrument name</span>
                     <label class="form-label">
                       Purchase Date
-                      <input v-model="dataObject.purchasedDate" type="date" class="form-control">
+                      <input v-model="dataObject.purchasedDate" type="date" class="form-control" name="purchasedDate" v-validate="'required'">
                     </label>
+                    <span v-show="errors.has('purchasedDate')" style="color:red">Invalid date</span>
                     <label class="form-label">
-                      Category ID
-                      <input v-model="dataObject.categoryId" class="form-control">
+                      Category ID <br>
+                      <select v-model="dataObject.categoryId" class="form-control" name="categoryId" v-validate="'required'">
+                        <option v-for="choice in instrumentCategories" :value ="choice.category_id">{{ choice.instrument_type }}</option>
+                      </select>
                     </label>
+                    <span v-show="errors.has('categoryId')" style="color:red">Invalid category ID</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
@@ -44,7 +49,7 @@ export default {
   },
   data () {
     return {
-      instrumentCategories: [],
+      instrumentCategories: {},
       dataObject: {},
       title: '',
       body: '',
@@ -52,30 +57,34 @@ export default {
     }
   },
   methods: {
-    open: function () {
-
-    },
     saveRecord: function () {
-      this.$http.post('http://localhost:3000/addNewInstrument', this.dataObject).then(function (res) {
-        if (res.ok && res.status === 200) {
-          return alert('Instrument added successfully')
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.$http.post('http://localhost:3000/addNewInstrument', this.dataObject).then(function (res) {
+            if (res.ok && res.status === 200) {
+              return alert('Instrument added successfully')
+            }
+            alert('Unable to register this intrument')
+          }).catch(function (err) {
+            console.log(err)
+            alert('Unable to register this intrument')
+          })
+          this.close()
         }
-        alert('Unable to register this intrument')
-      }).catch(function (err) {
-        console.log(err)
-        alert('Unable to register this intrument')
       })
-      this.close()
     },
     close: function () {
+      for (var key in this.dataObject) {
+        delete this.dataObject[key]
+      }
       this.showModal = false
       this.title = ''
       this.body = ''
     }
   },
   created () {
-    this.$http.get('http://localhost:3000/getAllInstruments').then(function (data) {   /* get address here */
-      this.instrumentCategories = data.body // need to be changed to categories
+    this.$http.get('http://localhost:3000/getAllCategories').then(function (data) {   /* get address here */
+      this.instrumentCategories = [...data.body]
     })
   },
   mounted: function () {

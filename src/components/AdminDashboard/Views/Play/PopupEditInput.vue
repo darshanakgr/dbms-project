@@ -8,22 +8,17 @@
           </div>
           <div class="modal-body">
             <label class="form-label">
-              Instrument Name
-              <input v-model="dataObject.instrumentName" class="form-control" name="instrumentName" v-validate="'required|alpha'">
-            </label>
-            <span v-show="errors.has('instrumentName')" style="color:red">Invalid instrument name</span>
-            <label class="form-label">
-              Purchase Date
-              <input v-model="dataObject.purchasedDate" type="date" class="form-control" name="purchasedDate" v-validate="'required'">
-            </label>
-            <span v-show="errors.has('purchasedDate')" style="color:red">Invalid date</span>
-            <label class="form-label">
-              Category ID <br>
-              <select v-model="dataObject.categoryId" class="form-control" name="categoryId" v-validate="'required'">
-                <option v-for="choice in instrumentCategories" :value ="choice.category_id">{{ choice.instrument_type }}</option>
+              Student <ID></ID>
+              <select v-model="dataObject.studentId" class="form-control">
+                <option v-for="choice in studentNames" :value ="choice.student_id">{{ choice.name }}</option>
               </select>
             </label>
-            <span v-show="errors.has('categoryId')" style="color:red">Invalid category ID</span>
+            <label class="form-label">
+              Instrument ID
+              <select v-model="dataObject.instrumentId" class="form-control">
+                <option v-for="choice in instrumentNames" :value ="choice.instrument_id">{{ choice.instrument_name }}</option>
+              </select>
+            </label>
           </div>
           <div class="modal-footer text-right">
             <button class="modal-default-button" @click="saveRecord()">
@@ -59,7 +54,7 @@
       </div>
     </transition>
     <div>
-      <button id="show-modal" @click="showEditModal = true">Edit</button>
+      <button id="show-modal" @click="showEditModal = true" disabled>Edit</button>
       <button id="show-delete-modal" @click="showDeleteModal = true">Delete</button>
     </div>
   </div>
@@ -72,7 +67,8 @@
     },
     data () {
       return {
-        instrumentCategories: {},
+        instrumentNames: {},
+        studentNames: {},
         showEditModal: false,
         showDeleteModal: false,
         dataObject: {},
@@ -82,30 +78,26 @@
     },
     methods: {
       saveRecord: function () {
-        this.$validator.validateAll().then((result) => {
-          if (result) {
-            this.$http.patch('http://localhost:3000/updateInstrument', this.dataObject).then(function (res) {
-              if (res.ok && res.status === 200) {
-                return alert('Instrument updated successfully')
-              }
-              alert('Unable to update this intrument')
-            }).catch(function (err) {
-              console.log(err)
-              alert('Unable to update this intrument')
-            })
-            this.close()
-          }
-        })
-      },
-      deleteRecord: function () {
-        this.$http.post('http://localhost:3000/removeInstrument', this.dataObject).then(function (res) {
+        this.$http.patch('http://localhost:3000/updatePlay', this.dataObject).then(function (res) {
           if (res.ok && res.status === 200) {
-            return alert('Instrument deleted successfully')
+            return alert('Play updated successfully')
           }
-          alert('Unable to delete this intrument')
+          alert('Unable to update this play')
         }).catch(function (err) {
           console.log(err)
-          alert('Unable to delete this intrument')
+          alert('Unable to update this play')
+        })
+        this.close()
+      },
+      deleteRecord: function () {
+        this.$http.post('http://localhost:3000/removePlay', this.dataObject).then(function (res) {
+          if (res.ok && res.status === 200) {
+            return alert('Play deleted successfully')
+          }
+          alert('Unable to delete this play')
+        }).catch(function (err) {
+          console.log(err)
+          alert('Unable to delete this play')
         })
         this.close()
       },
@@ -116,16 +108,17 @@
         this.body = ''
       }
     },
-    created: function () {
-      this.$http.get('http://localhost:3000/getAllCategories').then(function (data) {   /* get address here */
-        this.instrumentCategories = [...data.body]
+    created () {
+      this.$http.get('http://localhost:3000/getAllStudents').then(function (data) {   /* get address here */
+        this.studentNames = [...data.body]
+      })
+      this.$http.get('http://localhost:3000/getAllInstruments').then(function (data) {   /* get address here */
+        this.instrumentNames = [...data.body]
       })
     },
     mounted: function () {
+      this.dataObject.studentId = this.editData.student_id
       this.dataObject.instrumentId = this.editData.instrument_id
-      this.dataObject.instrumentName = this.editData.instrument_name
-      this.dataObject.categoryId = this.editData.category_id
-      this.dataObject.purchasedDate = this.editData.purchased_date
       document.addEventListener('keydown', (e) => {
         if (e.keyCode === 27) {
           this.close()

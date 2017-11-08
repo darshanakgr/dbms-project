@@ -8,22 +8,12 @@
           </div>
           <div class="modal-body">
             <label class="form-label">
-              Instrument Name
-              <input v-model="dataObject.instrumentName" class="form-control" name="instrumentName" v-validate="'required|alpha'">
-            </label>
-            <span v-show="errors.has('instrumentName')" style="color:red">Invalid instrument name</span>
-            <label class="form-label">
-              Purchase Date
-              <input v-model="dataObject.purchasedDate" type="date" class="form-control" name="purchasedDate" v-validate="'required'">
-            </label>
-            <span v-show="errors.has('purchasedDate')" style="color:red">Invalid date</span>
-            <label class="form-label">
-              Category ID <br>
-              <select v-model="dataObject.categoryId" class="form-control" name="categoryId" v-validate="'required'">
-                <option v-for="choice in instrumentCategories" :value ="choice.category_id">{{ choice.instrument_type }}</option>
+              Absent / Present
+              <select v-model="dataObject.absent_present" class="form-control">
+                <option value ="0">Absent</option>
+                <option value ="1">Present</option>
               </select>
             </label>
-            <span v-show="errors.has('categoryId')" style="color:red">Invalid category ID</span>
           </div>
           <div class="modal-footer text-right">
             <button class="modal-default-button" @click="saveRecord()">
@@ -72,7 +62,6 @@
     },
     data () {
       return {
-        instrumentCategories: {},
         showEditModal: false,
         showDeleteModal: false,
         dataObject: {},
@@ -82,30 +71,26 @@
     },
     methods: {
       saveRecord: function () {
-        this.$validator.validateAll().then((result) => {
-          if (result) {
-            this.$http.patch('http://localhost:3000/updateInstrument', this.dataObject).then(function (res) {
-              if (res.ok && res.status === 200) {
-                return alert('Instrument updated successfully')
-              }
-              alert('Unable to update this intrument')
-            }).catch(function (err) {
-              console.log(err)
-              alert('Unable to update this intrument')
-            })
-            this.close()
-          }
-        })
-      },
-      deleteRecord: function () {
-        this.$http.post('http://localhost:3000/removeInstrument', this.dataObject).then(function (res) {
+        this.$http.patch('http://localhost:3000/updateAttendance', this.dataObject).then(function (res) {
           if (res.ok && res.status === 200) {
-            return alert('Instrument deleted successfully')
+            return alert('Attendance record updated successfully ' + this.dataObject.absent_present)
           }
-          alert('Unable to delete this intrument')
+          alert('Unable to update this attendance record 1')
         }).catch(function (err) {
           console.log(err)
-          alert('Unable to delete this intrument')
+          alert('Unable to update this attendance record 2')
+        })
+        this.close()
+      },
+      deleteRecord: function () {
+        this.$http.post('http://localhost:3000/removeAttendance', this.dataObject).then(function (res) {
+          if (res.ok && res.status === 200) {
+            return alert('Attendance record deleted successfully')
+          }
+          alert('Unable to delete attendance record-' + this.dataObject.studentId + this.dataObject.classId + this.dataObject.attendDate)
+        }).catch(function (err) {
+          console.log(err)
+          alert('Unable to delete attendance record--' + this.dataObject.studentId)
         })
         this.close()
       },
@@ -116,16 +101,11 @@
         this.body = ''
       }
     },
-    created: function () {
-      this.$http.get('http://localhost:3000/getAllCategories').then(function (data) {   /* get address here */
-        this.instrumentCategories = [...data.body]
-      })
-    },
     mounted: function () {
-      this.dataObject.instrumentId = this.editData.instrument_id
-      this.dataObject.instrumentName = this.editData.instrument_name
-      this.dataObject.categoryId = this.editData.category_id
-      this.dataObject.purchasedDate = this.editData.purchased_date
+      this.dataObject.studentId = this.editData.student_id
+      this.dataObject.classId = this.editData.class_id
+      this.dataObject.attendDate = this.editData.attend_date
+      this.dataObject.absent_present = this.editData.is_present
       document.addEventListener('keydown', (e) => {
         if (e.keyCode === 27) {
           this.close()

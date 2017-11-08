@@ -8,22 +8,35 @@
           </div>
           <div class="modal-body">
             <label class="form-label">
-              Instrument Name
-              <input v-model="dataObject.instrumentName" class="form-control" name="instrumentName" v-validate="'required|alpha'">
+              Student Name
+              <input v-model="dataObject.name" class="form-control" name="name" v-validate="'required|alpha'">
             </label>
-            <span v-show="errors.has('instrumentName')" style="color:red">Invalid instrument name</span>
+            <span v-show="errors.has('name')" style="color:red">Invalid name</span>
             <label class="form-label">
-              Purchase Date
-              <input v-model="dataObject.purchasedDate" type="date" class="form-control" name="purchasedDate" v-validate="'required'">
-            </label>
-            <span v-show="errors.has('purchasedDate')" style="color:red">Invalid date</span>
-            <label class="form-label">
-              Category ID <br>
-              <select v-model="dataObject.categoryId" class="form-control" name="categoryId" v-validate="'required'">
-                <option v-for="choice in instrumentCategories" :value ="choice.category_id">{{ choice.instrument_type }}</option>
+              Gender
+              <select v-model="dataObject.gender" class="form-control" name="gender" v-validate="'required'">
+                <option value ="male">Male</option>
+                <option value ="female">Female</option>
               </select>
             </label>
-            <span v-show="errors.has('categoryId')" style="color:red">Invalid category ID</span>
+            <span v-show="errors.has('gender')" style="color:red">Invalid gender</span>
+            <label class="form-label">
+              Registration date
+              <input v-model="dataObject.registerDate" type="date" class="form-control" name="registerDate" v-validate="'required'">
+            </label>
+            <span v-show="errors.has('registerDate')" style="color:red">Invalid date</span>
+            <label class="form-label">
+              Mobile No
+              <input v-model="dataObject.mobileNo" class="form-control" name="mobileNo" v-validate="'required|digits:10'">
+            </label>
+            <span v-show="errors.has('mobileNo')" style="color:red">Invalid mobile no</span>
+            <label class="form-label">
+              Parent ID
+              <select v-model="dataObject.parentId" class="form-control" name="parentId" v-validate="'required'">
+                <option v-for="choice in studentParents" :value ="choice.parent_id">{{ choice.name }}</option>
+              </select>
+            </label>
+            <span v-show="errors.has('parentId')" style="color:red">Invalid parent ID</span>
           </div>
           <div class="modal-footer text-right">
             <button class="modal-default-button" @click="saveRecord()">
@@ -72,7 +85,7 @@
     },
     data () {
       return {
-        instrumentCategories: {},
+        studentParents: {},
         showEditModal: false,
         showDeleteModal: false,
         dataObject: {},
@@ -84,28 +97,28 @@
       saveRecord: function () {
         this.$validator.validateAll().then((result) => {
           if (result) {
-            this.$http.patch('http://localhost:3000/updateInstrument', this.dataObject).then(function (res) {
+            this.$http.patch('http://localhost:3000/updateStudent', this.dataObject).then(function (res) {
               if (res.ok && res.status === 200) {
-                return alert('Instrument updated successfully')
+                return alert('Student updated successfully')
               }
-              alert('Unable to update this intrument')
+              alert('Unable to update this student')
             }).catch(function (err) {
               console.log(err)
-              alert('Unable to update this intrument')
+              alert('Unable to update this student')
             })
             this.close()
           }
         })
       },
       deleteRecord: function () {
-        this.$http.post('http://localhost:3000/removeInstrument', this.dataObject).then(function (res) {
+        this.$http.post('http://localhost:3000/removeStudent', this.dataObject).then(function (res) {
           if (res.ok && res.status === 200) {
-            return alert('Instrument deleted successfully')
+            return alert('Student deleted successfully')
           }
-          alert('Unable to delete this intrument')
+          alert('Unable to delete this student')
         }).catch(function (err) {
           console.log(err)
-          alert('Unable to delete this intrument')
+          alert('Unable to delete this student')
         })
         this.close()
       },
@@ -116,16 +129,18 @@
         this.body = ''
       }
     },
-    created: function () {
-      this.$http.get('http://localhost:3000/getAllCategories').then(function (data) {   /* get address here */
-        this.instrumentCategories = [...data.body]
+    created () {
+      this.$http.get('http://localhost:3000/getAllParents').then(function (data) {   /* get address here */
+        this.studentParents = [...data.body]
       })
     },
     mounted: function () {
-      this.dataObject.instrumentId = this.editData.instrument_id
-      this.dataObject.instrumentName = this.editData.instrument_name
-      this.dataObject.categoryId = this.editData.category_id
-      this.dataObject.purchasedDate = this.editData.purchased_date
+      this.dataObject.studentId = this.editData.student_id
+      this.dataObject.name = this.editData.name
+      this.dataObject.gender = this.editData.gender
+      this.dataObject.registerDate = this.editData.register_date
+      this.dataObject.mobileNo = this.editData.mobile_no
+      this.dataObject.parentId = this.editData.parent_id
       document.addEventListener('keydown', (e) => {
         if (e.keyCode === 27) {
           this.close()

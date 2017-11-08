@@ -4,18 +4,43 @@
         <div class="modal-mask" @click="close" v-show="showModal">
             <div class="modal-container" @click.stop>
                 <div class="modal-header">
-                    <h3>New Classroom</h3>
+                    <h3>New Student</h3>
                 </div>
                 <div class="modal-body">
                     <label class="form-label">
-                        Building name
-                        <input v-model="dataObject.building" class="form-control" name="buildingName" v-validate="'required|alpha'">
+                      Student Name
+                      <input v-model="dataObject.name" class="form-control" name="name" v-validate="'required|alpha'">
                     </label>
-                    <span v-show="errors.has('buildingName')" style="color:red">Invalid building name</span>
+                    <span v-show="errors.has('name')" style="color:red">Invalid name</span>
+                    <label class="form-label">
+                      Gender
+                      <select v-model="dataObject.gender" class="form-control" name="gender" v-validate="'required'">
+                        <option value ="male">Male</option>
+                        <option value ="female">Female</option>
+                      </select>
+                    </label>
+                    <span v-show="errors.has('gender')" style="color:red">Invalid gender</span>
+                    <label class="form-label">
+                      Registration date
+                      <input v-model="dataObject.registerDate" type="date" class="form-control" name="registerDate" v-validate="'required'">
+                    </label>
+                    <span v-show="errors.has('registerDate')" style="color:red">Invalid date</span>
+                    <label class="form-label">
+                      Mobile No
+                      <input v-model="dataObject.mobileNo" class="form-control" name="mobileNo" v-validate="'required|digits:10'">
+                    </label>
+                    <span v-show="errors.has('mobileNo')" style="color:red">Invalid mobile no</span>
+                    <label class="form-label">
+                      Parent ID
+                      <select v-model="dataObject.parentId" class="form-control" name="parentId" v-validate="'required'">
+                        <option v-for="choice in studentParents" :value ="choice.parent_id">{{ choice.name }}</option>
+                      </select>
+                    </label>
+                    <span v-show="errors.has('parentId')" style="color:red">Invalid parent ID</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
-                        Add new record
+                        Add new student
                     </button>
                     <button class="modal-default-button" @click="close()">
                         Cancel
@@ -33,11 +58,11 @@
 <script>
 export default {
   props: {
-    attributes: Array,
-    databaseTable: ''
+
   },
   data () {
     return {
+      studentParents: {},
       dataObject: {},
       title: '',
       body: '',
@@ -45,17 +70,20 @@ export default {
     }
   },
   methods: {
+    open: function () {
+
+    },
     saveRecord: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          this.$http.post('http://localhost:3000/addNewClassroom', this.dataObject).then(function (res) {
+          this.$http.post('http://localhost:3000/addNewStudent', this.dataObject).then(function (res) {
             if (res.ok && res.status === 200) {
-              return alert('Classroom added successfully')
+              return alert('Student added successfully')
             }
-            alert('Unable to register this classroom')
+            alert('Unable to register this student')
           }).catch(function (err) {
             console.log(err)
-            alert('Unable to register this classroom')
+            alert('Unable to register this Student')
           })
           this.close()
         }
@@ -69,6 +97,11 @@ export default {
       this.title = ''
       this.body = ''
     }
+  },
+  created () {
+    this.$http.get('http://localhost:3000/getAllParents').then(function (data) {   /* get address here */
+      this.studentParents = [...data.body]
+    })
   },
   mounted: function () {
     document.addEventListener('keydown', (e) => {

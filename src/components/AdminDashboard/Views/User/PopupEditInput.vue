@@ -9,21 +9,16 @@
           <div class="modal-body">
             <label class="form-label">
               Instrument Name
-              <input v-model="dataObject.instrumentName" class="form-control" name="instrumentName" v-validate="'required|alpha'">
+              <input v-model="dataObject.instrumentName" class="form-control">
             </label>
-            <span v-show="errors.has('instrumentName')" style="color:red">Invalid instrument name</span>
             <label class="form-label">
               Purchase Date
-              <input v-model="dataObject.purchasedDate" type="date" class="form-control" name="purchasedDate" v-validate="'required'">
+              <input type="date" v-model="dataObject.purchasedDate" class="form-control">
             </label>
-            <span v-show="errors.has('purchasedDate')" style="color:red">Invalid date</span>
             <label class="form-label">
-              Category ID <br>
-              <select v-model="dataObject.categoryId" class="form-control" name="categoryId" v-validate="'required'">
-                <option v-for="choice in instrumentCategories" :value ="choice.category_id">{{ choice.instrument_type }}</option>
-              </select>
+              Category ID
+              <input v-model="dataObject.categoryId" class="form-control">
             </label>
-            <span v-show="errors.has('categoryId')" style="color:red">Invalid category ID</span>
           </div>
           <div class="modal-footer text-right">
             <button class="modal-default-button" @click="saveRecord()">
@@ -59,7 +54,6 @@
       </div>
     </transition>
     <div>
-      <button id="show-modal" @click="showEditModal = true">Edit</button>
       <button id="show-delete-modal" @click="showDeleteModal = true">Delete</button>
     </div>
   </div>
@@ -72,7 +66,6 @@
     },
     data () {
       return {
-        instrumentCategories: {},
         showEditModal: false,
         showDeleteModal: false,
         dataObject: {},
@@ -82,30 +75,26 @@
     },
     methods: {
       saveRecord: function () {
-        this.$validator.validateAll().then((result) => {
-          if (result) {
-            this.$http.patch('http://localhost:3000/updateInstrument', this.dataObject).then(function (res) {
-              if (res.ok && res.status === 200) {
-                return alert('Instrument updated successfully')
-              }
-              alert('Unable to update this intrument')
-            }).catch(function (err) {
-              console.log(err)
-              alert('Unable to update this intrument')
-            })
-            this.close()
-          }
-        })
-      },
-      deleteRecord: function () {
-        this.$http.post('http://localhost:3000/removeInstrument', this.dataObject).then(function (res) {
+        /* this.$http.patch('http://localhost:3000/updateInstrument', this.dataObject).then(function (res) {
           if (res.ok && res.status === 200) {
-            return alert('Instrument deleted successfully')
+            return alert('Instrument updated successfully')
           }
-          alert('Unable to delete this intrument')
+          alert('Unable to update this intrument')
         }).catch(function (err) {
           console.log(err)
-          alert('Unable to delete this intrument')
+          alert('Unable to update this intrument')
+        })
+        this.close() */
+      },
+      deleteRecord: function () {
+        this.$http.post('http://localhost:3000/removeUser', this.dataObject).then(function (res) {
+          if (res.ok && res.status === 200) {
+            return alert('User deleted successfully')
+          }
+          alert('Unable to delete this user')
+        }).catch(function (err) {
+          console.log(err)
+          alert('Unable to delete this user')
         })
         this.close()
       },
@@ -116,16 +105,8 @@
         this.body = ''
       }
     },
-    created: function () {
-      this.$http.get('http://localhost:3000/getAllCategories').then(function (data) {   /* get address here */
-        this.instrumentCategories = [...data.body]
-      })
-    },
     mounted: function () {
-      this.dataObject.instrumentId = this.editData.instrument_id
-      this.dataObject.instrumentName = this.editData.instrument_name
-      this.dataObject.categoryId = this.editData.category_id
-      this.dataObject.purchasedDate = this.editData.purchased_date
+      this.dataObject.username = this.editData.username
       document.addEventListener('keydown', (e) => {
         if (e.keyCode === 27) {
           this.close()

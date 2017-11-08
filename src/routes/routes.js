@@ -12,6 +12,12 @@ import AdminInstrument from 'src/components/AdminDashboard/Views/Instrument.vue'
 import AdminClassroom from 'src/components/AdminDashboard/Views/ClassRoom.vue'
 import AdminLesson from 'src/components/AdminDashboard/Views/Lesson.vue'
 import AdminParent from 'src/components/AdminDashboard/Views/Parent.vue'
+import AdminPlay from 'src/components/AdminDashboard/Views/Play.vue'
+import AdminSibling from 'src/components/AdminDashboard/Views/Sibling.vue'
+import AdminCategory from 'src/components/AdminDashboard/Views/Category.vue'
+import AdminEnrollment from 'src/components/AdminDashboard/Views/Enrollment.vue'
+import AdminClass from 'src/components/AdminDashboard/Views/Class.vue'
+import AdminAttendance from 'src/components/AdminDashboard/Views/Attendance.vue'
 
 /* import TeacherStudent from 'src/components/TeacherDashboard/Views/Student.vue'
 import TeacherClass from 'src/components/TeacherDashboard/Views/Class.vue'
@@ -56,6 +62,11 @@ const routes = [
         component: AdminInstrument
       },
       {
+        path: 'category',
+        name: 'category',
+        component: AdminCategory
+      },
+      {
         path: 'classroom',
         name: 'classroom',
         component: AdminClassroom
@@ -69,6 +80,31 @@ const routes = [
         path: 'parent',
         name: 'parent',
         component: AdminParent
+      },
+      {
+        path: 'play',
+        name: 'play',
+        component: AdminPlay
+      },
+      {
+        path: 'sibling',
+        name: 'sibling',
+        component: AdminSibling
+      },
+      {
+        path: 'enrollment',
+        name: 'enrollment',
+        component: AdminEnrollment
+      },
+      {
+        path: 'class',
+        name: 'class',
+        component: AdminClass
+      },
+      {
+        path: 'attendance',
+        name: 'attendance',
+        component: AdminAttendance
       }
     ]
   },

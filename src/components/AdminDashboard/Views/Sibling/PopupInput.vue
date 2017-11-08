@@ -4,18 +4,27 @@
         <div class="modal-mask" @click="close" v-show="showModal">
             <div class="modal-container" @click.stop>
                 <div class="modal-header">
-                    <h3>New Classroom</h3>
+                    <h3>New Instrument</h3>
                 </div>
                 <div class="modal-body">
                     <label class="form-label">
-                        Building name
-                        <input v-model="dataObject.building" class="form-control" name="buildingName" v-validate="'required|alpha'">
+                        Student ID
+                        <select v-model="dataObject.studentId" class="form-control" name="studentId" v-validate="'required'">
+                          <option v-for="choice in students" :value ="choice.student_id">{{  choice.student_id+" - "+choice.name}}</option>
+                        </select>
                     </label>
-                    <span v-show="errors.has('buildingName')" style="color:red">Invalid building name</span>
+                    <span v-show="errors.has('studentId')" style="color:red">Student ID is required</span>
+                    <label class="form-label">
+                      Sibling ID
+                      <select v-model="dataObject.siblingId" class="form-control" name="siblingId" v-validate="'required'">
+                        <option v-for="choice in students" :value ="choice.student_id">{{  choice.student_id+" - "+choice.name}}</option>
+                      </select>
+                    </label>
+                    <span v-show="errors.has('siblingId')" style="color:red">Sibling ID is required</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
-                        Add new record
+                        Add new sibling
                     </button>
                     <button class="modal-default-button" @click="close()">
                         Cancel
@@ -33,11 +42,11 @@
 <script>
 export default {
   props: {
-    attributes: Array,
-    databaseTable: ''
+
   },
   data () {
     return {
+      instrumentCategories: [],
       dataObject: {},
       title: '',
       body: '',
@@ -45,17 +54,20 @@ export default {
     }
   },
   methods: {
+    open: function () {
+
+    },
     saveRecord: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          this.$http.post('http://localhost:3000/addNewClassroom', this.dataObject).then(function (res) {
+          this.$http.post('http://localhost:3000/addNewSibling', this.dataObject).then(function (res) {
             if (res.ok && res.status === 200) {
-              return alert('Classroom added successfully')
+              return alert('Sibling added successfully')
             }
-            alert('Unable to register this classroom')
+            alert('Unable to register this sibling')
           }).catch(function (err) {
             console.log(err)
-            alert('Unable to register this classroom')
+            alert('Unable to register this sibling')
           })
           this.close()
         }
@@ -69,6 +81,14 @@ export default {
       this.title = ''
       this.body = ''
     }
+  },
+  created () {
+    this.$http.get('http://localhost:3000/getAllSiblings').then(function (data) {   /* get address here */
+      this.instrumentCategories = data.body // need to be changed to categories
+    })
+    this.$http.get('http://localhost:3000/getAllStudents').then(function (data) {   /* get address here */
+      this.students = [...data.body]
+    })
   },
   mounted: function () {
     document.addEventListener('keydown', (e) => {

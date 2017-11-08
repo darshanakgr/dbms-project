@@ -17,11 +17,11 @@
 </template>
 
 <script>
-  import PaperTable from './User/PaperTable.vue'
+  import PaperTable from './Parent/PaperTable.vue'
 
-  const tableColumnNames = ['Username', 'ID', 'Access Level', 'Options']
+  const tableColumnNames = ['Parent ID', 'Parent Name', 'Contact No', 'Address', 'Options']
   /* Give here the names of the attributes */
-  const tableColumns = ['username', 'id', 'access_level', 'options']
+  const tableColumns = ['parent_id', 'name', 'contact_no', 'address', 'options']
   /* Give here the column names as they are in the table */
   const tableData = []
   /* table data will be loaded upon created(), code is below */
@@ -33,8 +33,8 @@
     data () {
       return {
         table1: {
-          title: 'Users',
-          subTitle: 'All the users of this system are listed below.',
+          title: 'Parents',
+          subTitle: 'All the parents of students in this school are listed below.',
           columns: [...tableColumns],
           columnNames: [...tableColumnNames],
           data: [...tableData]
@@ -44,7 +44,7 @@
       }
     },
     created () {
-      this.$http.get('http://localhost:3000/getAllUsers').then(function (data) {   /* get address here */
+      this.$http.get('http://localhost:3000/getAllParents').then(function (data) {   /* get address here */
         this.tableData = data.body.slice(0, 10)
         /* retrive rows, 10 by 10 */
         this.table1.data = [...this.tableData]
@@ -54,7 +54,7 @@
       if (this.pageNo < 0) {
         this.pageNo = 0
       }
-      this.$http.get('http://localhost:3000/getAllUsers').then(function (data) {   /* get address here */
+      this.$http.get('http://localhost:3000/getAllParents').then(function (data) {   /* get address here */
         this.tableData = data.body.slice(this.pageNo, this.pageNo + 10)
         /* update the row range when buttons are clicked */
         if (this.tableData.length === 0) {

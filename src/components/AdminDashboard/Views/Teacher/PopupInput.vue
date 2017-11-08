@@ -4,18 +4,23 @@
         <div class="modal-mask" @click="close" v-show="showModal">
             <div class="modal-container" @click.stop>
                 <div class="modal-header">
-                    <h3>New Classroom</h3>
+                    <h3>New Teacher</h3>
                 </div>
                 <div class="modal-body">
                     <label class="form-label">
-                        Building name
-                        <input v-model="dataObject.building" class="form-control" name="buildingName" v-validate="'required|alpha'">
+                      Teacher Name
+                      <input v-model="dataObject.teacherName" class="form-control" name="teacherName" v-validate="'required|alpha'">
                     </label>
-                    <span v-show="errors.has('buildingName')" style="color:red">Invalid building name</span>
+                    <span v-show="errors.has('teacherName')" style="color:red">Invalid name</span>
+                    <label class="form-label">
+                      Contact No
+                      <input v-model="dataObject.contactNo" class="form-control" name="teacherPhone" v-validate="{digits: 10, required:true}" placeholder="0xxxxxxxxx">
+                    </label>
+                    <span v-show="errors.has('teacherPhone')" style="color:red">Invalid contact number</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
-                        Add new record
+                        Add new teacher
                     </button>
                     <button class="modal-default-button" @click="close()">
                         Cancel
@@ -33,8 +38,7 @@
 <script>
 export default {
   props: {
-    attributes: Array,
-    databaseTable: ''
+
   },
   data () {
     return {
@@ -45,17 +49,20 @@ export default {
     }
   },
   methods: {
+    open: function () {
+
+    },
     saveRecord: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          this.$http.post('http://localhost:3000/addNewClassroom', this.dataObject).then(function (res) {
+          this.$http.post('http://localhost:3000/addNewTeacher', this.dataObject).then(function (res) {
             if (res.ok && res.status === 200) {
-              return alert('Classroom added successfully')
+              return alert('Teacher added successfully')
             }
-            alert('Unable to register this classroom')
+            alert('Unable to register this teacher')
           }).catch(function (err) {
             console.log(err)
-            alert('Unable to register this classroom')
+            alert('Unable to register this teacher')
           })
           this.close()
         }

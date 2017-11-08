@@ -4,18 +4,30 @@
         <div class="modal-mask" @click="close" v-show="showModal">
             <div class="modal-container" @click.stop>
                 <div class="modal-header">
-                    <h3>New Classroom</h3>
+                    <h3>New Payment</h3>
                 </div>
                 <div class="modal-body">
                     <label class="form-label">
-                        Building name
-                        <input v-model="dataObject.building" class="form-control" name="buildingName" v-validate="'required|alpha'">
+                        Teacher ID
+                      <select v-model="dataObject.teacherId" class="form-control" name="teacherId" v-validate="'required'">
+                        <option v-for="choice in teacherNames" :value ="choice.teacher_id ">{{ choice.name }}</option>
+                      </select>
                     </label>
-                    <span v-show="errors.has('buildingName')" style="color:red">Invalid building name</span>
+                    <span v-show="errors.has('teacherId')" style="color:red">Teacher Id is required</span>
+                    <label class="form-label">
+                      Amount
+                      <input v-model="dataObject.amount" class="form-control" name="amount" v-validate="'required|numeric'">
+                    </label>
+                    <span v-show="errors.has('amount')" style="color:red">Invalid amount</span>
+                    <label class="form-label">
+                      Paid On
+                      <input v-model="dataObject.paidOn" type="date" class="form-control" name="paidDate" v-validate="'required'">
+                    </label>
+                    <span v-show="errors.has('paidDate')" style="color:red">Date is required</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
-                        Add new record
+                        Add new payment
                     </button>
                     <button class="modal-default-button" @click="close()">
                         Cancel
@@ -33,11 +45,11 @@
 <script>
 export default {
   props: {
-    attributes: Array,
-    databaseTable: ''
+
   },
   data () {
     return {
+      teacherNames: {},
       dataObject: {},
       title: '',
       body: '',
@@ -45,17 +57,20 @@ export default {
     }
   },
   methods: {
+    open: function () {
+
+    },
     saveRecord: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          this.$http.post('http://localhost:3000/addNewClassroom', this.dataObject).then(function (res) {
+          this.$http.post('http://localhost:3000/addNewPayment', this.dataObject).then(function (res) {
             if (res.ok && res.status === 200) {
-              return alert('Classroom added successfully')
+              return alert('Payment added successfully')
             }
-            alert('Unable to register this classroom')
+            alert('Unable to register this payment')
           }).catch(function (err) {
             console.log(err)
-            alert('Unable to register this classroom')
+            alert('Unable to register this payment')
           })
           this.close()
         }
@@ -69,6 +84,11 @@ export default {
       this.title = ''
       this.body = ''
     }
+  },
+  created () {
+    this.$http.get('http://localhost:3000/getAllTeachers').then(function (data) {   /* get address here */
+      this.teacherNames = [...data.body]
+    })
   },
   mounted: function () {
     document.addEventListener('keydown', (e) => {

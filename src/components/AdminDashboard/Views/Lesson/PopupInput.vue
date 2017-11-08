@@ -4,18 +4,18 @@
         <div class="modal-mask" @click="close" v-show="showModal">
             <div class="modal-container" @click.stop>
                 <div class="modal-header">
-                    <h3>New Classroom</h3>
+                    <h3>New Instrument</h3>
                 </div>
                 <div class="modal-body">
                     <label class="form-label">
-                        Building name
-                        <input v-model="dataObject.building" class="form-control" name="buildingName" v-validate="'required|alpha'">
+                        Lesson Name
+                        <input v-model="dataObject.lessonName" class="form-control" name="lessonName" v-validate="'required|alpha'">
                     </label>
-                    <span v-show="errors.has('buildingName')" style="color:red">Invalid building name</span>
+                    <span v-show="errors.has('lessonName')" style="color:red">Invalid lesson name</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
-                        Add new record
+                        Add new lesson
                     </button>
                     <button class="modal-default-button" @click="close()">
                         Cancel
@@ -33,11 +33,11 @@
 <script>
 export default {
   props: {
-    attributes: Array,
-    databaseTable: ''
+
   },
   data () {
     return {
+      instrumentCategories: [],
       dataObject: {},
       title: '',
       body: '',
@@ -48,14 +48,14 @@ export default {
     saveRecord: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          this.$http.post('http://localhost:3000/addNewClassroom', this.dataObject).then(function (res) {
+          this.$http.post('http://localhost:3000/addNewLesson', this.dataObject).then(function (res) {
             if (res.ok && res.status === 200) {
-              return alert('Classroom added successfully')
+              return alert('Lesson added successfully')
             }
-            alert('Unable to register this classroom')
+            alert('Unable to register this lesson')
           }).catch(function (err) {
             console.log(err)
-            alert('Unable to register this classroom')
+            alert('Unable to register this lesson')
           })
           this.close()
         }
@@ -69,6 +69,9 @@ export default {
       this.title = ''
       this.body = ''
     }
+  },
+  created () {
+
   },
   mounted: function () {
     document.addEventListener('keydown', (e) => {

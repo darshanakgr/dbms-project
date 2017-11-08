@@ -4,18 +4,31 @@
         <div class="modal-mask" @click="close" v-show="showModal">
             <div class="modal-container" @click.stop>
                 <div class="modal-header">
-                    <h3>New Classroom</h3>
+                    <h3>New User</h3>
                 </div>
                 <div class="modal-body">
                     <label class="form-label">
-                        Building name
-                        <input v-model="dataObject.building" class="form-control" name="buildingName" v-validate="'required|alpha'">
+                        Username
+                        <input v-model="dataObject.username" class="form-control" name="username" v-validate="'required|alpha'">
                     </label>
-                    <span v-show="errors.has('buildingName')" style="color:red">Invalid building name</span>
+                    <span v-show="errors.has('username')" style="color:red">Invalid username</span>
+                    <label class="form-label">
+                      ID
+                      <input v-model="dataObject.Id" class="form-control" name="userId" v-validate="'required'">
+                    </label>
+                    <span v-show="errors.has('userId')" style="color:red">Invalid user ID</span>
+                    <label class="form-label">
+                      Access Level
+                      <select v-model="dataObject.accessLevel" name="accessLevel" v-validate="'required'" class="form-control">
+                        <option value ="2">Administrator</option>
+                        <option value ="1">Teacher</option>
+                      </select>
+                    </label>
+                    <span v-show="errors.has('accessLevel')" style="color:red">Invalid access level</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
-                        Add new record
+                        Add new user
                     </button>
                     <button class="modal-default-button" @click="close()">
                         Cancel
@@ -33,11 +46,11 @@
 <script>
 export default {
   props: {
-    attributes: Array,
-    databaseTable: ''
+
   },
   data () {
     return {
+      instrumentCategories: [],
       dataObject: {},
       title: '',
       body: '',
@@ -48,14 +61,15 @@ export default {
     saveRecord: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          this.$http.post('http://localhost:3000/addNewClassroom', this.dataObject).then(function (res) {
+          this.dataObject.password = 'defaultpass'
+          this.$http.post('http://localhost:3000/addNewUser', this.dataObject).then(function (res) {
             if (res.ok && res.status === 200) {
-              return alert('Classroom added successfully')
+              return alert('User added successfully')
             }
-            alert('Unable to register this classroom')
+            alert('Unable to register this user')
           }).catch(function (err) {
             console.log(err)
-            alert('Unable to register this classroom')
+            alert('Unable to register this user')
           })
           this.close()
         }
@@ -69,6 +83,11 @@ export default {
       this.title = ''
       this.body = ''
     }
+  },
+  created () {
+    this.$http.get('http://localhost:3000/getAllUsers').then(function (data) {   /* get address here */
+      this.instrumentCategories = data.body // need to be changed to categories
+    })
   },
   mounted: function () {
     document.addEventListener('keydown', (e) => {
