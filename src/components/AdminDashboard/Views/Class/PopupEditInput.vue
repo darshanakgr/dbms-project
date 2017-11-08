@@ -9,22 +9,25 @@
           <div class="modal-body">
             <label class="form-label">
               Class Year
-              <input v-model="dataObject.classYear" class="form-control">
+              <input v-model="dataObject.classYear" name="classYear" v-validate="'required|digits:4'" class="form-control">
             </label>
+            <span v-show="errors.has('classYear')" style="color:red">Invalid year</span>
             <label class="form-label">
               Class Time
-              <input v-model="dataObject.classTime" type="date" class="form-control">
+              <input v-model="dataObject.classTime" type="time" name="classTime" v-validate="'required'" class="form-control">
             </label>
+            <span v-show="errors.has('classTime')" style="color:red">Invalid time</span>
             <label class="form-label">
               Class Type
-              <select v-model="dataObject.classType" class="form-control">
+              <select v-model="dataObject.classType" name="classType" v-validate="'required'" class="form-control">
                 <option value ="0">Individual</option>
                 <option value ="1">Group</option>
               </select>
             </label>
+            <span v-show="errors.has('classType')" style="color:red">Invalid class type</span>
             <label class="form-label">
               Class Day
-              <select v-model="dataObject.classDay" class="form-control">
+              <select v-model="dataObject.classDay" class="form-control" name="classDay" v-validate="'required'">
                 <option value ="monday">Monday</option>
                 <option value ="tuesday">Tuesday</option>
                 <option value ="wednesday">Wednesday</option>
@@ -34,24 +37,28 @@
                 <option value ="sunday">Sunday</option>
               </select>
             </label>
+            <span v-show="errors.has('classDay')" style="color:red">Invalid class day</span>
             <label class="form-label">
               Classroom ID <br>
-              <select v-model="dataObject.classroomId" class="form-control">
+              <select v-model="dataObject.classroomId" class="form-control" name="classroomId" v-validate="'required'">
                 <option v-for="choice in classroomIds" :value ="choice.class_room_id">{{ choice.building }}</option>
               </select>
             </label>
+            <span v-show="errors.has('classroomId')" style="color:red">Invalid classroom ID</span>
             <label class="form-label">
               Lesson ID <br>
-              <select v-model="dataObject.lessonId" class="form-control">
-                <option v-for="choice in lessonIds" :value="choice.lesson_id">{{ choice.lesson_name }}</option>
+              <select v-model="dataObject.lessonId" class="form-control" name="lessonId" v-validate="'required'">
+                <option v-for="choice in lessonIds" :value ="choice.lesson_id">{{ choice.lesson_name }}</option>
               </select>
             </label>
+            <span v-show="errors.has('lessonId')" style="color:red">Invalid lesson ID</span>
             <label class="form-label">
               Teacher ID <br>
-              <select v-model="dataObject.teacherId" class="form-control">
-                <option v-for="choice in teacherIds" :value="choice.teacher_id">{{ choice.name }}</option>
+              <select v-model="dataObject.teacherId" class="form-control" name="teacherId" v-validate="'required'">
+                <option v-for="choice in teacherIds" :value ="choice.teacher_id">{{ choice.name }}</option>
               </select>
             </label>
+            <span v-show="errors.has('teacherId')" style="color:red">Invalid teacher ID</span>
           </div>
           <div class="modal-footer text-right">
             <button class="modal-default-button" @click="saveRecord()">
@@ -112,16 +119,20 @@
     },
     methods: {
       saveRecord: function () {
-        this.$http.patch('http://localhost:3000/updateClass', this.dataObject).then(function (res) {
-          if (res.ok && res.status === 200) {
-            return alert('Class updated successfully')
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.$http.patch('http://localhost:3000/updateClass', this.dataObject).then(function (res) {
+              if (res.ok && res.status === 200) {
+                return alert('Class updated successfully')
+              }
+              alert('Unable to update this class')
+            }).catch(function (err) {
+              console.log(err)
+              alert('Unable to update this class')
+            })
+            this.close()
           }
-          alert('Unable to update this class')
-        }).catch(function (err) {
-          console.log(err)
-          alert('Unable to update this class')
         })
-        this.close()
       },
       deleteRecord: function () {
         this.$http.post('http://localhost:3000/removeClass', this.dataObject).then(function (res) {

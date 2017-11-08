@@ -14,7 +14,7 @@ const getAllClasses = () => {
 const addNewClass = (mClass) => {
   return new Promise((resolve, reject) => {
     getNextId().then((nextId) => {
-      connection.query("INSERT INTO instrument VALUE(?,?,?,?,?,?,?,?)", [
+      connection.query("INSERT INTO class VALUE(?,?,?,?,?,?,?,?)", [
         nextId,
         mClass.classYear,
         mClass.classTime,
@@ -76,7 +76,7 @@ const getNextId = () => {
       }
 
       if (result.length) {
-        resolve("CL" + ("000" + (parseInt(result[0].instrument_id.split("CL")[1]) + 1)).slice(-3));
+        resolve("CL" + ("000" + (parseInt(result[0].class_id.split("CL")[1]) + 1)).slice(-3));
       } else {
         resolve("CL001");
       }

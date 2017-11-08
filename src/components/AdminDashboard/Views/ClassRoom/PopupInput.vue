@@ -9,8 +9,9 @@
                 <div class="modal-body">
                     <label class="form-label">
                         Building name
-                        <input v-model="dataObject.building" class="form-control">
+                        <input v-model="dataObject.building" class="form-control" name="buildingName" v-validate="'required|alpha'">
                     </label>
+                    <span v-show="errors.has('buildingName')" style="color:red">Invalid building name</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
@@ -45,20 +46,20 @@ export default {
   },
   methods: {
     saveRecord: function () {
-      if (Object.keys(this.dataObject).length < 3) {
-        alert('Fill all the fields')
-        return
-      }
-      this.$http.post('http://localhost:3000/addNewClassroom', this.dataObject).then(function (res) {
-        if (res.ok && res.status === 200) {
-          return alert('Classroom added successfully')
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.$http.post('http://localhost:3000/addNewClassroom', this.dataObject).then(function (res) {
+            if (res.ok && res.status === 200) {
+              return alert('Classroom added successfully')
+            }
+            alert('Unable to register this classroom')
+          }).catch(function (err) {
+            console.log(err)
+            alert('Unable to register this classroom')
+          })
+          this.close()
         }
-        alert('Unable to register this classroom')
-      }).catch(function (err) {
-        console.log(err)
-        alert('Unable to register this classroom')
       })
-      this.close()
     },
     close: function () {
       for (var key in this.dataObject) {

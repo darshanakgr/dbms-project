@@ -9,18 +9,21 @@
           <div class="modal-body">
             <label class="form-label">
               Instrument Name
-              <input v-model="dataObject.instrumentName" class="form-control">
+              <input v-model="dataObject.instrumentName" class="form-control" name="instrumentName" v-validate="'required|alpha'">
             </label>
+            <span v-show="errors.has('instrumentName')" style="color:red">Invalid instrument name</span>
             <label class="form-label">
               Purchase Date
-              <input type="date" v-model="dataObject.purchasedDate" class="form-control">
+              <input v-model="dataObject.purchasedDate" type="date" class="form-control" name="purchasedDate" v-validate="'required'">
             </label>
+            <span v-show="errors.has('purchasedDate')" style="color:red">Invalid date</span>
             <label class="form-label">
-              Category ID
-              <select v-model="dataObject.categoryId" class="form-control">
+              Category ID <br>
+              <select v-model="dataObject.categoryId" class="form-control" name="categoryId" v-validate="'required'">
                 <option v-for="choice in instrumentCategories" :value ="choice.category_id">{{ choice.instrument_type }}</option>
               </select>
             </label>
+            <span v-show="errors.has('categoryId')" style="color:red">Invalid category ID</span>
           </div>
           <div class="modal-footer text-right">
             <button class="modal-default-button" @click="saveRecord()">
@@ -79,16 +82,20 @@
     },
     methods: {
       saveRecord: function () {
-        this.$http.patch('http://localhost:3000/updateInstrument', this.dataObject).then(function (res) {
-          if (res.ok && res.status === 200) {
-            return alert('Instrument updated successfully')
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.$http.patch('http://localhost:3000/updateInstrument', this.dataObject).then(function (res) {
+              if (res.ok && res.status === 200) {
+                return alert('Instrument updated successfully')
+              }
+              alert('Unable to update this intrument')
+            }).catch(function (err) {
+              console.log(err)
+              alert('Unable to update this intrument')
+            })
+            this.close()
           }
-          alert('Unable to update this intrument')
-        }).catch(function (err) {
-          console.log(err)
-          alert('Unable to update this intrument')
         })
-        this.close()
       },
       deleteRecord: function () {
         this.$http.post('http://localhost:3000/removeInstrument', this.dataObject).then(function (res) {

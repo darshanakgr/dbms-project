@@ -9,8 +9,9 @@
           <div class="modal-body">
             <label class="form-label">
               Building name
-              <input v-model="dataObject.building" class="form-control">
+              <input v-model="dataObject.building" class="form-control" name="buildingName" v-validate="'required|alpha'">
             </label>
+            <span v-show="errors.has('buildingName')" style="color:red">Invalid building name</span>
           </div>
           <div class="modal-footer text-right">
             <button class="modal-default-button" @click="saveRecord()">
@@ -68,16 +69,20 @@ export default {
   },
   methods: {
     saveRecord: function () {
-      this.$http.patch('http://localhost:3000/updateClassroom', this.dataObject).then(function (res) {
-        if (res.ok && res.status === 200) {
-          return alert('Classroom updated successfully')
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.$http.patch('http://localhost:3000/updateClassroom', this.dataObject).then(function (res) {
+            if (res.ok && res.status === 200) {
+              return alert('Classroom updated successfully')
+            }
+            alert('Unable to update this classroom')
+          }).catch(function (err) {
+            console.log(err)
+            alert('Unable to update this classroom')
+          })
+          this.close()
         }
-        alert('Unable to update this classroom')
-      }).catch(function (err) {
-        console.log(err)
-        alert('Unable to update this classroom')
       })
-      this.close()
     },
     deleteRecord: function () {
       this.$http.post('http://localhost:3000/removeClassroom', this.dataObject).then(function (res) {

@@ -9,18 +9,21 @@
                 <div class="modal-body">
                     <label class="form-label">
                         Teacher ID
-                      <select v-model="dataObject.teacherId" class="form-control">
+                      <select v-model="dataObject.teacherId" class="form-control" name="teacherId" v-validate="'required'">
                         <option v-for="choice in teacherNames" :value ="choice.teacher_id ">{{ choice.name }}</option>
                       </select>
                     </label>
+                    <span v-show="errors.has('teacherId')" style="color:red">Teacher Id is required</span>
                     <label class="form-label">
                       Amount
-                      <input v-model="dataObject.amount" class="form-control">
+                      <input v-model="dataObject.amount" class="form-control" name="amount" v-validate="'required|numeric'">
                     </label>
+                    <span v-show="errors.has('amount')" style="color:red">Invalid amount</span>
                     <label class="form-label">
                       Paid On
-                      <input v-model="dataObject.paidOn" type="date" class="form-control">
+                      <input v-model="dataObject.paidOn" type="date" class="form-control" name="paidDate" v-validate="'required'">
                     </label>
+                    <span v-show="errors.has('paidDate')" style="color:red">Date is required</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
@@ -58,20 +61,20 @@ export default {
 
     },
     saveRecord: function () {
-      if (Object.keys(this.dataObject).length < 3) {
-        alert('Fill all the fields')
-        return
-      }
-      this.$http.post('http://localhost:3000/addNewPayment', this.dataObject).then(function (res) {
-        if (res.ok && res.status === 200) {
-          return alert('Payment added successfully')
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.$http.post('http://localhost:3000/addNewPayment', this.dataObject).then(function (res) {
+            if (res.ok && res.status === 200) {
+              return alert('Payment added successfully')
+            }
+            alert('Unable to register this payment')
+          }).catch(function (err) {
+            console.log(err)
+            alert('Unable to register this payment')
+          })
+          this.close()
         }
-        alert('Unable to register this payment')
-      }).catch(function (err) {
-        console.log(err)
-        alert('Unable to register this payment')
       })
-      this.close()
     },
     close: function () {
       for (var key in this.dataObject) {

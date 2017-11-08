@@ -9,12 +9,18 @@
           <div class="modal-body">
             <label class="form-label">
               Student ID
-              <input v-model="dataObject.studentId" class="form-control">
+              <select v-model="dataObject.studentId" name="studentId" v-validate="'required'" class="form-control">
+                <option v-for="choice in studentIds" :value ="choice.student_id">{{ choice.name }}</option>
+              </select>
             </label>
+            <span v-show="errors.has('studentId')" style="color:red">Invalid student ID</span>
             <label class="form-label">
               Class ID
-              <input v-model="dataObject.classId" class="form-control">
+              <select v-model="dataObject.classId" name="classId" v-validate="'required'" class="form-control">
+                <option v-for="choice in classIds" :value ="choice.class_id">{{ choice.class_id }}</option>
+              </select>
             </label>
+            <span v-show="errors.has('classId')" style="color:red">Invalid class ID</span>
           </div>
           <div class="modal-footer text-right">
             <button class="modal-default-button" @click="saveRecord()">
@@ -50,20 +56,20 @@
     },
     methods: {
       saveRecord: function () {
-        if (Object.keys(this.dataObject).length < 3) {
-          alert('Fill all the fields')
-          return
-        }
-        this.$http.post('http://localhost:3000/addNewEnrollment', this.dataObject).then(function (res) {
-          if (res.ok && res.status === 200) {
-            return alert('Enrollment is successfull')
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.$http.post('http://localhost:3000/addNewEnrollment', this.dataObject).then(function (res) {
+              if (res.ok && res.status === 200) {
+                return alert('Enrollment is successfull')
+              }
+              alert('Unable to enroll')
+            }).catch(function (err) {
+              console.log(err)
+              alert('Unable to enroll-')
+            })
+            this.close()
           }
-          alert('Unable to enroll')
-        }).catch(function (err) {
-          console.log(err)
-          alert('Unable to enroll-')
         })
-        this.close()
       },
       close: function () {
         for (var key in this.dataObject) {
@@ -79,7 +85,7 @@
         this.studentIds = [...data.body]
       })
       this.$http.get('http://localhost:3000/getAllClasses').then(function (data) {   /* get address here */
-        this.studentIds = [...data.body]
+        this.classIds = [...data.body]
       })
     },
     mounted: function () {

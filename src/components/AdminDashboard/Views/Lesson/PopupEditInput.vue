@@ -9,8 +9,9 @@
           <div class="modal-body">
             <label class="form-label">
               Lesson Name
-              <input v-model="dataObject.lessonName" class="form-control">
+              <input v-model="dataObject.lessonName" class="form-control" name="lessonName" v-validate="'required|alpha'">
             </label>
+            <span v-show="errors.has('lessonName')" style="color:red">Invalid lesson name</span>
           </div>
           <div class="modal-footer text-right">
             <button class="modal-default-button" @click="saveRecord()">
@@ -68,16 +69,20 @@
     },
     methods: {
       saveRecord: function () {
-        this.$http.patch('http://localhost:3000/updateLesson', this.dataObject).then(function (res) {
-          if (res.ok && res.status === 200) {
-            return alert('Lesson updated successfully')
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.$http.patch('http://localhost:3000/updateLesson', this.dataObject).then(function (res) {
+              if (res.ok && res.status === 200) {
+                return alert('Lesson updated successfully')
+              }
+              alert('Unable to update this lesson')
+            }).catch(function (err) {
+              console.log(err)
+              alert('Unable to update this lesson')
+            })
+            this.close()
           }
-          alert('Unable to update this lesson')
-        }).catch(function (err) {
-          console.log(err)
-          alert('Unable to update this lesson')
         })
-        this.close()
       },
       deleteRecord: function () {
         this.$http.post('http://localhost:3000/removeLesson', this.dataObject).then(function (res) {

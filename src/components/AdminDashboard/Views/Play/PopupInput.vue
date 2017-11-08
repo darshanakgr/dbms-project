@@ -57,10 +57,6 @@ export default {
 
     },
     saveRecord: function () {
-      if (Object.keys(this.dataObject).length < 3) {
-        alert('Fill all the fields')
-        return
-      }
       this.$http.post('http://localhost:3000/addNewPlay', this.dataObject).then(function (res) {
         if (res.ok && res.status === 200) {
           return alert('Play added successfully')

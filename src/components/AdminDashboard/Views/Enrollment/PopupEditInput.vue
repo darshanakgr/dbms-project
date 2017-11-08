@@ -9,8 +9,11 @@
           <div class="modal-body">
             <label class="form-label">
               Edit Enrollment
-              <input :value="editData.class_id" v-model="dataObject.classId" class="form-control">
+              <select v-model="dataObject.classId" name="classId" v-validate="'required'" class="form-control">
+                <option v-for="choice in classIds" :value ="choice.class_id">{{ choice.class_id }}</option>
+              </select>
             </label>
+            <span v-show="errors.has('classId')" style="color:red">Invalid class ID</span>
           </div>
           <div class="modal-footer text-right">
             <button class="modal-default-button" @click="saveRecord()">
@@ -59,6 +62,7 @@
     },
     data () {
       return {
+        classIds: {},
         showEditModal: false,
         showDeleteModal: false,
         dataObject: {},
@@ -68,16 +72,20 @@
     },
     methods: {
       saveRecord: function () {
-        this.$http.patch('http://localhost:3000/updateEnrollment', this.dataObject).then(function (res) {
-          if (res.ok && res.status === 200) {
-            return alert('Enrollment updated successfully')
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.$http.patch('http://localhost:3000/updateEnrollment', this.dataObject).then(function (res) {
+              if (res.ok && res.status === 200) {
+                return alert('Enrollment updated successfully')
+              }
+              alert('Unable to update this enrollment')
+            }).catch(function (err) {
+              console.log(err)
+              alert('Unable to update this enrollment')
+            })
+            this.close()
           }
-          alert('Unable to update this enrollment')
-        }).catch(function (err) {
-          console.log(err)
-          alert('Unable to update this enrollment')
         })
-        this.close()
       },
       deleteRecord: function () {
         this.$http.post('http://localhost:3000/removeEnrollment', this.dataObject).then(function (res) {
@@ -97,6 +105,11 @@
         this.title = ''
         this.body = ''
       }
+    },
+    created () {
+      this.$http.get('http://localhost:3000/getAllClasses').then(function (data) {   /* get address here */
+        this.classIds = [...data.body]
+      })
     },
     mounted: function () {
       this.dataObject.studentId = this.editData.student_id

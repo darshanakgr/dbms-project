@@ -9,8 +9,9 @@
           <div class="modal-body">
             <label class="form-label">
               Instrument Type
-              <input v-model="dataObject.instrumentType" class="form-control">
+              <input v-model="dataObject.instrumentType" name="instrumentType" v-validate="'required|alpha'" class="form-control">
             </label>
+            <span v-show="errors.has('instrumentType')" style="color:red">Invalid instrument type</span>
           </div>
           <div class="modal-footer text-right">
             <button class="modal-default-button" @click="saveRecord()">
@@ -43,20 +44,20 @@
     },
     methods: {
       saveRecord: function () {
-        if (Object.keys(this.dataObject).length < 3) {
-          alert('Fill all the fields')
-          return
-        }
-        this.$http.post('http://localhost:3000/addNewCategory', this.dataObject).then(function (res) {
-          if (res.ok && res.status === 200) {
-            return alert('Category added successfully')
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.$http.post('http://localhost:3000/addNewCategory', this.dataObject).then(function (res) {
+              if (res.ok && res.status === 200) {
+                return alert('Category added successfully')
+              }
+              alert('Unable to register this category -')
+            }).catch(function (err) {
+              console.log(err)
+              alert('Unable to register this category--')
+            })
+            this.close()
           }
-          alert('Unable to register this category -')
-        }).catch(function (err) {
-          console.log(err)
-          alert('Unable to register this category--')
         })
-        this.close()
       },
       close: function () {
         for (var key in this.dataObject) {

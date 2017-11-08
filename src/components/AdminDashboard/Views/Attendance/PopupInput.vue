@@ -9,27 +9,31 @@
           <div class="modal-body">
             <label class="form-label">
               Student ID
-              <select v-model="dataObject.studentId" class="form-control">
+              <select v-model="dataObject.studentId" name="studentId" class="form-control" v-validate="'required'">
                 <option v-for="choice in studentIds" :value ="choice.student_id">{{ choice.student_id }}</option>
               </select>
             </label>
+            <span v-show="errors.has('studentId')" style="color:red">Select an ID</span>
             <label class="form-label">
               Class ID
-              <select v-model="dataObject.classId" class="form-control">
+              <select v-model="dataObject.classId" name="classId" class="form-control" v-validate="'required'">
                 <option v-for="choice in classIds" :value ="choice.class_id">{{ choice.class_id }}</option>
               </select>
             </label>
+            <span v-show="errors.has('classId')" style="color:red">Select an ID</span>
             <label class="form-label">
               Date
-              <input type="date" v-model="dataObject.attendDate" class="form-control">
+              <input type="date" v-model="dataObject.attendDate" name="attendDate" class="form-control" v-validate="{required:true}">
             </label>
+            <span v-show="errors.has('attendDate')" style="color:red">Date error</span>
             <label class="form-label">
               Absent / Present
-              <select v-model="dataObject.absent_present" class="form-control">
+              <select v-model="dataObject.absent_present" name="studentAbPre" v-validate="'required'" class="form-control">
                 <option value ="0">Absent</option>
                 <option value ="1">Present</option>
               </select>
             </label>
+            <span v-show="errors.has('studentAbPre')" style="color:red">Select Absent/Present</span>
           </div>
           <div class="modal-footer text-right">
             <button class="modal-default-button" @click="saveRecord()">
@@ -64,20 +68,20 @@
     },
     methods: {
       saveRecord: function () {
-        if (Object.keys(this.dataObject).length < 3) {
-          alert('Fill all the fields')
-          return
-        }
-        this.$http.post('http://localhost:3000/addNewAttendance', this.dataObject).then(function (res) {
-          if (res.ok && res.status === 200) {
-            return alert('Attendanced got successfully recorded')
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.$http.post('http://localhost:3000/addNewAttendance', this.dataObject).then(function (res) {
+              if (res.ok && res.status === 200) {
+                return alert('Attendanced got successfully recorded')
+              }
+              alert('Unable to record')
+            }).catch(function (err) {
+              console.log(err)
+              alert('Unable to record--' + this.dataObject.attendDate)
+            })
+            this.close()
           }
-          alert('Unable to record')
-        }).catch(function (err) {
-          console.log(err)
-          alert('Unable to record--' + this.dataObject.attendDate)
         })
-        this.close()
       },
       close: function () {
         for (var key in this.dataObject) {

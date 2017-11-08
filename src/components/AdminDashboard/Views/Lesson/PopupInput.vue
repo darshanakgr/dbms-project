@@ -9,8 +9,9 @@
                 <div class="modal-body">
                     <label class="form-label">
                         Lesson Name
-                        <input v-model="dataObject.lessonName" class="form-control">
+                        <input v-model="dataObject.lessonName" class="form-control" name="lessonName" v-validate="'required|alpha'">
                     </label>
+                    <span v-show="errors.has('lessonName')" style="color:red">Invalid lesson name</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
@@ -44,20 +45,21 @@ export default {
     }
   },
   methods: {
-    open: function () {
-
-    },
     saveRecord: function () {
-      this.$http.post('http://localhost:3000/addNewLesson', this.dataObject).then(function (res) {
-        if (res.ok && res.status === 200) {
-          return alert('Lesson added successfully')
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.$http.post('http://localhost:3000/addNewLesson', this.dataObject).then(function (res) {
+            if (res.ok && res.status === 200) {
+              return alert('Lesson added successfully')
+            }
+            alert('Unable to register this lesson')
+          }).catch(function (err) {
+            console.log(err)
+            alert('Unable to register this lesson')
+          })
+          this.close()
         }
-        alert('Unable to register this lesson')
-      }).catch(function (err) {
-        console.log(err)
-        alert('Unable to register this lesson')
       })
-      this.close()
     },
     close: function () {
       for (var key in this.dataObject) {
