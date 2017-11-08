@@ -13,7 +13,6 @@ var PaymentController = require('./controller/PaymentController');
 var PlayController = require('./controller/PlayController');
 var SiblingController = require('./controller/SiblingController');
 var UserController = require('./controller/UserController');
-var CategoryController = require('./controller/CategoryController');
 var EnrollmentController = require('./controller/EnrollmentController');
 var ClassController = require('./controller/ClassController');
 var AttendanceController = require('./controller/AttendanceController');
