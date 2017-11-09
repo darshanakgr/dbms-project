@@ -100,7 +100,7 @@ var findUserByToken = (token) => {
       reject(e);
     }
 
-    connection.query("SELECT username FROM token WHERE username = ? AND access = ? AND token = ?", [
+    connection.query("SELECT username, access FROM token WHERE username = ? AND access = ? AND token = ?", [
       decoded.username,
       decoded.accessLevel,
       token
@@ -142,7 +142,7 @@ var authenticate = (req, res, next) => {
     req.token = token;
     next();
   }).catch((err) => {
-    res.status(401).send(err);
+    res.redirect('http://localhost:8080');
   });
 };
 
@@ -159,6 +159,7 @@ var removeToken = (token) => {
   });
 };
 
+
 module.exports = {
   getAllUsers,
   addNewUser,
@@ -168,5 +169,6 @@ module.exports = {
   createNewUser,
   authenticate,
   findByCredentials,
-  removeToken
+  removeToken,
+  findUserByToken
 };

@@ -37,10 +37,33 @@
     },
     methods: {
       login () {
-        this.$http.post('http://localhost:3000/login', this.user).then((res) => {
-          var user = res.body
-          this.$cookie.set('x-auth', user.token)
-          if (user.accessLevel === 0) {
+        var cookie = this.$cookie.get('x-auth')
+        if (cookie) {
+          console.log(cookie)
+        } else {
+          this.$http.post('http://localhost:3000/login', this.user).then((res) => {
+            var user = res.body
+            this.$cookie.set('x-auth', user.token, {expires: '1h'})
+            if (user.accessLevel === 0) {
+              window.location = '/admin'
+            } else {
+              window.location = '/teacher'
+            }
+          }).catch((e) => {
+            alert(e.body.message)
+          })
+        }
+      }
+    },
+    created () {
+      console.log('created')
+      var token = this.$cookie.get('x-auth')
+      console.log(token)
+      if (token) {
+        this.$http.post('http://localhost:3000/user', {token}).then((res) => {
+          var user = res.body[0]
+          this.$cookie.set('x-auth', token, {expires: '1h'})
+          if (user.access === '0') {
             window.location = '/admin'
           } else {
             window.location = '/teacher'

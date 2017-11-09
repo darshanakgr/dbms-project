@@ -22,13 +22,8 @@ import AdminAttendance from 'src/components/AdminDashboard/Views/Attendance.vue'
 // Student pages
 import TeacherStudent from 'src/components/TeacherDashboard/Views/Student.vue'
 import TeacherInstrument from 'src/components/TeacherDashboard/Views/Instrument.vue'
-import TeacherClassroom from 'src/components/TeacherDashboard/Views/ClassRoom.vue'
 import TeacherLesson from 'src/components/TeacherDashboard/Views/Lesson.vue'
-import TeacherPlay from 'src/components/TeacherDashboard/Views/Play.vue'
-import TeacherCategory from 'src/components/TeacherDashboard/Views/Category.vue'
-import TeacherEnrollment from 'src/components/TeacherDashboard/Views/Enrollment.vue'
 import TeacherClass from 'src/components/TeacherDashboard/Views/Class.vue'
-import TeacherAttendance from 'src/components/TeacherDashboard/Views/Attendance.vue'
 
 const routes = [
   {
@@ -128,39 +123,14 @@ const routes = [
         component: TeacherInstrument
       },
       {
-        path: '/teacher/category',
-        name: 'category',
-        component: TeacherCategory
-      },
-      {
-        path: '/teacher/classroom',
-        name: 'classroom',
-        component: TeacherClassroom
-      },
-      {
         path: '/teacher/lesson',
         name: 'lesson',
         component: TeacherLesson
       },
       {
-        path: '/teacher/play',
-        name: 'play',
-        component: TeacherPlay
-      },
-      {
-        path: '/teacher/enrollment',
-        name: 'enrollment',
-        component: TeacherEnrollment
-      },
-      {
         path: '/teacher/class',
         name: 'class',
         component: TeacherClass
-      },
-      {
-        path: '/teacher/attendance',
-        name: 'attendance',
-        component: TeacherAttendance
       }
     ]
   },

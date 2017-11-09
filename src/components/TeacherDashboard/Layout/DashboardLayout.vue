@@ -8,7 +8,7 @@
 
       </notifications>
       <div class="main-panel">
-        <top-navbar></top-navbar>
+        <top-navbar :sidebarLinks="sidebarLinks" :showSidebar="showSidebar"></top-navbar>
 
         <dashboard-content @click.native="toggleSidebar">
 
