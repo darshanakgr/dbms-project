@@ -3,7 +3,7 @@ const mysql = require('mysql');                         //import mysql module to
 var connection = mysql.createConnection({
   host: "localhost",
   user: "root",                                             //credentials for our mysql database
-  password: "mysql",
+  password: "",
   database: "schoolmanagementsystem"
 });
 

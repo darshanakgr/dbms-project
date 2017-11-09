@@ -17,11 +17,11 @@
 </template>
 
 <script>
-  import PaperTable from './Lesson/PaperTable.vue'
+  import PaperTable from './Play/PaperTable.vue'
 
-  const tableColumnNames = ['Lesson ID', 'Lesson Name', 'Options']
+  const tableColumnNames = ['Student ID', 'Instrument ID', 'Options']
   /* Give here the names of the attributes */
-  const tableColumns = ['lesson_id', 'lesson_name', 'options']
+  const tableColumns = ['student_id', 'instrument_id', 'options']
   /* Give here the column names as they are in the table */
   const tableData = []
   /* table data will be loaded upon created(), code is below */
@@ -33,8 +33,8 @@
     data () {
       return {
         table1: {
-          title: 'Lessons',
-          subTitle: 'All the lessons that are available in this school are listed below.',
+          title: 'Plays',
+          subTitle: 'All the instruments that are played by students in this school are listed below.',
           columns: [...tableColumns],
           columnNames: [...tableColumnNames],
           data: [...tableData]
@@ -44,7 +44,7 @@
       }
     },
     created () {
-      this.$http.get('http://localhost:3000/getAllLessons').then(function (data) {   /* get address here */
+      this.$http.get('http://localhost:3000/getAllPlays').then(function (data) {   /* get address here */
         this.tableData = data.body.slice(0, 10)
         /* retrive rows, 10 by 10 */
         this.table1.data = [...this.tableData]
@@ -54,7 +54,7 @@
       if (this.pageNo < 0) {
         this.pageNo = 0
       }
-      this.$http.get('http://localhost:3000/getAllLessons').then(function (data) {   /* get address here */
+      this.$http.get('http://localhost:3000/getAllPlays').then(function (data) {   /* get address here */
         this.tableData = data.body.slice(this.pageNo, this.pageNo + 10)
         /* update the row range when buttons are clicked */
         if (this.tableData.length === 0) {

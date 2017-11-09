@@ -24,6 +24,11 @@ import TeacherStudent from 'src/components/TeacherDashboard/Views/Student.vue'
 import TeacherInstrument from 'src/components/TeacherDashboard/Views/Instrument.vue'
 import TeacherLesson from 'src/components/TeacherDashboard/Views/Lesson.vue'
 import TeacherClass from 'src/components/TeacherDashboard/Views/Class.vue'
+import TeacherAttendance from 'src/components/TeacherDashboard/Views/Attendance.vue'
+import TeacherCategory from 'src/components/TeacherDashboard/Views/Category.vue'
+import TeacherClassroom from 'src/components/TeacherDashboard/Views/Classroom.vue'
+import TeacherEnrollment from 'src/components/TeacherDashboard/Views/Enrollment.vue'
+import TeacherPlay from 'src/components/TeacherDashboard/Views/Play.vue'
 
 const routes = [
   {
@@ -131,6 +136,31 @@ const routes = [
         path: '/teacher/class',
         name: 'class',
         component: TeacherClass
+      },
+      {
+        path: '/teacher/attendance',
+        name: 'student',
+        component: TeacherAttendance
+      },
+      {
+        path: '/teacher/category',
+        name: 'instrument',
+        component: TeacherCategory
+      },
+      {
+        path: '/teacher/enrollment',
+        name: 'lesson',
+        component: TeacherEnrollment
+      },
+      {
+        path: '/teacher/classroom',
+        name: 'class',
+        component: TeacherClassroom
+      },
+      {
+        path: '/teacher/play',
+        name: 'class',
+        component: TeacherPlay
       }
     ]
   },
