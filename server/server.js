@@ -511,6 +511,14 @@ app.get('/logout', UserController.authenticate, (req, res) => {
   });
 });
 
+app.post('/user', (req, res) => {
+  UserController.findUserByToken(req.body.token).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
 app.listen(3000, () => {
   console.log("Server is up on 3000");
 });

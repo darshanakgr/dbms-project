@@ -11,7 +11,7 @@
           <div class="logo-img">
             <img src="/static/img/vue-logo.png" alt="">
           </div>
-          Teacher | <a href="">Logout</a>
+          Teacher | <a @click.prevent="logout()" href="">Logout</a>
         </a>
       </div>
       <slot>
@@ -112,6 +112,13 @@
             this.activeLinkIndex = index
           }
           return found
+        })
+      },
+      logout () {
+        var token = this.$cookie.get('x-auth')
+        this.$http.get('http://localhost:3000/logout', {headers: {'x-auth': token}}).then((res) => {
+          this.$cookie.delete('x-auth')
+          window.location = '/'
         })
       }
     },

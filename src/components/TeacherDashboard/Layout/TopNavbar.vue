@@ -2,7 +2,7 @@
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle" :class="{toggled: $sidebar.showSidebar}" @click="toggleSidebar">
+        <button type="button" class="navbar-toggle" :class="{toggled: showSidebar}" @click="toggleSidebar">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar bar1"></span>
           <span class="icon-bar bar2"></span>
@@ -46,6 +46,15 @@
         return this.capitalizeFirstLetter(name)
       }
     },
+    props: {
+      sidebarLinks: {
+        type: Array,
+        required: true
+      },
+      showSidebar: {
+        type: Boolean
+      }
+    },
     data () {
       return {
         activeNotifications: false
@@ -62,10 +71,13 @@
         this.activeNotifications = false
       },
       toggleSidebar () {
-        this.$sidebar.displaySidebar(!this.$sidebar.showSidebar)
+        this.displaySidebar(!this.showSidebar)
       },
       hideSidebar () {
-        this.$sidebar.displaySidebar(false)
+        this.displaySidebar(false)
+      },
+      displaySidebar (value) {
+        this.showSidebar = value
       }
     }
   }

@@ -8,7 +8,7 @@
 
       </notifications>
       <div class="main-panel">
-        <top-navbar></top-navbar>
+        <top-navbar :sidebarLinks="sidebarLinks" :showSidebar="showSidebar"></top-navbar>
 
         <dashboard-content @click.native="toggleSidebar">
 
@@ -23,20 +23,20 @@
     </side-bar>
   </div>
 </template>
-<style lang="scss">
 
-</style>
 <script>
   import TopNavbar from './TopNavbar.vue'
   import ContentFooter from './ContentFooter.vue'
   import DashboardContent from './Content.vue'
   import SideBar from './SideBar.vue'
+  import Notifications from '../../UIComponents/NotificationPlugin/Notifications.vue'
   export default {
     components: {
       TopNavbar,
       ContentFooter,
       DashboardContent,
-      SideBar
+      SideBar,
+      Notifications
     },
     data () {
       return {
@@ -117,8 +117,8 @@
     },
     methods: {
       toggleSidebar () {
-        if (this.$sidebar.showSidebar) {
-          this.$sidebar.displaySidebar(false)
+        if (this.showSidebar) {
+          this.displaySidebar(false)
         }
       },
       displaySidebar (value) {
@@ -128,3 +128,6 @@
   }
 
 </script>
+<style lang="scss">
+
+</style>
