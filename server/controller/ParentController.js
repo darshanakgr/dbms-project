@@ -14,11 +14,13 @@ const getAllParents = () => {
 const addNewParent = (instrument) => {
   return new Promise((resolve, reject) => {
     getNextId().then((nextId) => {
-      connection.query("INSERT INTO parent VALUE(?,?,?,?)", [
+      connection.query("INSERT INTO parent VALUE(?,?,?,?,?,?)", [
         nextId,
-        instrument.parentName,
-        instrument.contactNo,
-        instrument.address
+        instrument.firstName,
+        instrument.lastName,
+        instrument.address1,
+        instrument.address2,
+        instrument.address3
       ], (err, res) => {
         if (err) {
           reject(err);
@@ -33,10 +35,12 @@ const addNewParent = (instrument) => {
 
 const updateParent = (parent) => {
   return new Promise((resolve, reject) => {
-    connection.query("UPDATE parent SET name=?, contact_no=?, address=? WHERE parent_id=?", [
-      parent.parentName,
-      parent.contactNo,
-      parent.address,
+    connection.query("UPDATE parent SET first_name=?, last_name=?, address_line_1=?, address_line_2=?, address_line_3=? WHERE parent_id=?", [
+      parent.firstName,
+      parent.lastName,
+      parent.address1,
+      parent.address2,
+      parent.address3,
       parent.parentId
     ], (err, result) => {
       if (err) {

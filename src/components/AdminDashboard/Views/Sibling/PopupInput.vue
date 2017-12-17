@@ -4,24 +4,23 @@
         <div class="modal-mask" @click="close" v-show="showModal">
             <div class="modal-container" @click.stop>
                 <div class="modal-header">
-                    <h3>New Instrument</h3>
+                    <h3>New sibling group</h3>
+                  <button class="modal-default-button" @click="addNewField">
+                    +
+                  </button>
                 </div>
-                <div class="modal-body">
+
+                <div class="modal-body" v-for="(sibling,index) in siblings">
+
                     <label class="form-label">
-                        Student ID
-                        <select v-model="dataObject.studentId" class="form-control" name="studentId" v-validate="'required'">
-                          <option v-for="choice in students" :value ="choice.student_id">{{  choice.student_id+" - "+choice.name}}</option>
-                        </select>
-                    </label>
-                    <span v-show="errors.has('studentId')" style="color:red">Student ID is required</span>
-                    <label class="form-label">
-                      Sibling ID
-                      <select v-model="dataObject.siblingId" class="form-control" name="siblingId" v-validate="'required'">
-                        <option v-for="choice in students" :value ="choice.student_id">{{  choice.student_id+" - "+choice.name}}</option>
+                      Student Name
+                      <select v-model="sibling.member" class="form-control" :name="sibling.member" v-validate="'required'">
+                        <option v-for="choice in students" :value ="choice.student_id">{{choice.sf}}</option>
                       </select>
                     </label>
-                    <span v-show="errors.has('siblingId')" style="color:red">Sibling ID is required</span>
+                    <span v-show="errors.has('h')" style="color:red">Student is required</span>
                 </div>
+
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
                         Add new sibling
@@ -41,25 +40,43 @@
 
 <script>
 export default {
-  props: {
-
-  },
   data () {
     return {
-      instrumentCategories: [],
       dataObject: {},
+      temp: [],
+      students: {},
       title: '',
       body: '',
-      showModal: false
+      showModal: false,
+      siblings: [{member: ''}, {member: ''}]
     }
   },
   methods: {
-    open: function () {
-
+    addNewField: function () {
+      this.siblings.push({member: ''})
     },
     saveRecord: function () {
-      this.$validator.validateAll().then((result) => {
-        if (result) {
+      for (var key in this.siblings) {
+        this.temp.push(this.siblings[key].member)
+      }
+      for (var i = 0; i < this.temp.length; i++) {
+        for (var j = i + 1; j < this.temp.length; j++) {
+          this.dataObject.studentId = (this.temp[i])
+          this.dataObject.siblingId = (this.temp[j])
+
+          this.$http.post('http://localhost:3000/addNewSibling', this.dataObject).then(function (res) {
+            if (res.ok && res.status === 200) {
+              return
+            }
+            alert('Unable to register this sibling')
+          }).catch(function (err) {
+            console.log(err)
+            alert('Unable to register this sibling')
+          })
+
+          this.dataObject.studentId = (this.temp[j])
+          this.dataObject.siblingId = (this.temp[i])
+
           this.$http.post('http://localhost:3000/addNewSibling', this.dataObject).then(function (res) {
             if (res.ok && res.status === 200) {
               return alert('Sibling added successfully')
@@ -69,9 +86,9 @@ export default {
             console.log(err)
             alert('Unable to register this sibling')
           })
-          this.close()
         }
-      })
+      }
+      this.close()
     },
     close: function () {
       for (var key in this.dataObject) {
@@ -80,12 +97,10 @@ export default {
       this.showModal = false
       this.title = ''
       this.body = ''
+      this.siblings = [{member: ''}, {member: ''}]
     }
   },
   created () {
-    this.$http.get('http://localhost:3000/getAllSiblings').then(function (data) {   /* get address here */
-      this.instrumentCategories = data.body // need to be changed to categories
-    })
     this.$http.get('http://localhost:3000/getAllStudents').then(function (data) {   /* get address here */
       this.students = [...data.body]
     })
@@ -103,6 +118,17 @@ export default {
 <style scoped>
 * {
     box-sizing: border-box;
+}
+
+.my-scrollbar{
+  width: 35%;
+  min-width: 300px;
+  max-height: 450px;
+}
+
+
+.scroll-me{
+  min-width: 750px;
 }
 
 .modal-mask {

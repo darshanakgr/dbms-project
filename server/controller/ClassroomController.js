@@ -65,9 +65,9 @@ const getNextId = () => {
       }
 
       if (result.length) {
-        resolve("C" + ("000" + (parseInt(result[0].class_room_id.split("C")[1]) + 1)).slice(-3));
+        resolve("CR" + ("000" + (parseInt(result[0].class_room_id.split("CR")[1]) + 1)).slice(-3));
       } else {
-        resolve("C001");
+        resolve("CR001");
       }
     });
   });

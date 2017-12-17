@@ -8,19 +8,19 @@
                 </div>
                 <div class="modal-body">
                     <label class="form-label">
-                      Student ID
+                      Student
                       <select v-model="dataObject.studentId" class="form-control" name="studentId" v-validate="'required'">
-                        <option v-for="choice in studentNames" :value ="choice.student_id">{{  choice.student_id+" - "+choice.name}}</option>
+                        <option v-for="choice in studentNames" :value ="choice.student_id">{{choice.sf}}</option>
                       </select>
                     </label>
-                    <span v-show="errors.has('studentId')" style="color:red">Student ID is required</span>
+                    <span v-show="errors.has('studentId')" style="color:red">Student is required</span>
                     <label class="form-label">
-                        Instrument ID
+                        Instrument
                       <select v-model="dataObject.instrumentId" class="form-control" name="instrumentId" v-validate="'required'">
-                        <option v-for="choice in instrumentNames" :value ="choice.instrument_id">{{ choice.instrument_id+" - "+choice.instrument_name }}</option>
+                        <option v-for="choice in instrumentNames" :value ="choice.instrument_id">{{choice.instrument_name}}</option>
                       </select>
                     </label>
-                    <span v-show="errors.has('instrumentId')" style="color:red">Instrument ID is required</span>
+                    <span v-show="errors.has('instrumentId')" style="color:red">Instrument is required</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
