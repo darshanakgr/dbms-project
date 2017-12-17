@@ -8,19 +8,29 @@
           </div>
           <div class="modal-body">
             <label class="form-label">
-              Parent Name
-              <input v-model="dataObject.parentName" class="form-control" name="parentName" v-validate="'required|alpha'">
-              <span v-show="errors.has('parentName')" style="color:red">Invalid name</span>
+              First Name
+              <input v-model="dataObject.firstName" class="form-control" name="fName" v-validate="'required|alpha'">
+              <span v-show="errors.has('fName')" style="color:red">Invalid name</span>
             </label>
             <label class="form-label">
-              Contact No
-              <input v-model="dataObject.contactNo" class="form-control" name="parentPhone" v-validate="{digits: 10, required:true}" placeholder="0xxxxxxxxx">
-              <span v-show="errors.has('parentPhone')" style="color:red">Invalid contact number</span>
+              Last Name
+              <input v-model="dataObject.lastName" class="form-control" name="lName" v-validate="'required|alpha'">
+              <span v-show="errors.has('lName')" style="color:red">Invalid name</span>
             </label>
             <label class="form-label">
-              Address
-              <input v-model="dataObject.address" class="form-control"  name="parentAddress" v-validate="'required'">
-              <span v-show="errors.has('parentAddress')" style="color:red">Address is required</span>
+              Address Line 1
+              <input v-model="dataObject.address1" class="form-control"  name="address1" v-validate="'required'">
+              <span v-show="errors.has('address1')" style="color:red">Address is required</span>
+            </label>
+            <label class="form-label">
+              Address Line 2
+              <input v-model="dataObject.address2" class="form-control"  name="address2" v-validate="'required'">
+              <span v-show="errors.has('address2')" style="color:red">Address is required</span>
+            </label>
+            <label class="form-label">
+              Address Line 3
+              <input v-model="dataObject.address3" class="form-control"  name="address3" v-validate="'required'">
+              <span v-show="errors.has('address3')" style="color:red">Address is required</span>
             </label>
           </div>
           <div class="modal-footer text-right">
@@ -115,9 +125,11 @@
     },
     mounted: function () {
       this.dataObject.parentId = this.editData.parent_id
-      this.dataObject.parentName = this.editData.name
-      this.dataObject.contactNo = this.editData.contact_no
-      this.dataObject.address = this.editData.address
+      this.dataObject.firstName = this.editData.first_name
+      this.dataObject.lastName = this.editData.last_name
+      this.dataObject.address1 = this.editData.address_line_1
+      this.dataObject.address2 = this.editData.address_line_2
+      this.dataObject.address3 = this.editData.address_line_3
       document.addEventListener('keydown', (e) => {
         if (e.keyCode === 27) {
           this.close()

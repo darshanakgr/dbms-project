@@ -4,7 +4,6 @@
       <div class="card">
         <paper-table :title="table1.title" :sub-title="table1.subTitle" :data="table1.data" :columns="table1.columns"
                      :columnNames="table1.columnNames">
-
         </paper-table>
       </div>
     </div>
@@ -19,9 +18,9 @@
 <script>
   import PaperTable from './Sibling/PaperTable.vue'
 
-  const tableColumnNames = ['Student ID', 'Sibling ID', 'Options']
+  const tableColumnNames = ['Student', 'Sibling', 'Options']
   /* Give here the names of the attributes */
-  const tableColumns = ['student_id', 'sibling_id', 'options']
+  const tableColumns = ['sib1', 'sib2', 'options']
   /* Give here the column names as they are in the table */
   const tableData = []
   /* table data will be loaded upon created(), code is below */

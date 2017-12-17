@@ -8,15 +8,30 @@
                 </div>
                 <div class="modal-body">
                     <label class="form-label">
-                      Teacher Name
-                      <input v-model="dataObject.teacherName" class="form-control" name="teacherName" v-validate="'required|alpha'">
+                      First Name
+                      <input v-model="dataObject.firstName" class="form-control" name="fName" v-validate="'required|alpha'">
+                    </label>
+                    <span v-show="errors.has('fName')" style="color:red">Invalid name</span>
+                    <label class="form-label">
+                      Last Name
+                      <input v-model="dataObject.lastName" class="form-control" name="teacherName" v-validate="'required|alpha'">
                     </label>
                     <span v-show="errors.has('teacherName')" style="color:red">Invalid name</span>
                     <label class="form-label">
-                      Contact No
-                      <input v-model="dataObject.contactNo" class="form-control" name="teacherPhone" v-validate="{digits: 10, required:true}" placeholder="0xxxxxxxxx">
+                      Address Line 1
+                      <input v-model="dataObject.address1" class="form-control" name="add1" v-validate="'required'">
                     </label>
-                    <span v-show="errors.has('teacherPhone')" style="color:red">Invalid contact number</span>
+                    <span v-show="errors.has('add1')" style="color:red">Invalid address</span>
+                    <label class="form-label">
+                      Address Line 2
+                      <input v-model="dataObject.address2" class="form-control" name="add2" v-validate="'required'">
+                    </label>
+                    <span v-show="errors.has('add2')" style="color:red">Invalid address</span>
+                    <label class="form-label">
+                      Address Line 3
+                      <input v-model="dataObject.address3" class="form-control" name="add3" v-validate="'required'">
+                    </label>
+                    <span v-show="errors.has('add3')" style="color:red">Invalid address</span>
                 </div>
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">

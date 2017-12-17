@@ -2,7 +2,7 @@ const {connection} = require('../db/db-connection');
 
 const getAllSiblings = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM sibling", (err, res) => {
+    connection.query("select a.first_name as sib1, b.first_name as sib2, sibling.student_id, sibling.sibling_id from student as a, student as b join sibling where a.student_id = sibling.student_id and b.student_id = sibling.sibling_id", (err, res) => {
       if (err) {
         reject(err);
       }

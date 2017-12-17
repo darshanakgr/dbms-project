@@ -10,7 +10,7 @@
                     <label class="form-label">
                         Teacher name
                       <select v-model="dataObject.teacherId" class="form-control" name="teacherId" v-validate="'required'">
-                        <option v-for="choice in teacherNames" :value ="choice.teacher_id ">{{ choice.name }}</option>
+                        <option v-for="choice in teacherNames" :value ="choice.teacher_id ">{{ choice.first_name }}</option>
                       </select>
                     </label>
                     <span v-show="errors.has('teacherId')" style="color:red">Teacher is required</span>

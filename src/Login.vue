@@ -44,6 +44,7 @@
           this.$http.post('http://localhost:3000/login', this.user).then((res) => {
             var user = res.body
             this.$cookie.set('x-auth', user.token, {expires: '1h'})
+            console.log(user)
             if (user.accessLevel === 0) {
               window.location = '/admin'
             } else {
@@ -62,6 +63,7 @@
       if (token) {
         this.$http.post('http://localhost:3000/user', {token}).then((res) => {
           var user = res.body[0]
+          console.log(user)
           this.$cookie.set('x-auth', token, {expires: '1h'})
           if (user.access === '0') {
             window.location = '/admin'

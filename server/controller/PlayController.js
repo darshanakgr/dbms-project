@@ -2,7 +2,7 @@ const {connection} = require('../db/db-connection');
 
 const getAllPlays = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM play", (err, res) => {
+    connection.query("SELECT first_name, instrument_name, student_id, instrument_id FROM `play` natural join student natural join instrument", (err, res) => {
       if (err) {
         reject(err);
       }

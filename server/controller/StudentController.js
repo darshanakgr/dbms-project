@@ -2,7 +2,7 @@ const {connection} = require('../db/db-connection');
 
 const getAllStudent = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM student", (err, res) => {
+    connection.query("SELECT student_id, student.first_name as sf, student.last_name as sl, gender, DATE_FORMAT(`register_date`, \"%M %d %Y\") as register_date1, parent.first_name as pf, parent_id, register_date FROM student join parent using (parent_id)", (err, res) => {
       if (err) {
         reject(err);
       }
@@ -15,7 +15,7 @@ const addNewStudent = (student) => {
   return new Promise((resolve, reject) => {
     getNextId().then((nextId) => {
       connection.query("INSERT INTO student VALUE(?,?,?,?,?,?)",
-        [nextId, student.name, student.gender, new Date().toISOString().split("T")[0], student.mobileNo, student.parentId],
+        [nextId, student.firstName,student.lastName, student.gender, student.registerDate, student.parentId],
         (err, res) => {
           if (err) {
             reject(err);
@@ -30,11 +30,11 @@ const addNewStudent = (student) => {
 
 const updateStudent = (student) => {
   return new Promise((resolve, reject) => {
-    connection.query("UPDATE student SET name=?, gender=?, register_date=?, mobile_no=?, parent_id=? WHERE student_id=?",[
-      student.name,
+    connection.query("UPDATE student SET first_name=?, last_name=?, gender=?, register_date=?, parent_id=? WHERE student_id=?",[
+      student.firstName,
+      student.lastName,
       student.gender,
       student.registerDate,
-      student.mobileNo,
       student.parentId,
       student.studentId
     ],(err, result) => {

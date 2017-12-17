@@ -50,7 +50,7 @@
       </div>
     </transition>
     <div>
-      <button id="show-modal" @click="showEditModal = true" disabled>Edit</button>
+      <button id="show-modal" @click="showEditModal = true" hidden disabled>Edit</button>
       <button id="show-delete-modal" @click="showDeleteModal = true">Delete</button>
     </div>
   </div>
@@ -97,6 +97,7 @@
           console.log(err)
           alert('Unable to delete this sibling')
         })
+        location.reload()
         this.close()
       },
       close: function () {

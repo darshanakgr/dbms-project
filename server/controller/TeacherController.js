@@ -14,10 +14,13 @@ const getAllTeachers = () => {
 const addNewTeacher = (teacher) => {
   return new Promise((resolve, reject) => {
     getNextId().then((nextId) => {
-      connection.query("INSERT INTO teacher VALUE(?,?,?)", [
+      connection.query("INSERT INTO teacher VALUE(?,?,?,?,?,?)", [
         nextId,
-        teacher.teacherName,
-        teacher.contactNo,
+        teacher.firstName,
+        teacher.lastName,
+        teacher.address1,
+        teacher.address2,
+        teacher.address3
       ], (err, res) => {
         if (err) {
           reject(err);
@@ -32,9 +35,12 @@ const addNewTeacher = (teacher) => {
 
 const updateTeacher = (teacher) => {
   return new Promise((resolve, reject) => {
-    connection.query("UPDATE teacher SET name=?, contact_no=? WHERE teacher_id=?", [
-      teacher.teacherName,
-      teacher.contactNo,
+    connection.query("UPDATE teacher SET first_name=?, last_name=?, address_line_1=?, address_line_2=?, address_line_3=? WHERE teacher_id=?", [
+      teacher.firstName,
+      teacher.lastName,
+      teacher.address1,
+      teacher.address2,
+      teacher.address3,
       teacher.teacherId
     ], (err, result) => {
       if (err) {
