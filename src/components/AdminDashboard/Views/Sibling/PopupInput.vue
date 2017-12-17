@@ -21,7 +21,6 @@
                     <span v-show="errors.has('h')" style="color:red">Student is required</span>
                 </div>
 
-
                 <div class="modal-footer text-right">
                     <button class="modal-default-button" @click="saveRecord()">
                         Add new sibling
@@ -67,7 +66,7 @@ export default {
 
           this.$http.post('http://localhost:3000/addNewSibling', this.dataObject).then(function (res) {
             if (res.ok && res.status === 200) {
-              // return alert('Sibling added successfully')
+              return
             }
             alert('Unable to register this sibling')
           }).catch(function (err) {
@@ -80,7 +79,7 @@ export default {
 
           this.$http.post('http://localhost:3000/addNewSibling', this.dataObject).then(function (res) {
             if (res.ok && res.status === 200) {
-              // return alert('Sibling added successfully')
+              return alert('Sibling added successfully')
             }
             alert('Unable to register this sibling')
           }).catch(function (err) {

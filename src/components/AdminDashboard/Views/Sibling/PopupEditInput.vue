@@ -92,10 +92,10 @@
           if (res.ok && res.status === 200) {
             return alert('Sibling deleted successfully')
           }
-          alert('Unable to delete this intrument')
+          // alert('Unable to delete this intrument')
         }).catch(function (err) {
           console.log(err)
-          alert('Unable to delete this sibling')
+          // alert('Unable to delete this sibling')
         })
         location.reload()
         this.close()

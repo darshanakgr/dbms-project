@@ -27,7 +27,9 @@ const addNewSibling = (sibling) => {
 
 const removeSibling = (sibling) => {
   return new Promise((resolve, reject) => {
-    connection.query("DELETE FROM sibling WHERE (student_id=? and sibling_id=?)", [
+    connection.query("DELETE FROM sibling WHERE (student_id=? and sibling_id=?) or (sibling_id=? and student_id=?)", [
+      sibling.studentId,
+      sibling.siblingId,
       sibling.studentId,
       sibling.siblingId
     ], (err, result) => {
