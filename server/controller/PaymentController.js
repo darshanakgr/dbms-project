@@ -2,7 +2,7 @@ const {connection} = require('../db/db-connection');
 
 const getAllPayments = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM teacherpayment", (err, res) => {
+    connection.query("SELECT payment_id, name, CONCAT('Rs. ', FORMAT(amount, 0)) as amount_rupee, DATE_FORMAT(`paid_on`, \"%M %d %Y\") as pay_date, teacher_id, amount from teacherpayment natural join teacher", (err, res) => {
       if (err) {
         reject(err);
       }

@@ -18,7 +18,7 @@
             </label>
             <span v-show="errors.has('purchasedDate')" style="color:red">Invalid date</span>
             <label class="form-label">
-              Category ID <br>
+              Category name <br>
               <select v-model="dataObject.categoryId" class="form-control" name="categoryId" v-validate="'required'">
                 <option v-for="choice in instrumentCategories" :value ="choice.category_id">{{ choice.instrument_type }}</option>
               </select>

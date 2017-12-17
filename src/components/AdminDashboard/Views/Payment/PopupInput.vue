@@ -8,12 +8,12 @@
                 </div>
                 <div class="modal-body">
                     <label class="form-label">
-                        Teacher ID
+                        Teacher name
                       <select v-model="dataObject.teacherId" class="form-control" name="teacherId" v-validate="'required'">
                         <option v-for="choice in teacherNames" :value ="choice.teacher_id ">{{ choice.name }}</option>
                       </select>
                     </label>
-                    <span v-show="errors.has('teacherId')" style="color:red">Teacher Id is required</span>
+                    <span v-show="errors.has('teacherId')" style="color:red">Teacher is required</span>
                     <label class="form-label">
                       Amount
                       <input v-model="dataObject.amount" class="form-control" name="amount" v-validate="'required|numeric'">
