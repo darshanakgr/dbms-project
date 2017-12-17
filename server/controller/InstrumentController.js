@@ -2,7 +2,7 @@ const {connection} = require('../db/db-connection');
 
 const getAllInstruments = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM instrument", (err, res) => {
+    connection.query("SELECT instrument_id,instrument_name,purchased_date,instrument_type FROM instrument natural join category", (err, res) => {
       if (err) {
         reject(err);
       }
