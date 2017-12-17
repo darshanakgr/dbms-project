@@ -10,17 +10,17 @@
             <label class="form-label">
               Student ID
               <select v-model="dataObject.studentId" name="studentId" class="form-control" v-validate="'required'">
-                <option v-for="choice in studentIds" :value ="choice.student_id">{{ choice.student_id }}</option>
+                <option v-for="choice in studentIds" :value ="choice.student_id">{{ choice.sf }}</option>
               </select>
             </label>
-            <span v-show="errors.has('studentId')" style="color:red">Select an ID</span>
+            <span v-show="errors.has('studentId')" style="color:red">Select a student</span>
             <label class="form-label">
               Class ID
               <select v-model="dataObject.classId" name="classId" class="form-control" v-validate="'required'">
                 <option v-for="choice in classIds" :value ="choice.class_id">{{ choice.class_id }}</option>
               </select>
             </label>
-            <span v-show="errors.has('classId')" style="color:red">Select an ID</span>
+            <span v-show="errors.has('classId')" style="color:red">Select a Class</span>
             <label class="form-label">
               Date
               <input type="date" v-model="dataObject.attendDate" name="attendDate" class="form-control" v-validate="{required:true}">

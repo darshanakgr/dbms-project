@@ -19,9 +19,9 @@
 <script>
   import PaperTable from './Class/PaperTable.vue'
 
-  const tableColumnNames = ['Class ID', 'Class Year', 'Class Time', 'Class Type', 'Class Day', 'Classroom ID', 'Lesson ID', 'Teacher ID', 'Options']
+  const tableColumnNames = ['Class ID', 'Class Year', 'Class Time', 'Class Type', 'Class Day', 'Classroom', 'Lesson', 'Teacher', 'Options']
   /* Give here the names of the attributes */
-  const tableColumns = ['class_id', 'class_year', 'class_time', 'class_type', 'class_day', 'class_room_id', 'lesson_id', 'teacher_id', 'options']
+  const tableColumns = ['class_id', 'class_year', 'class_time', 'ctype', 'class_day', 'building', 'lesson_name', 'first_name', 'options']
   /* Give here the column names as they are in the table */
   const tableData = []
   /* table data will be loaded upon created(), code is below */

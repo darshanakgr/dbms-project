@@ -9,7 +9,7 @@
           <div class="modal-body">
             <label class="form-label">
               Instrument Name
-              <input v-model="dataObject.instrumentName" class="form-control" name="instrumentName" v-validate="'required|alpha'">
+              <input v-model="dataObject.instrumentName" class="form-control" name="instrumentName" v-validate="'required'">
             </label>
             <span v-show="errors.has('instrumentName')" style="color:red">Invalid instrument name</span>
             <label class="form-label">
@@ -18,12 +18,12 @@
             </label>
             <span v-show="errors.has('purchasedDate')" style="color:red">Invalid date</span>
             <label class="form-label">
-              Category ID <br>
+              Category <br>
               <select v-model="dataObject.categoryId" class="form-control" name="categoryId" v-validate="'required'">
                 <option v-for="choice in instrumentCategories" :value ="choice.category_id">{{ choice.instrument_type }}</option>
               </select>
             </label>
-            <span v-show="errors.has('categoryId')" style="color:red">Invalid category ID</span>
+            <span v-show="errors.has('categoryId')" style="color:red">Invalid category</span>
           </div>
           <div class="modal-footer text-right">
             <button class="modal-default-button" @click="saveRecord()">

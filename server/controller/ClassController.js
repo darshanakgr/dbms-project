@@ -2,7 +2,7 @@ const {connection} = require('../db/db-connection');
 
 const getAllClasses = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM class", (err, res) => {
+    connection.query("SELECT `class_id`,`class_year`,`class_time`, if(class_type = 0, 'Individual', 'Group') as ctype,`class_day`, building, lesson_name, first_name, class_type, class_room_id, lesson_id, teacher_id FROM `class` natural join classroom natural join lesson natural join teacher", (err, res) => {
       if (err) {
         reject(err);
       }

@@ -28,34 +28,34 @@
             <label class="form-label">
               Class Day
               <select v-model="dataObject.classDay" class="form-control" name="classDay" v-validate="'required'">
-                <option value ="monday">Monday</option>
-                <option value ="tuesday">Tuesday</option>
-                <option value ="wednesday">Wednesday</option>
-                <option value ="thursday">Thursday</option>
-                <option value ="friday">Friday</option>
-                <option value ="saturday">Saturday</option>
-                <option value ="sunday">Sunday</option>
+                <option value ="Monday">Monday</option>
+                <option value ="Tuesday">Tuesday</option>
+                <option value ="Wednesday">Wednesday</option>
+                <option value ="Thursday">Thursday</option>
+                <option value ="Friday">Friday</option>
+                <option value ="Saturday">Saturday</option>
+                <option value ="Sunday">Sunday</option>
               </select>
             </label>
             <span v-show="errors.has('classDay')" style="color:red">Invalid class day</span>
             <label class="form-label">
-              Classroom ID <br>
+              Classroom<br>
               <select v-model="dataObject.classroomId" class="form-control" name="classroomId" v-validate="'required'">
                 <option v-for="choice in classroomIds" :value ="choice.class_room_id">{{ choice.building }}</option>
               </select>
             </label>
             <span v-show="errors.has('classroomId')" style="color:red">Invalid classroom ID</span>
             <label class="form-label">
-              Lesson ID <br>
+              Lesson <br>
               <select v-model="dataObject.lessonId" class="form-control" name="lessonId" v-validate="'required'">
                 <option v-for="choice in lessonIds" :value ="choice.lesson_id">{{ choice.lesson_name }}</option>
               </select>
             </label>
             <span v-show="errors.has('lessonId')" style="color:red">Invalid lesson ID</span>
             <label class="form-label">
-              Teacher ID <br>
+              Teacher<br>
               <select v-model="dataObject.teacherId" class="form-control" name="teacherId" v-validate="'required'">
-                <option v-for="choice in teacherIds" :value ="choice.teacher_id">{{ choice.name }}</option>
+                <option v-for="choice in teacherIds" :value ="choice.teacher_id">{{ choice.first_name }}</option>
               </select>
             </label>
             <span v-show="errors.has('teacherId')" style="color:red">Invalid teacher ID</span>

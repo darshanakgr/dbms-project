@@ -2,7 +2,7 @@ const {connection} = require('../db/db-connection');
 
 const getAllAttendanceRecords = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM attendance", (err, res) => {
+    connection.query("SELECT first_name, `class_id`, DATE_FORMAT(`attend_date`, \"%M %d %Y\") as att_date, if(`is_present` = 0, 'Absent', 'Present') as isPresent, student_id, attend_date, is_present FROM `attendance` natural join student", (err, res) => {
       if (err) {
         reject(err);
       }

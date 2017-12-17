@@ -98,6 +98,7 @@
           alert('Unable to delete this enrollment--')
         })
         this.close()
+        location.reload()
       },
       close: function () {
         this.showEditModal = false

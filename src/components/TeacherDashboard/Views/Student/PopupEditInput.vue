@@ -8,10 +8,15 @@
           </div>
           <div class="modal-body">
             <label class="form-label">
-              Student Name
-              <input v-model="dataObject.name" class="form-control" name="name" v-validate="'required|alpha'">
+              First Name
+              <input v-model="dataObject.firstName" class="form-control" name="fname" v-validate="'required|alpha'">
             </label>
-            <span v-show="errors.has('name')" style="color:red">Invalid name</span>
+            <span v-show="errors.has('fname')" style="color:red">Invalid name</span>
+            <label class="form-label">
+              Last Name
+              <input v-model="dataObject.lastName" class="form-control" name="lname" v-validate="'required|alpha'">
+            </label>
+            <span v-show="errors.has('lname')" style="color:red">Invalid name</span>
             <label class="form-label">
               Gender
               <select v-model="dataObject.gender" class="form-control" name="gender" v-validate="'required'">
@@ -26,14 +31,9 @@
             </label>
             <span v-show="errors.has('registerDate')" style="color:red">Invalid date</span>
             <label class="form-label">
-              Mobile No
-              <input v-model="dataObject.mobileNo" class="form-control" name="mobileNo" v-validate="'required|digits:10'">
-            </label>
-            <span v-show="errors.has('mobileNo')" style="color:red">Invalid mobile no</span>
-            <label class="form-label">
               Parent ID
               <select v-model="dataObject.parentId" class="form-control" name="parentId" v-validate="'required'">
-                <option v-for="choice in studentParents" :value ="choice.parent_id">{{ choice.name }}</option>
+                <option v-for="choice in studentParents" :value ="choice.parent_id">{{ choice.first_name }}</option>
               </select>
             </label>
             <span v-show="errors.has('parentId')" style="color:red">Invalid parent ID</span>
@@ -136,10 +136,10 @@
     },
     mounted: function () {
       this.dataObject.studentId = this.editData.student_id
-      this.dataObject.name = this.editData.name
+      this.dataObject.firstName = this.editData.sf
+      this.dataObject.lastName = this.editData.sl
       this.dataObject.gender = this.editData.gender
       this.dataObject.registerDate = this.editData.register_date
-      this.dataObject.mobileNo = this.editData.mobile_no
       this.dataObject.parentId = this.editData.parent_id
       document.addEventListener('keydown', (e) => {
         if (e.keyCode === 27) {

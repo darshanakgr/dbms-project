@@ -18,8 +18,8 @@
 <script>
   import PaperTable from './Enrollment/PaperTable.vue'
 
-  const tableColumnNames = ['Student ID', 'Class ID', 'Options'] /* Give here the names of the attributes */
-  const tableColumns = ['student_id', 'class_id', 'options']  /* Give here the column names as they are in the table */
+  const tableColumnNames = ['Student Name', 'Class ID', 'Options'] /* Give here the names of the attributes */
+  const tableColumns = ['first_name', 'class_id', 'options']  /* Give here the column names as they are in the table */
   const tableData = []    /* table data will be loaded upon created(), code is below */
 
   export default {

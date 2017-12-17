@@ -60,6 +60,11 @@
         default: ''
       }
     },
+    data () {
+      return {
+
+      }
+    },
     computed: {
       tableClass () {
         return `table-${this.type}`

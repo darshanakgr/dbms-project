@@ -8,7 +8,7 @@
           </div>
           <div class="modal-body">
             <label class="form-label">
-              Absent / Present
+              Absent / Present {{this.dataObject.studentId}}
               <select v-model="dataObject.absent_present" class="form-control">
                 <option value ="0">Absent</option>
                 <option value ="1">Present</option>
@@ -73,12 +73,12 @@
       saveRecord: function () {
         this.$http.patch('http://localhost:3000/updateAttendance', this.dataObject).then(function (res) {
           if (res.ok && res.status === 200) {
-            return alert('Attendance record updated successfully ' + this.dataObject.absent_present)
+            return alert('Attendance record updated successfully')
           }
-          alert('Unable to update this attendance record 1')
+          alert('Unable to update this attendance record')
         }).catch(function (err) {
           console.log(err)
-          alert('Unable to update this attendance record 2')
+          alert('Unable to update this attendance record')
         })
         this.close()
       },
@@ -87,10 +87,10 @@
           if (res.ok && res.status === 200) {
             return alert('Attendance record deleted successfully')
           }
-          alert('Unable to delete attendance record-' + this.dataObject.studentId + this.dataObject.classId + this.dataObject.attendDate)
+          alert('Unable to delete attendance record')
         }).catch(function (err) {
           console.log(err)
-          alert('Unable to delete attendance record--' + this.dataObject.studentId)
+          alert('Unable to delete attendance record')
         })
         this.close()
       },

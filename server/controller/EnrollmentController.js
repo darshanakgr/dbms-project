@@ -2,7 +2,7 @@ const {connection} = require('../db/db-connection');
 
 const getAllEnrollments = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM enrollment", (err, res) => {
+    connection.query("SELECT first_name, class_id, student_id from enrollment join student using (student_id)", (err, res) => {
       if (err) {
         reject(err);
       }

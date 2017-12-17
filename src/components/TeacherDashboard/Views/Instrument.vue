@@ -21,7 +21,7 @@
 
   const tableColumnNames = ['Instrument ID', 'Instrument Name', 'Purchase Date', 'Instrument Category', 'Options']
   /* Give here the names of the attributes */
-  const tableColumns = ['instrument_id', 'instrument_name', 'purchased_date', 'category_id', 'options']
+  const tableColumns = ['instrument_id', 'instrument_name', 'per_date', 'instrument_type', 'options']
   /* Give here the column names as they are in the table */
   const tableData = []
   /* table data will be loaded upon created(), code is below */
@@ -49,6 +49,7 @@
         /* retrive rows, 10 by 10 */
         this.table1.data = [...this.tableData]
       })
+      console.log(this.tableData)
     },
     updated () {
       if (this.pageNo < 0) {
