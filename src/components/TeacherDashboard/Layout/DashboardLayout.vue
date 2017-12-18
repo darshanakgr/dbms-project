@@ -124,6 +124,22 @@
       displaySidebar (value) {
         this.showSidebar = value
       }
+    },
+    beforeCreate () {
+      var token = this.$cookie.get('x-auth')
+      if (token == null) {
+        window.location = '/'
+      } else {
+        this.$http.post('http://localhost:3000/user', {token}).then((res) => {
+          var user = res.body[0]
+          this.$cookie.set('x-auth', token, {expires: '1h'})
+          if (user.access !== '1') {
+            window.location = '/'
+          }
+        }).catch((e) => {
+          window.location = '/'
+        })
+      }
     }
   }
 </script>
