@@ -22,21 +22,52 @@ const getParentNumbers = () => {
   });
 };
 
+var nextNumberId;
 const addNewParent = (parent) => {
   return new Promise((resolve, reject) => {
     getNextId().then((nextId) => {
-      connection.query("INSERT INTO parent VALUE(?,?,?,?,?,?)", [
-        nextId,
-        parent.firstName,
-        parent.lastName,
-        parent.address1,
-        parent.address2,
-        parent.address3
-      ], (err, res) => {
+      nextNumberId = nextId;
+      connection.beginTransaction((err) => {
         if (err) {
           reject(err);
         }
-        resolve(res);
+        connection.query("INSERT INTO parent VALUE(?,?,?,?,?,?)", [
+          nextId,
+          parent.firstName,
+          parent.lastName,
+          parent.address1,
+          parent.address2,
+          parent.address3
+        ], (err, res) => {
+          if (err) {
+            connection.rollback(() => {
+              reject(err);
+            });
+          }
+          let count = 0;
+          for (var key in Object.keys(parent.numbers)) {
+            connection.query("INSERT INTO parentmobile VALUE(?,?)", [
+              nextId,
+              parent.numbers[key].number
+            ], (err, res) => {
+              if (err) {
+                connection.rollback(() => {
+                  reject(err);
+                });
+              }
+              if (++count == parent.numbers.length) {
+                connection.commit((err) => {
+                  if (err) {
+                    connection.rollback(function () {
+                      reject(err);
+                    });
+                  }
+                  resolve({message: "Success"});
+                });
+              }
+            });
+          }
+        });
       });
     }).catch((error) => {
       reject(error);
@@ -47,15 +78,15 @@ const addNewParent = (parent) => {
 
 const addNewParentNumber = (parent) => {
   return new Promise((resolve, reject) => {
-      connection.query("INSERT INTO parentmobile VALUE(?,?)", [
-        nextNumberId,
-        parent.number
-      ], (err, res) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(res);
-      });
+    connection.query("INSERT INTO parentmobile VALUE(?,?)", [
+      nextNumberId,
+      parent.number
+    ], (err, res) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(res);
+    });
   });
 };
 
@@ -99,22 +130,6 @@ const getNextId = () => {
 
       if (result.length) {
         resolve("PA" + ("000" + (parseInt(result[0].parent_id.split("PA")[1]) + 1)).slice(-3));
-      } else {
-        resolve("PA001");
-      }
-    });
-  });
-};
-
-const getNextNumberId = () => {
-  return new Promise((resolve, reject) => {
-    connection.query("SELECT parent_id FROM parent ORDER BY 1 DESC LIMIT 1", (err, result) => {
-      if (err) {
-        reject(err);
-      }
-
-      if (result.length) {
-        resolve("PA" + ("000" + (parseInt(result[0].parent_id.split("PA")[1]))).slice(-3));
       } else {
         resolve("PA001");
       }

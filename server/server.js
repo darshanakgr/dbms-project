@@ -359,8 +359,9 @@ app.post("/removeUser", (req, res) => {
 });
 
 app.post("/addNewUser", (req, res) => {
-  UserController.addNewUser(req.body).then((result) => {
-    res.status(200).send(result);
+  var user = req.body;
+  UserController.createNewUser(user).then((username) => {
+    res.status(200).send({username});
   }).catch((err) => {
     res.status(400).send(err);
   });

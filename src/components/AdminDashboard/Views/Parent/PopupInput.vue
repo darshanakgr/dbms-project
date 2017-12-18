@@ -85,26 +85,27 @@
       saveRecord: function () {
         this.$validator.validateAll().then((result) => {
           if (result) {
+            this.dataObject.numbers = this.numbers
             this.$http.post('http://localhost:3000/addNewParent', this.dataObject).then(function (res) {
               if (res.ok && res.status === 200) {
-                return // alert('Parent added successfully')
+                return alert('Parent added successfully')
               }
               alert('Unable to register this parent')
             }).catch(function (err) {
               console.log(err)
               alert('Unable to register this parent')
-            })/*
-            for (var key in this.numbers) {
-              this.$http.post('http://localhost:3000/addNewParentNumber', {number: this.numbers[key].number}).then(function (res) {
-                if (res.ok && res.status === 200) {
-                  return // alert('Parent added successfully')
-                }
-                alert('Unable to register this parent')
-              }).catch(function (err) {
-                console.log(err)
-                alert('Unable to register this parent')
-              })
-            } */
+            })
+//            for (var key in this.numbers) {
+//              this.$http.post('http://localhost:3000/addNewParentNumber', {number: this.numbers[key].number}).then(function (res) {
+//                if (res.ok && res.status === 200) {
+//                  return // alert('Parent added successfully')
+//                }
+//                alert('Unable to register this parent')
+//              }).catch(function (err) {
+//                console.log(err)
+//                alert('Unable to register this parent')
+//              })
+//            }
           }
           this.close()
         })
@@ -124,7 +125,7 @@
       })
     },
     updated: function () {
-      console.log(this.numbers)
+      // console.log(this.numbers)
     },
     mounted: function () {
       document.addEventListener('keydown', (e) => {

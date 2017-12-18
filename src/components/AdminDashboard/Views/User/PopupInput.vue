@@ -14,13 +14,13 @@
                     <span v-show="errors.has('username')" style="color:red">Invalid username</span>
                     <label class="form-label">
                       ID
-                      <input v-model="dataObject.Id" class="form-control" name="userId" v-validate="'required'">
+                      <input v-model="dataObject.id" class="form-control" name="userId" v-validate="'required'">
                     </label>
                     <span v-show="errors.has('userId')" style="color:red">Invalid user ID</span>
                     <label class="form-label">
                       Access Level
                       <select v-model="dataObject.accessLevel" name="accessLevel" v-validate="'required'" class="form-control">
-                        <option value ="2">Administrator</option>
+                        <option value ="0">Administrator</option>
                         <option value ="1">Teacher</option>
                       </select>
                     </label>
