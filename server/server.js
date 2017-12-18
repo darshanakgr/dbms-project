@@ -16,6 +16,7 @@ var UserController = require('./controller/UserController');
 var EnrollmentController = require('./controller/EnrollmentController');
 var ClassController = require('./controller/ClassController');
 var AttendanceController = require('./controller/AttendanceController');
+var ReportController = require('./controller/ReportController');
 
 var app = express();
 
@@ -530,6 +531,22 @@ app.get('/logout', UserController.authenticate, (req, res) => {
 
 app.post('/user', (req, res) => {
   UserController.findUserByToken(req.body.token).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get('/getTeachersDetailReport', (req, res) => {
+  ReportController.getTeachersDetailReport().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post('/getTeacherDetailReport', (req, res) => {
+  ReportController.getTeacherDetailReport(req.body.teacherId).then((result) => {
     res.status(200).send(result);
   }).catch((err) => {
     res.status(400).send(err);
