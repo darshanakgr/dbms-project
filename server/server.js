@@ -30,6 +30,14 @@ app.get("/getAllParents", (req, res) => {
   });
 });
 
+app.get("/getParentNumbers", (req, res) => {
+  ParentController.getParentNumbers().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
 app.get("/getAllStudents", (req, res) => {
   StudentController.getAllStudent().then((result) => {
     res.status(200).send(result);
@@ -64,6 +72,14 @@ app.post("/addNewStudent", (req, res) => {
 
 app.post("/addNewParent", (req, res) => {
   ParentController.addNewParent(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/addNewParentNumber", (req, res) => {
+  ParentController.addNewParentNumber(req.body).then((result) => {
     res.status(200).send(result);
   }).catch((err) => {
     res.status(400).send(err);

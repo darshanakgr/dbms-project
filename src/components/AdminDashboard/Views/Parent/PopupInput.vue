@@ -32,6 +32,21 @@
                 <input v-model="dataObject.address3" class="form-control"  name="address3" v-validate="'required'">
                 <span v-show="errors.has('address3')" style="color:red">Address is required</span>
               </label>
+
+
+
+              <button class="modal-default-button" @click="addNewField">
+                +
+              </button>
+              <div class="modal-body" v-for="(number,index) in numbers">
+                <label class="form-label">
+                  Mobile Number {{index+1}}
+                  <input v-model="number.number" name="number" v-validate="'required|digits:10'" class="form-control">
+                </label>
+                <span v-show="errors.has('number')" style="color:red">Bad phone number</span>
+              </div>
+
+
             </div>
             <div class="modal-footer text-right">
               <button class="modal-default-button" @click="saveRecord()">
@@ -59,24 +74,39 @@
         dataObject: {},
         title: '',
         body: '',
-        showModal: false
+        showModal: false,
+        numbers: [{number: ''}]
       }
     },
     methods: {
+      addNewField: function () {
+        this.numbers.push({number: ''})
+      },
       saveRecord: function () {
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.$http.post('http://localhost:3000/addNewParent', this.dataObject).then(function (res) {
               if (res.ok && res.status === 200) {
-                return alert('Parent added successfully')
+                return // alert('Parent added successfully')
               }
               alert('Unable to register this parent')
             }).catch(function (err) {
               console.log(err)
               alert('Unable to register this parent')
-            })
-            this.close()
+            })/*
+            for (var key in this.numbers) {
+              this.$http.post('http://localhost:3000/addNewParentNumber', {number: this.numbers[key].number}).then(function (res) {
+                if (res.ok && res.status === 200) {
+                  return // alert('Parent added successfully')
+                }
+                alert('Unable to register this parent')
+              }).catch(function (err) {
+                console.log(err)
+                alert('Unable to register this parent')
+              })
+            } */
           }
+          this.close()
         })
       },
       close: function () {
@@ -92,6 +122,9 @@
       this.$http.get('http://localhost:3000/getAllParents').then(function (data) {   /* get address here */
         this.instrumentCategories = data.body // need to be changed to categories
       })
+    },
+    updated: function () {
+      console.log(this.numbers)
     },
     mounted: function () {
       document.addEventListener('keydown', (e) => {

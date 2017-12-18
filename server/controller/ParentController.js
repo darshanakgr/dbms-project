@@ -2,7 +2,7 @@ const {connection} = require('../db/db-connection');
 
 const getAllParents = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM parent", (err, res) => {
+    connection.query("select `parent_id`,`first_name`,`last_name`,`address_line_1`,`address_line_2`,`address_line_3`, GROUP_CONCAT(contact_no SEPARATOR ',') as mobile from parent natural join parentmobile group by parent_id", (err, res) => {
       if (err) {
         reject(err);
       }
@@ -11,16 +11,27 @@ const getAllParents = () => {
   });
 };
 
-const addNewParent = (instrument) => {
+const getParentNumbers = () => {
+  return new Promise((resolve, reject) => {
+    connection.query("select * from parentmobile where parent_id='PA001'", (err, res) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(res);
+    });
+  });
+};
+
+const addNewParent = (parent) => {
   return new Promise((resolve, reject) => {
     getNextId().then((nextId) => {
       connection.query("INSERT INTO parent VALUE(?,?,?,?,?,?)", [
         nextId,
-        instrument.firstName,
-        instrument.lastName,
-        instrument.address1,
-        instrument.address2,
-        instrument.address3
+        parent.firstName,
+        parent.lastName,
+        parent.address1,
+        parent.address2,
+        parent.address3
       ], (err, res) => {
         if (err) {
           reject(err);
@@ -30,6 +41,21 @@ const addNewParent = (instrument) => {
     }).catch((error) => {
       reject(error);
     });
+  });
+};
+
+
+const addNewParentNumber = (parent) => {
+  return new Promise((resolve, reject) => {
+      connection.query("INSERT INTO parentmobile VALUE(?,?)", [
+        nextNumberId,
+        parent.number
+      ], (err, res) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(res);
+      });
   });
 };
 
@@ -80,9 +106,27 @@ const getNextId = () => {
   });
 };
 
+const getNextNumberId = () => {
+  return new Promise((resolve, reject) => {
+    connection.query("SELECT parent_id FROM parent ORDER BY 1 DESC LIMIT 1", (err, result) => {
+      if (err) {
+        reject(err);
+      }
+
+      if (result.length) {
+        resolve("PA" + ("000" + (parseInt(result[0].parent_id.split("PA")[1]))).slice(-3));
+      } else {
+        resolve("PA001");
+      }
+    });
+  });
+};
+
 module.exports = {
   getAllParents,
   addNewParent,
   updateParent,
-  removeParent
+  removeParent,
+  getParentNumbers,
+  addNewParentNumber
 };

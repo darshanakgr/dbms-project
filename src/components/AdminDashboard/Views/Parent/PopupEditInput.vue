@@ -32,6 +32,13 @@
               <input v-model="dataObject.address3" class="form-control"  name="address3" v-validate="'required'">
               <span v-show="errors.has('address3')" style="color:red">Address is required</span>
             </label>
+            <div v-for="(number, index) in dataObject.contactNo">
+              <label class="form-label">
+                Phone Number {{index+1}}
+                <input v-model="dataObject.contactNo[index].contact_no" class="form-control"  name="f" v-validate="'required'">
+                <span v-show="errors.has('f')" style="color:red">Address is required</span>
+              </label>
+            </div>
           </div>
           <div class="modal-footer text-right">
             <button class="modal-default-button" @click="saveRecord()">
@@ -122,6 +129,12 @@
         this.title = ''
         this.body = ''
       }
+    },
+    created () {
+      this.$http.get('http://localhost:3000/getParentNumbers').then(function (data) {   /* get address here */
+        this.dataObject.contactNo = [...data.body]
+        this.dataObject.contactNoOld = this.dataObject.contactNo
+      })
     },
     mounted: function () {
       this.dataObject.parentId = this.editData.parent_id
