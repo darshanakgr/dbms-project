@@ -115,6 +115,7 @@
         })
       },
       logout () {
+        console.log('logout')
         var token = this.$cookie.get('x-auth')
         this.$http.get('http://localhost:3000/logout', {headers: {'x-auth': token}}).then((res) => {
           this.$cookie.delete('x-auth')

@@ -111,6 +111,11 @@
             name: 'Attendance',
             icon: 'ti-calendar',
             path: '/admin/attendance'
+          },
+          {
+            name: 'Report',
+            icon: 'ti-calendar',
+            path: '/admin/report'
           }
         ]
       }

@@ -18,6 +18,7 @@ import AdminCategory from 'src/components/AdminDashboard/Views/Category.vue'
 import AdminEnrollment from 'src/components/AdminDashboard/Views/Enrollment.vue'
 import AdminClass from 'src/components/AdminDashboard/Views/Class.vue'
 import AdminAttendance from 'src/components/AdminDashboard/Views/Attendance.vue'
+import AdminReport from 'src/components/AdminDashboard/Views/Report.vue'
 
 // Student pages
 import TeacherStudent from 'src/components/TeacherDashboard/Views/Student.vue'
@@ -109,6 +110,11 @@ const routes = [
         path: '/admin/attendance',
         name: 'attendance',
         component: AdminAttendance
+      },
+      {
+        path: '/admin/report',
+        name: 'report',
+        component: AdminReport
       }
     ]
   },

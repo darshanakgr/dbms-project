@@ -9,7 +9,7 @@
           <div class="modal-body">
             <label class="form-label">
               Edit Category
-              <input :value="editData.instrument_type" v-model="dataObject.instrumentType" name="instrumentType" v-validate="'required|alpha'" class="form-control">
+              <input v-model="dataObject.instrumentType" name="instrumentType" v-validate="'required|alpha'" class="form-control">
             </label>
             <span v-show="errors.has('instrumentType')" style="color:red">Invalid instrument type</span>
           </div>

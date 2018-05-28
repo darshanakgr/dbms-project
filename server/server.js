@@ -16,6 +16,7 @@ var UserController = require('./controller/UserController');
 var EnrollmentController = require('./controller/EnrollmentController');
 var ClassController = require('./controller/ClassController');
 var AttendanceController = require('./controller/AttendanceController');
+var ReportController = require('./controller/ReportController');
 
 var app = express();
 
@@ -493,9 +494,9 @@ app.post("/login", (req, res) => {
   UserController.findByCredentials(user.username, user.password).then((authenticatedUser) => {
     return UserController.generateAuthToken(authenticatedUser).then((token) => {
       res.status(200).header("x-auth", token).send({
-        username:user.username,
-        token:token,
-        accessLevel:authenticatedUser.access_level
+        username: user.username,
+        token: token,
+        accessLevel: authenticatedUser.access_level
       });
     });
   }).catch((err) => {
@@ -513,6 +514,22 @@ app.get('/logout', UserController.authenticate, (req, res) => {
 
 app.post('/user', (req, res) => {
   UserController.findUserByToken(req.body.token).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get('/getTeachersDetailReport', (req, res) => {
+  ReportController.getTeachersDetailReport().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post('/getTeacherDetailReport', (req, res) => {
+  ReportController.getTeacherDetailReport(req.body.teacherId).then((result) => {
     res.status(200).send(result);
   }).catch((err) => {
     res.status(400).send(err);
